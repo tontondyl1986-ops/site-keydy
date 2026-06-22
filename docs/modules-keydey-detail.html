@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Keydey — Détail des modules</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.6; }
+@page { size: A4; margin: 0; }
+
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 40px 45px; page-break-after: always; position: relative; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid #e8eeff; }
+.logo { font-size: 28px; font-weight: 800; }
+.logo span { color: #1a73e8; }
+.page-title { font-size: 12px; color: #999; }
+
+.module-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.module-icon { width: 52px; height: 52px; background: linear-gradient(135deg, #1a73e8, #0f3460); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; }
+.module-name { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+.module-price { font-size: 13px; color: #1a73e8; font-weight: 600; background: #e8f0fe; padding: 4px 12px; border-radius: 12px; }
+.module-desc { font-size: 13px; color: #555; margin-bottom: 16px; }
+
+.features { margin-bottom: 20px; }
+.feat-title { font-size: 14px; font-weight: 700; color: #1a73e8; margin-bottom: 8px; }
+.feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.feat-item { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; padding: 8px 10px; background: #f8f9ff; border-radius: 8px; }
+.feat-check { color: #1a73e8; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.feat-item strong { font-weight: 600; }
+
+.separator { border: none; border-top: 1px solid #e8eeff; margin: 20px 0; }
+
+.footer { position: absolute; bottom: 20px; left: 45px; right: 45px; font-size: 10px; color: #999; border-top: 1px solid #eee; padding-top: 8px; display: flex; justify-content: space-between; }
+
+.tip-box { background: #f0f7ff; border-left: 4px solid #1a73e8; border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 12px 0; font-size: 12px; }
+.tip-box strong { color: #1a73e8; }
+
+.cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+.cover-logo { font-size: 56px; font-weight: 800; margin-bottom: 12px; }
+.cover-logo span { color: #4da3ff; }
+.cover-title { font-size: 28px; font-weight: 300; margin-bottom: 8px; }
+.cover-sub { font-size: 15px; opacity: 0.7; max-width: 480px; margin-bottom: 40px; }
+.toc { text-align: left; width: 100%; max-width: 440px; }
+.toc-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
+.toc-item .num { color: #4da3ff; font-weight: 700; width: 24px; }
+.toc-item .price { color: #4da3ff; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ COUVERTURE ══════════ -->
+<div class="page cover">
+    <div class="cover-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:64px;"><rect x="2" y="4" width="10" height="36" rx="2" fill="white"/><polygon points="12,22 34,4 44,4 22,22" fill="white"/><polygon points="22,22 34,4 44,4 32,22" fill="#4da3ff"/><polygon points="12,22 34,40 44,40 22,22" fill="white"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="white">Keydy</text></svg></div>
+    <div class="cover-title">Guide détaillé des modules</div>
+    <div class="cover-sub">Découvrez en détail chaque module KeydyWeb, KeydyApp et KeydyScan. Composez votre solution sur mesure.</div>
+
+    <div class="toc">
+        <div class="toc-item"><div><span class="num">01</span> Base — CRM + Devis + Factures</div><div class="price">29 €/user</div></div>
+        <div class="toc-item"><div><span class="num">02</span> Planning / Calendrier</div><div class="price">+5 €/user</div></div>
+        <div class="toc-item"><div><span class="num">03</span> SAV / Contrats / Attestations / F-Gas</div><div class="price">+8 €/user</div></div>
+        <div class="toc-item"><div><span class="num">04</span> KeydyApp — Application mobile terrain</div><div class="price">+12 €/user</div></div>
+        <div class="toc-item"><div><span class="num">05</span> Chantiers + États d'avancement</div><div class="price">+8 €/user</div></div>
+        <div class="toc-item"><div><span class="num">06</span> Portail client marque blanche</div><div class="price">+6 €/org</div></div>
+        <div class="toc-item"><div><span class="num">07</span> Comptabilité / Rapports</div><div class="price">+5 €/org</div></div>
+        <div class="toc-item"><div><span class="num">08</span> Gestion flotte véhicules</div><div class="price">+5 €/véhicule</div></div>
+        <div class="toc-item"><div><span class="num">09</span> KeydyScan — Codes-barres</div><div class="price">+3 €/user</div></div>
+        <div class="toc-item"><div><span class="num">10</span> Keydy Assistant IA</div><div class="price">+5 €/user</div></div>
+        <div class="toc-item"><div><span class="num">11</span> Calcul thermique</div><div class="price">+5 €/org</div></div>
+    </div>
+</div>
+
+<!-- ══════════ MODULE 1 : BASE ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-title">Module 01 / 11</div></div>
+
+    <div class="module-header">
+        <div class="module-icon">🏢</div>
+        <div>
+            <div class="module-name">Base — CRM + Devis + Factures</div>
+            <div class="module-price">29 €/utilisateur/mois HTVA — Toujours inclus</div>
+        </div>
+    </div>
+    <div class="module-desc">Le socle de votre gestion. Gérez vos clients, créez des devis professionnels, facturez en quelques clics. Tout est centralisé et accessible depuis n'importe quel navigateur.</div>
+
+    <div class="features">
+        <div class="feat-title">Gestion des clients</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Fiches clients complètes</strong> — Particulier ou société, coordonnées multiples, notes internes</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Multi-sites par client</strong> — Chaque client peut avoir plusieurs adresses d'intervention</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Historique 360°</strong> — Tous les devis, factures, interventions et attestations en un clic</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Recherche intelligente</strong> — Nom, code, téléphone, ville, code postal</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Import données</strong> — Import depuis fichier Excel (clients, articles, sites...)</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Fiche installation</strong> — Chaudière, ECS, ventilation, PV par site</div></div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-title">Devis professionnels</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Création rapide</strong> — Catalogue articles, recherche, glisser-déposer des lignes</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>PDF personnalisé</strong> — Logo, couleurs, mentions légales de votre société</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Signature en ligne</strong> — Le client signe depuis son email, sans imprimer</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Envoi par email</strong> — PDF en pièce jointe, suivi d'ouverture</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Conversion en facture</strong> — Un clic pour transformer un devis accepté en facture</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Multi-TVA</strong> — 6%, 21%, 0%, TVA par ligne ou par site</div></div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-title">Facturation</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Numérotation automatique</strong> — Format configurable par pays (FABE-, FALU-...)</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Communication structurée</strong> — Générée automatiquement (norme belge +++xxx+++)</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Rappels impayés</strong> — Envoi automatique par email à 30/60/90 jours</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Paiement en ligne</strong> — Stripe / Mollie (carte, Bancontact, Payconiq)</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Notes de crédit</strong> — Génération depuis une facture existante</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Facturation depuis intervention</strong> — Articles, MO, zone calculés automatiquement</div></div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-title">Interventions</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Demandes SAV</strong> — Création, assignation technicien, suivi statut</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Rapport technicien</strong> — Travaux effectués, à prévoir, devis à établir</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Bon de travail PDF</strong> — Généré automatiquement à la clôture</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Facturation en lot</strong> — Sélectionnez plusieurs interventions, une seule facture</div></div>
+        </div>
+    </div>
+
+    <div class="footer"><span>Keydey — Guide des modules</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ MODULE 2 : PLANNING ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-title">Module 02 / 11</div></div>
+
+    <div class="module-header">
+        <div class="module-icon">📅</div>
+        <div>
+            <div class="module-name">Planning / Calendrier</div>
+            <div class="module-price">+5 €/utilisateur/mois HTVA</div>
+        </div>
+    </div>
+    <div class="module-desc">Planifiez les rendez-vous de vos techniciens, visualisez leur charge, détectez les conflits et gérez les absences. Le tout en temps réel.</div>
+
+    <div class="features">
+        <div class="feat-title">Ce que comprend ce module</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Vue mois / semaine / jour</strong> — Navigation fluide, code couleur par type d'intervention</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Multi-techniciens</strong> — Filtres par employé, vue d'ensemble de l'équipe</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Création RDV rapide</strong> — Type, client, site, créneau, description en un écran</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Détection de conflits</strong> — Avertissement visuel si un technicien est déjà occupé</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Sélection intelligente du créneau</strong> — Visualisation des disponibilités par quart d'heure</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Gestion des absences</strong> — Congés, maladie, formation visibles sur le planning</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Récurrence</strong> — RDV multi-jours pour les gros chantiers</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Synchronisation mobile</strong> — Les RDV apparaissent instantanément sur KeydyApp</div></div>
+        </div>
+    </div>
+
+    <div class="tip-box"><strong>Bon à savoir :</strong> Le planning est automatiquement alimenté par les contrats de maintenance (module SAV) qui génèrent des interventions préventives.</div>
+
+    <hr class="separator">
+
+    <!-- MODULE 3 : SAV -->
+    <div class="module-header">
+        <div class="module-icon">🔧</div>
+        <div>
+            <div class="module-name">SAV / Contrats / Attestations / F-Gas</div>
+            <div class="module-price">+8 €/utilisateur/mois HTVA</div>
+        </div>
+    </div>
+    <div class="module-desc">Tout le suivi après-vente : contrats de maintenance, attestations réglementaires, cycle de vie des équipements et journal F-Gas.</div>
+
+    <div class="features">
+        <div class="feat-title">Ce que comprend ce module</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Contrats de maintenance</strong> — Fréquence configurable (mensuel à biennal), facturation auto</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Planning préventif</strong> — Interventions créées automatiquement N jours avant échéance</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Cycle de vie équipements</strong> — Âge, garantie, durée de vie estimée, alertes remplacement</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Attestations d'entretien</strong> — Formulaire officiel pré-rempli, PDF conforme</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Attestations mise en service</strong> — PV officiel avec données techniques</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Journal F-Gas</strong> — Suivi des fluides frigorigènes, conformité réglementaire</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Alertes par email</strong> — Équipements à remplacer, garanties expirantes, contrats à renouveler</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Forfaits entretien intelligents</strong> — Auto-suggestion du bon forfait selon l'installation, DZ incluse</div></div>
+        </div>
+    </div>
+
+    <div class="tip-box"><strong>Obligatoire :</strong> Pour les entretiens (mazout, gaz, pellet), l'attestation officielle doit être générée avant de pouvoir clôturer l'intervention.</div>
+
+    <div class="footer"><span>Keydey — Guide des modules</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ MODULE 4 : KEYDYAPP ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-title">Module 04 / 11</div></div>
+
+    <div class="module-header">
+        <div class="module-icon">📱</div>
+        <div>
+            <div class="module-name">KeydyApp — Application mobile terrain</div>
+            <div class="module-price">+12 €/utilisateur/mois HTVA</div>
+        </div>
+    </div>
+    <div class="module-desc">L'application Android dédiée à vos techniciens. Tout ce dont ils ont besoin sur le terrain, avec ou sans connexion internet.</div>
+
+    <div class="features">
+        <div class="feat-title">Sur le terrain</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Agenda du jour</strong> — Liste des RDV avec client, adresse, type d'intervention</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Navigation GPS</strong> — Direction vers le site en un tap (Google Maps)</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Pointage arrivée/départ</strong> — Horodatage automatique, correction manuelle si besoin</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Fiche installation</strong> — Consultation et mise à jour des données techniques sur place</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Photos terrain</strong> — Prise de vue, upload automatique, liées à l'intervention</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Signature client</strong> — Signature numérique sur l'écran du téléphone</div></div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-title">Rapport & clôture</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Rapport de travail</strong> — Travaux effectués, à prévoir, devis à établir</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Articles utilisés</strong> — Ajout depuis le catalogue, forfaits entretien en un tap</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Attestations officielles</strong> — Entretien et mise en service directement depuis l'app</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Clôture sécurisée</strong> — Signature technicien + client, attestation obligatoire si entretien</div></div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-title">Hors ligne & communication</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Mode hors ligne</strong> — Les données sont sauvegardées localement, sync auto au retour réseau</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Sauvegarde anti-perte</strong> — Le rapport est sauvé toutes les 500ms, jamais perdu</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Messagerie intégrée</strong> — Communication directe bureau ↔ technicien</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Notifications push</strong> — Nouveau RDV, message, rappel</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Demande de congés</strong> — Depuis l'app, par jour ou demi-journée, avec certificat photo</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Création client/site</strong> — Nouveau client directement depuis le terrain</div></div>
+        </div>
+    </div>
+
+    <div class="tip-box"><strong>Gain de temps :</strong> Les techniciens gagnent en moyenne 1 à 2 heures par jour grâce à la suppression de la paperasse et de la double saisie.</div>
+
+    <div class="footer"><span>Keydey — Guide des modules</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ MODULES 5-6-7 ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-title">Modules 05-06-07 / 11</div></div>
+
+    <!-- MODULE 5 : CHANTIER -->
+    <div class="module-header">
+        <div class="module-icon">🏗</div>
+        <div>
+            <div class="module-name">Chantiers + États d'avancement</div>
+            <div class="module-price">+8 €/utilisateur/mois HTVA</div>
+        </div>
+    </div>
+    <div class="module-desc">Suivi financier complet de vos chantiers : lots, avenants, états d'avancement, acomptes et facturation progressive.</div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Lots de chantier</strong> — Chauffage, sanitaire, ventilation... avec lignes détaillées</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Avenants</strong> — Plus-values et moins-values, acceptation, impact sur le marché</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>États d'avancement</strong> — Par pourcentage, quantité ou montant, TVA mixte</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Facture d'acompte</strong> — Générée automatiquement à la signature du devis</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Récapitulatif financier</strong> — Marché, facturé, reste à facturer en temps réel</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Documents chantier</strong> — Upload et partage de plans, photos, PV</div></div>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <!-- MODULE 6 : PORTAIL -->
+    <div class="module-header">
+        <div class="module-icon">🌐</div>
+        <div>
+            <div class="module-name">Portail client marque blanche</div>
+            <div class="module-price">+6 €/organisation/mois HTVA</div>
+        </div>
+    </div>
+    <div class="module-desc">Offrez à vos clients un espace en ligne aux couleurs de votre société. Professionnalisme garanti.</div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Marque blanche</strong> — Logo, couleurs, nom de votre société (pas de mention Keydey)</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Sous-domaine dédié</strong> — votre-societe.keydy.be ou domaine personnalisé</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Consultation devis/factures</strong> — Le client voit ses documents et leur statut</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Signature devis en ligne</strong> — Le client accepte et signe depuis son espace</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Paiement en ligne</strong> — Carte, Bancontact, Payconiq directement depuis le portail</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Demande SAV</strong> — Le client soumet une demande d'intervention depuis son espace</div></div>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <!-- MODULE 7 : COMPTA -->
+    <div class="module-header">
+        <div class="module-icon">📊</div>
+        <div>
+            <div class="module-name">Comptabilité / Rapports</div>
+            <div class="module-price">+5 €/organisation/mois HTVA</div>
+        </div>
+    </div>
+    <div class="module-desc">Tableau de bord financier, journal comptable et exports pour votre comptable.</div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Tableau de bord</strong> — CA du mois, impayés, devis en attente, RDV du jour</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Journal comptable</strong> — Écritures automatiques à chaque facture</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Export comptable</strong> — Format compatible WinBooks, BOB, Exact</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Rapports</strong> — CA par période, par client, par technicien, heures prestées</div></div>
+        </div>
+    </div>
+
+    <div class="footer"><span>Keydey — Guide des modules</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ MODULES 8-9-10-11 ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-title">Modules 08-11 / 11</div></div>
+
+    <!-- MODULE 8 : FLOTTE -->
+    <div class="module-header">
+        <div class="module-icon">🚐</div>
+        <div>
+            <div class="module-name">Gestion flotte véhicules</div>
+            <div class="module-price">+5 €/véhicule/mois HTVA</div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Fiche véhicule</strong> — Marque, modèle, immatriculation, assurance, CT</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Alertes automatiques</strong> — Assurance, contrôle technique, entretien proches/expirés</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Carnet de bord</strong> — Km départ/retour, trajets par technicien</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Assignation</strong> — Véhicule attribué par technicien</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Traceur GPS Teltonika FMC003</strong> — Suivi temps réel, historique des trajets, géofencing</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Installation traceur</strong> — Pose discrète OBD-II, configuration incluse</div></div>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <!-- MODULE 9 : SCAN -->
+    <div class="module-header">
+        <div class="module-icon">📷</div>
+        <div>
+            <div class="module-name">KeydyScan — Codes-barres & QR (Android)</div>
+            <div class="module-price">+3 €/utilisateur/mois HTVA</div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Application Android</strong> — Utilise la caméra du smartphone, aucun matériel supplémentaire</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Scan code-barres & QR</strong> — Scannez un article pour l'ajouter instantanément à une intervention</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Génération d'étiquettes</strong> — Impression d'étiquettes code-barres pour votre stock</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>EAN-13 compatible</strong> — Fonctionne avec les codes standards du commerce</div></div>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <!-- MODULE 10 : ASSISTANT -->
+    <div class="module-header">
+        <div class="module-icon">🤖</div>
+        <div>
+            <div class="module-name">Keydy Assistant IA</div>
+            <div class="module-price">+5 €/utilisateur/mois HTVA</div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Assistant conversationnel</strong> — Posez des questions sur vos données métier en langage naturel</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Aide à la rédaction</strong> — Rapports, devis, emails générés ou améliorés par l'IA</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Analyse intelligente</strong> — Suggestions d'optimisation basées sur vos interventions</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Propulsé par Claude</strong> — IA Anthropic de dernière génération</div></div>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <!-- MODULE 11 : CALCUL -->
+    <div class="module-header">
+        <div class="module-icon">🔥</div>
+        <div>
+            <div class="module-name">Calcul thermique</div>
+            <div class="module-price">+5 €/organisation/mois HTVA</div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Déperditions chauffage</strong> — Calcul selon les normes EN 12831</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Dimensionnement ECS</strong> — Besoins eau chaude sanitaire</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Ventilation</strong> — Débits selon NBN D50-001</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Solaire & PV</strong> — Dimensionnement panneaux solaires et photovoltaïques</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Résumé PDF</strong> — Document de synthèse pour le client</div></div>
+            <div class="feat-item"><span class="feat-check">✓</span><div><strong>Conversion en devis</strong> — Transformez le calcul en devis en un clic</div></div>
+        </div>
+    </div>
+
+    <div class="footer"><span>Keydey — Guide des modules</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ SERVICES & CONTACT ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-title">Services & Contact</div></div>
+
+    <div class="module-header">
+        <div class="module-icon">🛠</div>
+        <div>
+            <div class="module-name">Services d'installation</div>
+            <div class="module-price">Frais uniques</div>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">500 €</span><div><strong>Setup + import données</strong> — Import de vos données existantes via fichier Excel, migration complète</div></div>
+            <div class="feat-item"><span class="feat-check">200 €</span><div><strong>Configuration / paramétrage</strong> — Articles, zones, forfaits, formats PDF</div></div>
+            <div class="feat-item"><span class="feat-check">600 €</span><div><strong>Formation sur site (1 journée)</strong> — Formation bureau + techniciens dans vos locaux</div></div>
+            <div class="feat-item"><span class="feat-check">800 €</span><div><strong>Installation NAS sur site</strong> — Serveur local pour hébergement on-premise</div></div>
+            <div class="feat-item"><span class="feat-check">250 €</span><div><strong>Personnalisation branding</strong> — Logo, couleurs, PDF et portail à vos couleurs</div></div>
+            <div class="feat-item"><span class="feat-check">Sur devis</span><div><strong>Traceur GPS Teltonika FMC003</strong> — Fourniture + installation + configuration par véhicule</div></div>
+        </div>
+    </div>
+
+    <div class="features" style="margin-top:16px;">
+        <div class="feat-title">Support & développement</div>
+        <div class="feat-grid">
+            <div class="feat-item"><span class="feat-check">75 €/h</span><div><strong>Support technique</strong> — Assistance par téléphone ou email</div></div>
+            <div class="feat-item"><span class="feat-check">95 €/h</span><div><strong>Développement sur mesure</strong> — Fonctionnalités spécifiques à votre métier</div></div>
+            <div class="feat-item"><span class="feat-check">50 €</span><div><strong>Frais d'activation module</strong> — Par module ajouté en cours d'abonnement</div></div>
+            <div class="feat-item"><span class="feat-check">25 €</span><div><strong>Frais de désactivation</strong> — Par module retiré en cours d'abonnement</div></div>
+        </div>
+    </div>
+
+    <hr class="separator">
+
+    <div style="text-align:center; margin-top: 30px;">
+        <div class="logo" style="font-size:42px; margin-bottom: 12px;">K<span>eydy</span></div>
+        <p style="font-size:18px; font-weight:600; color:#1a1a2e; margin-bottom: 6px;">Prêt à digitaliser votre entreprise HVAC ?</p>
+        <p style="font-size:13px; color:#666; margin-bottom: 24px;">Contactez-nous pour une démonstration gratuite et personnalisée.</p>
+
+        <div style="display:inline-block; background:#1a73e8; color:white; padding:14px 40px; border-radius:8px; font-weight:700; font-size:16px; margin-bottom: 20px;">
+            Demander une démo gratuite
+        </div>
+
+        <div style="margin-top: 24px; font-size: 13px; color: #555;">
+            <p>📧 <strong>contact@keydy.be</strong></p>
+            <p>🌐 <strong>www.keydy.be</strong></p>
+            <p>📱 <strong>+32 xxx xx xx xx</strong></p>
+        </div>
+
+        <div style="margin-top: 30px; padding: 16px; background: #f8f9ff; border-radius: 10px; font-size: 12px; color: #666;">
+            <strong>Engagement annuel : -15% sur l'abonnement mensuel</strong><br>
+            Tous les prix sont exprimés hors TVA (21%). Facturation mensuelle. Données hébergées en Europe.<br>
+            Les données restent votre propriété exclusive. Export complet disponible à tout moment.
+        </div>
+    </div>
+
+    <div class="footer"><span>Keydey — Guide des modules</span><span>www.keydy.be</span></div>
+</div>
+
+</body>
+</html>

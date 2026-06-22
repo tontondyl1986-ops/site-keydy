@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Keydy — Tutoriel de mise en route</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.7; }
+@page { size: A4; margin: 0; }
+
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 36px 45px; page-break-after: always; position: relative; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid #e8eeff; }
+.logo { font-size: 28px; font-weight: 800; }
+.logo span { color: #1a73e8; }
+.page-num { font-size: 12px; color: #999; }
+
+h1 { font-size: 26px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+h2 { font-size: 18px; font-weight: 700; color: #1a73e8; margin: 18px 0 8px; }
+h3 { font-size: 14px; font-weight: 700; color: #1a1a2e; margin: 12px 0 4px; }
+p, li { font-size: 12.5px; }
+ul { margin-left: 18px; margin-bottom: 8px; }
+li { margin-bottom: 3px; }
+.subtitle { font-size: 14px; color: #666; margin-bottom: 16px; }
+
+.step { display: flex; gap: 14px; margin: 10px 0; padding: 12px 14px; background: #f8f9ff; border-radius: 10px; border-left: 4px solid #1a73e8; }
+.step-num { width: 36px; height: 36px; background: linear-gradient(135deg, #1a73e8, #0f3460); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 15px; flex-shrink: 0; }
+.step-content { flex: 1; }
+.step-content h3 { margin: 0 0 4px; color: #1a1a2e; font-size: 13px; }
+.step-content p { font-size: 12px; color: #555; margin: 0; }
+
+.tip { background: #e8f5e9; border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-size: 12px; border-left: 4px solid #43a047; }
+.tip strong { color: #2e7d32; }
+
+.warning { background: #fff8e6; border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-size: 12px; border-left: 4px solid #f2a93b; }
+.warning strong { color: #c77800; }
+
+.checklist { margin: 8px 0; }
+.checklist-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; padding: 6px 0; border-bottom: 1px solid #f0f2f8; }
+.checklist-box { width: 14px; height: 14px; border: 1.5px solid #1a73e8; border-radius: 3px; flex-shrink: 0; margin-top: 2px; }
+
+.section-block { margin: 12px 0; padding: 14px; background: #f5f7ff; border-radius: 8px; }
+.section-block h3 { margin-top: 0; color: #1a73e8; }
+
+.nav-path { font-family: monospace; font-size: 11px; background: #e8eeff; padding: 2px 8px; border-radius: 4px; color: #0f3460; font-weight: 600; }
+
+.footer { position: absolute; bottom: 18px; left: 45px; right: 45px; font-size: 10px; color: #999; border-top: 1px solid #eee; padding-top: 6px; display: flex; justify-content: space-between; }
+
+.cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+.cover h1 { color: white; font-size: 32px; margin-bottom: 8px; }
+.cover .subtitle { color: rgba(255,255,255,0.8); margin-bottom: 30px; }
+.cover-steps { text-align: left; width: 100%; max-width: 500px; }
+.cover-step { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.cover-step-num { width: 32px; height: 32px; background: #1a73e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+.cover-step-text { font-size: 14px; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ COUVERTURE ══════════ -->
+<div class="page cover">
+    <div style="margin-bottom:20px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:64px;"><rect x="2" y="4" width="10" height="36" rx="2" fill="white"/><polygon points="12,22 34,4 44,4 22,22" fill="white"/><polygon points="22,22 34,4 44,4 32,22" fill="#4da3ff"/><polygon points="12,22 34,40 44,40 22,22" fill="white"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="white">Keydy</text></svg></div>
+    <h1>Guide de mise en route</h1>
+    <p class="subtitle">Votre première connexion pas à pas — de A à Z</p>
+
+    <div class="cover-steps">
+        <div class="cover-step"><div class="cover-step-num">1</div><div class="cover-step-text">Première connexion et changement de mot de passe</div></div>
+        <div class="cover-step"><div class="cover-step-num">2</div><div class="cover-step-text">Paramétrer votre société (logo, TVA, coordonnées)</div></div>
+        <div class="cover-step"><div class="cover-step-num">3</div><div class="cover-step-text">Configurer les articles et les zones de déplacement</div></div>
+        <div class="cover-step"><div class="cover-step-num">4</div><div class="cover-step-text">Importer vos clients et fournisseurs</div></div>
+        <div class="cover-step"><div class="cover-step-num">5</div><div class="cover-step-text">Créer les comptes utilisateurs et techniciens</div></div>
+        <div class="cover-step"><div class="cover-step-num">6</div><div class="cover-step-text">Créer votre premier devis</div></div>
+        <div class="cover-step"><div class="cover-step-num">7</div><div class="cover-step-text">Planifier un premier rendez-vous</div></div>
+        <div class="cover-step"><div class="cover-step-num">8</div><div class="cover-step-text">Installer KeydyApp sur les smartphones</div></div>
+        <div class="cover-step"><div class="cover-step-num">9</div><div class="cover-step-text">Vérifications et démarrage en production</div></div>
+    </div>
+</div>
+
+<!-- ══════════ PAGE 2 : ÉTAPES 1-2 ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-num">Étapes 1-2</div>
+    </div>
+
+    <h2>Étape 1 — Première connexion</h2>
+    <p>Vous avez reçu par email vos identifiants de connexion (adresse du site + login + mot de passe temporaire).</p>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Ouvrir le navigateur</h3>
+            <p>Rendez-vous sur l'adresse communiquée par email (exemple : <strong>votre-societe.keydy.be</strong>). Utilisez de préférence Google Chrome ou Microsoft Edge pour une compatibilité optimale.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Se connecter</h3>
+            <p>Entrez votre <strong>adresse email</strong> et le <strong>mot de passe temporaire</strong> reçu par email. Cliquez sur « Connexion ».</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Changer votre mot de passe</h3>
+            <p>Lors de la première connexion, le système vous demande de choisir un nouveau mot de passe. Choisissez un mot de passe fort (minimum 8 caractères, avec majuscule, chiffre et caractère spécial).</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Découvrir l'interface</h3>
+            <p>Vous arrivez sur le <strong>tableau de bord</strong>. Le menu principal se trouve à gauche : Clients, Devis, Factures, Planning, Interventions, etc. Prenez quelques minutes pour explorer les différentes sections.</p>
+        </div>
+    </div>
+
+    <div class="tip"><strong>Astuce :</strong> Ajoutez le site en favori dans votre navigateur pour y accéder rapidement chaque jour. Sur Chrome, vous pouvez aussi « Installer l'application » depuis le menu pour avoir un raccourci sur le bureau.</div>
+
+    <h2>Étape 2 — Paramétrer votre société</h2>
+    <p>Avant de commencer à travailler, configurez les informations de base de votre société.</p>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Accéder aux paramètres</h3>
+            <p>Cliquez sur <span class="nav-path">Paramètres &gt; Organisation</span> dans le menu latéral.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Informations générales</h3>
+            <p>Complétez : <strong>nom de la société</strong>, <strong>adresse</strong>, <strong>n° TVA</strong>, <strong>n° BCE</strong>, <strong>téléphone</strong>, <strong>email</strong>. Ces informations apparaîtront sur tous vos documents (devis, factures, attestations).</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Logo de la société</h3>
+            <p>Cliquez sur « Modifier le logo » et uploadez votre logo au format PNG (fond transparent recommandé). Le logo sera affiché sur les devis, factures, bons de travail et le portail client.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Coordonnées bancaires</h3>
+            <p>Renseignez votre <strong>IBAN</strong> et <strong>BIC</strong>. Ces informations seront imprimées sur vos factures avec la communication structurée.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+            <h3>Paramètres de facturation</h3>
+            <p>Configurez le <strong>préfixe de facture</strong> (ex: FA2026-), le <strong>préfixe de devis</strong> (ex: DE2026-), les <strong>conditions de paiement</strong> par défaut et les <strong>mentions légales</strong> en bas de document.</p>
+        </div>
+    </div>
+
+    <div class="warning"><strong>Important :</strong> Si vous reprenez une numérotation existante (par exemple votre dernière facture était FA2026-0042), indiquez-le pour que le système continue avec le bon numéro.</div>
+
+    <div class="footer"><span>Keydy — Guide de mise en route</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ PAGE 3 : ÉTAPES 3-4 ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-num">Étapes 3-4</div>
+    </div>
+
+    <h2>Étape 3 — Configurer les articles et zones de déplacement</h2>
+
+    <div class="section-block">
+        <h3>A. Articles et catalogue</h3>
+        <p style="font-size:12px;">Les articles sont les produits et services que vous facturez (pièces, main d'oeuvre, forfaits…).</p>
+    </div>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Accéder aux articles</h3>
+            <p>Cliquez sur <span class="nav-path">Paramètres &gt; Articles</span>.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Import depuis Excel</h3>
+            <p>Si vous avez un catalogue existant, cliquez sur <strong>« Importer »</strong>. Préparez un fichier Excel avec les colonnes : <em>Référence, Libellé, Prix d'achat HTVA, Prix de vente HTVA, Taux TVA, Catégorie</em>. Le système associe automatiquement les colonnes.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Ajouter manuellement</h3>
+            <p>Pour ajouter un article à la main, cliquez sur <strong>« + Nouvel article »</strong>. Renseignez la référence, le libellé, les prix et le taux TVA.</p>
+        </div>
+    </div>
+
+    <div class="tip"><strong>Astuce :</strong> Organisez vos articles par catégories (Chauffage, Sanitaire, Main d'oeuvre, Forfaits…) pour les retrouver facilement lors de la création de devis.</div>
+
+    <div class="section-block">
+        <h3>B. Zones de déplacement</h3>
+        <p style="font-size:12px;">Les zones permettent de facturer automatiquement les frais de déplacement en fonction du code postal du client.</p>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Configurer les zones</h3>
+            <p>Allez dans <span class="nav-path">Paramètres &gt; Zones de déplacement</span>. Créez vos zones en indiquant : <strong>nom de la zone</strong>, <strong>codes postaux couverts</strong> et <strong>forfait de déplacement</strong> en euros HTVA.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+            <h3>Zone par défaut</h3>
+            <p>Définissez une zone par défaut pour les clients dont le code postal n'est couvert par aucune zone. Le montant sera automatiquement ajouté lors de la facturation d'une intervention.</p>
+        </div>
+    </div>
+
+    <h2>Étape 4 — Importer vos clients et fournisseurs</h2>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Import des clients</h3>
+            <p>Allez dans <span class="nav-path">Clients &gt; Importer</span>. Préparez un fichier Excel avec les colonnes : <em>Nom, Prénom (ou Société), Adresse, Code postal, Ville, Téléphone, Email, N° TVA</em>. Glissez le fichier dans la zone d'import.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Vérifier l'import</h3>
+            <p>Le système affiche un aperçu avant import. Vérifiez que les colonnes sont bien associées et que les données semblent correctes. Cliquez sur <strong>« Importer »</strong> pour valider.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Ajouter les sites clients</h3>
+            <p>Pour les clients ayant plusieurs adresses d'intervention, ouvrez la fiche du client et ajoutez des <strong>sites supplémentaires</strong> (adresse du chantier, résidence secondaire, etc.).</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Import des fournisseurs</h3>
+            <p>Allez dans <span class="nav-path">Fournisseurs &gt; Importer</span> et procédez de la même manière. Les colonnes utiles sont : <em>Nom, Adresse, Téléphone, Email, N° TVA, Contact</em>.</p>
+        </div>
+    </div>
+
+    <div class="warning"><strong>Conseil :</strong> Prenez le temps de nettoyer vos données Excel avant import (doublons, adresses incomplètes, anciens clients inactifs). Un fichier propre = un démarrage fluide.</div>
+
+    <div class="footer"><span>Keydy — Guide de mise en route</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ PAGE 4 : ÉTAPES 5-6 ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-num">Étapes 5-6</div>
+    </div>
+
+    <h2>Étape 5 — Créer les comptes utilisateurs</h2>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Accéder à la gestion des utilisateurs</h3>
+            <p>Cliquez sur <span class="nav-path">Paramètres &gt; Utilisateurs</span>.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Créer un utilisateur</h3>
+            <p>Cliquez sur <strong>« + Nouvel utilisateur »</strong>. Renseignez : <strong>nom, prénom, email, rôle</strong> (Administrateur, Bureau ou Technicien). Un mot de passe temporaire sera envoyé par email.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Comprendre les rôles</h3>
+            <p><strong>Administrateur</strong> : accès complet (paramètres, utilisateurs, tous les modules).<br>
+            <strong>Bureau</strong> : accès aux clients, devis, factures, planning — sans les paramètres système.<br>
+            <strong>Technicien</strong> : accès limité au planning, interventions et KeydyApp mobile.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Configurer les techniciens</h3>
+            <p>Pour chaque technicien, renseignez : <strong>couleur de planning</strong> (pour le différencier visuellement), <strong>compétences</strong> (chauffage, sanitaire, etc.) et si il a accès à l'<strong>app mobile KeydyApp</strong>.</p>
+        </div>
+    </div>
+
+    <h2>Étape 6 — Créer votre premier devis</h2>
+    <p>Testez le processus complet avec un premier devis pour vous familiariser.</p>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Nouveau devis</h3>
+            <p>Cliquez sur <span class="nav-path">Devis &gt; + Nouveau devis</span>. Sélectionnez un client dans la liste (ou créez-en un nouveau sur le moment).</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Ajouter des lignes</h3>
+            <p>Cliquez sur <strong>« Ajouter une ligne »</strong>. Vous pouvez :<br>
+            - Chercher un article existant par référence ou nom<br>
+            - Ajouter une ligne de texte libre (pour un titre de section)<br>
+            - Ajouter un sous-total pour structurer le devis</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Personnaliser le devis</h3>
+            <p>Ajustez les <strong>quantités</strong>, les <strong>prix unitaires</strong>, le <strong>taux TVA</strong> par ligne si nécessaire. Ajoutez une <strong>note interne</strong> (visible uniquement par vous) et un <strong>commentaire client</strong> (visible sur le PDF).</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Prévisualiser et envoyer</h3>
+            <p>Cliquez sur <strong>« Aperçu PDF »</strong> pour vérifier la mise en page. Si tout est correct, cliquez sur <strong>« Envoyer par email »</strong> pour envoyer le devis au client avec un lien de signature en ligne.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+            <h3>Convertir en facture</h3>
+            <p>Quand le client accepte le devis, cliquez sur <strong>« Convertir en facture »</strong>. Toutes les lignes du devis sont reprises automatiquement dans la facture avec le numéro suivant.</p>
+        </div>
+    </div>
+
+    <div class="tip"><strong>Astuce :</strong> Faites un premier devis de test pour un client fictif. Cela permet de vérifier que le logo, les mentions légales et la mise en page du PDF correspondent à vos attentes avant d'envoyer un vrai devis.</div>
+
+    <div class="footer"><span>Keydy — Guide de mise en route</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ PAGE 5 : ÉTAPES 7-8-9 ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-num">Étapes 7-8-9</div>
+    </div>
+
+    <h2>Étape 7 — Planifier un premier rendez-vous</h2>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Ouvrir le planning</h3>
+            <p>Cliquez sur <span class="nav-path">Planning</span> dans le menu. Vous voyez le calendrier avec les techniciens en colonnes (vue semaine) ou en liste (vue jour).</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Créer un rendez-vous</h3>
+            <p>Cliquez sur un créneau libre ou sur <strong>« + Nouveau RDV »</strong>. Sélectionnez : <strong>type d'intervention</strong> (entretien, dépannage, installation…), <strong>client</strong>, <strong>site</strong>, <strong>technicien</strong>, <strong>date et heure</strong>.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Ajouter des détails</h3>
+            <p>Renseignez la <strong>description</strong> du travail prévu, la <strong>durée estimée</strong> et les <strong>notes internes</strong> (visible par le technicien sur l'app mobile).</p>
+        </div>
+    </div>
+
+    <div class="tip"><strong>Bon à savoir :</strong> Le rendez-vous apparaît instantanément sur l'app mobile KeydyApp du technicien. Il verra le client, l'adresse, le type d'intervention et les notes.</div>
+
+    <h2>Étape 8 — Installer KeydyApp sur les smartphones</h2>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Télécharger KeydyApp</h3>
+            <p>Sur le smartphone Android du technicien, ouvrez le <strong>Google Play Store</strong> et cherchez <strong>« KeydyApp »</strong>. Installez l'application.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Se connecter</h3>
+            <p>Ouvrez l'application. Entrez l'<strong>adresse du serveur</strong> (communiquée par email), puis l'<strong>email</strong> et le <strong>mot de passe</strong> du technicien.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Configurer le PIN</h3>
+            <p>L'app demande de définir un <strong>code PIN à 4 chiffres</strong> pour le pointage rapide. Ce code sera utilisé chaque jour pour pointer l'arrivée et le départ.</p>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+            <h3>Autoriser les permissions</h3>
+            <p>Acceptez les permissions demandées : <strong>caméra</strong> (photos terrain), <strong>localisation</strong> (GPS pour navigation), <strong>notifications</strong> (nouveaux RDV et messages).</p>
+        </div>
+    </div>
+
+    <div class="warning"><strong>Important :</strong> L'application nécessite Android 8.0 ou supérieur. Vérifiez que les smartphones de vos techniciens sont compatibles.</div>
+
+    <h2>Étape 9 — Vérifications avant le démarrage</h2>
+    <p>Avant de basculer en production, vérifiez les points suivants :</p>
+
+    <div class="checklist">
+        <div class="checklist-item"><div class="checklist-box"></div> Le logo apparaît correctement sur un devis PDF de test</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Les coordonnées (adresse, TVA, IBAN) sont correctes sur les factures</div>
+        <div class="checklist-item"><div class="checklist-box"></div> La numérotation des factures et devis est correcte</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Les articles importés sont présents et les prix sont corrects</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Les zones de déplacement sont configurées</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Tous les utilisateurs peuvent se connecter (bureau et terrain)</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Les techniciens voient leurs RDV sur l'app mobile</div>
+        <div class="checklist-item"><div class="checklist-box"></div> L'envoi d'email fonctionne (envoyer un devis de test à soi-même)</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Les mentions légales et conditions générales sont correctes</div>
+        <div class="checklist-item"><div class="checklist-box"></div> Supprimer les clients/devis/factures de test créés pendant la mise en route</div>
+    </div>
+
+    <div class="tip"><strong>Vous êtes prêt !</strong> Votre environnement Keydy est configuré. En cas de question ou de problème, contactez le support à <strong>contact@keydy.be</strong>. Nous sommes disponibles du lundi au vendredi, 9h-17h.</div>
+
+    <div class="footer"><span>Keydy — Guide de mise en route</span><span>contact@keydy.be — www.keydy.be</span></div>
+</div>
+
+</body>
+</html>

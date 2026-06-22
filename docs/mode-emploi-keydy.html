@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Keydy — Mode d'emploi</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.7; }
+@page { size: A4; margin: 0; }
+
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 34px 44px; page-break-after: always; position: relative; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid #e8eeff; }
+.logo svg { height: 30px; vertical-align: middle; }
+.page-num { font-size: 11px; color: #999; }
+
+h1 { font-size: 24px; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+h2 { font-size: 17px; font-weight: 700; color: #1a73e8; margin: 16px 0 6px; border-bottom: 2px solid #1a73e8; padding-bottom: 3px; display: inline-block; }
+h3 { font-size: 13px; font-weight: 700; color: #1a1a2e; margin: 10px 0 4px; }
+p, li { font-size: 12px; }
+ul, ol { margin-left: 18px; margin-bottom: 6px; }
+li { margin-bottom: 2px; }
+
+.nav { font-family: monospace; font-size: 11px; background: #e8eeff; padding: 2px 7px; border-radius: 4px; color: #0f3460; font-weight: 600; }
+
+.how { display: flex; gap: 10px; margin: 6px 0; padding: 10px 12px; background: #f8f9ff; border-radius: 8px; border-left: 3px solid #1a73e8; }
+.how-num { width: 24px; height: 24px; background: #1a73e8; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 12px; flex-shrink: 0; }
+.how-text { flex: 1; font-size: 12px; }
+.how-text strong { font-weight: 700; }
+
+.tip { background: #e8f5e9; border-radius: 6px; padding: 8px 12px; margin: 6px 0; font-size: 11px; border-left: 3px solid #43a047; }
+.tip strong { color: #2e7d32; }
+
+.warn { background: #fff8e6; border-radius: 6px; padding: 8px 12px; margin: 6px 0; font-size: 11px; border-left: 3px solid #f2a93b; }
+.warn strong { color: #c77800; }
+
+.footer { position: absolute; bottom: 16px; left: 44px; right: 44px; font-size: 9px; color: #aaa; border-top: 1px solid #eee; padding-top: 5px; display: flex; justify-content: space-between; }
+
+.cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px; }
+.cover h1 { color: white; font-size: 34px; margin-bottom: 6px; }
+.cover-sub { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 36px; }
+
+.toc { text-align: left; width: 100%; max-width: 520px; }
+.toc-section { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 13px; }
+.toc-section .num { color: #4da3ff; font-weight: 700; width: 28px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0; }
+.col-box { background: #f8f9ff; border-radius: 8px; padding: 10px 12px; border-left: 3px solid #1a73e8; }
+.col-box h3 { margin: 0 0 4px; font-size: 12px; color: #1a73e8; }
+.col-box p { font-size: 11px; margin: 0; color: #555; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ COUVERTURE ══════════ -->
+<div class="page cover">
+    <div style="margin-bottom:16px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:64px;"><rect x="2" y="4" width="10" height="36" rx="2" fill="white"/><polygon points="12,22 34,4 44,4 22,22" fill="white"/><polygon points="22,22 34,4 44,4 32,22" fill="#4da3ff"/><polygon points="12,22 34,40 44,40 22,22" fill="white"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="white">Keydy</text></svg></div>
+    <h1>Mode d'emploi</h1>
+    <p class="cover-sub">Guide complet d'utilisation du logiciel KeydyWeb</p>
+
+    <div class="toc">
+        <div class="toc-section"><div><span class="num">01</span> Connexion et navigation</div></div>
+        <div class="toc-section"><div><span class="num">02</span> Gestion des clients</div></div>
+        <div class="toc-section"><div><span class="num">03</span> Devis</div></div>
+        <div class="toc-section"><div><span class="num">04</span> Facturation</div></div>
+        <div class="toc-section"><div><span class="num">05</span> Planning et rendez-vous</div></div>
+        <div class="toc-section"><div><span class="num">06</span> Interventions</div></div>
+        <div class="toc-section"><div><span class="num">07</span> Contrats de maintenance</div></div>
+        <div class="toc-section"><div><span class="num">08</span> Attestations (entretien et mise en service)</div></div>
+        <div class="toc-section"><div><span class="num">09</span> Chantiers et états d'avancement</div></div>
+        <div class="toc-section"><div><span class="num">10</span> Messagerie interne</div></div>
+        <div class="toc-section"><div><span class="num">11</span> KeydyApp (application mobile)</div></div>
+        <div class="toc-section"><div><span class="num">12</span> Paramètres et administration</div></div>
+    </div>
+</div>
+
+<!-- ══════════ CHAPITRE 1 : CONNEXION ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 1</div></div>
+
+    <h1>1. Connexion et navigation</h1>
+
+    <h2>Se connecter</h2>
+    <p>Ouvrez votre navigateur (Chrome ou Edge recommandé) et allez sur l'adresse de votre Keydy (ex: votre-societe.keydy.be). Entrez votre email et mot de passe.</p>
+
+    <h2>Le tableau de bord</h2>
+    <p>Après connexion, vous arrivez sur le <strong>tableau de bord</strong> qui présente en un coup d'oeil :</p>
+    <ul>
+        <li><strong>Chiffre d'affaires du mois</strong> — montant facturé ce mois</li>
+        <li><strong>Devis en attente</strong> — nombre de devis non encore acceptés</li>
+        <li><strong>Factures impayées</strong> — montant des factures en retard de paiement</li>
+        <li><strong>RDV du jour</strong> — liste des interventions planifiées aujourd'hui</li>
+        <li><strong>Dernières activités</strong> — fil des dernières actions (factures, devis, interventions)</li>
+    </ul>
+
+    <h2>Le menu principal</h2>
+    <p>Le menu se trouve sur la gauche de l'écran. Il donne accès à toutes les sections :</p>
+
+    <div class="two-col">
+        <div class="col-box"><h3>Tableau de bord</h3><p>Vue d'ensemble de l'activité</p></div>
+        <div class="col-box"><h3>Clients</h3><p>Fiches clients, sites, historique</p></div>
+        <div class="col-box"><h3>Devis</h3><p>Création, envoi, signature, conversion</p></div>
+        <div class="col-box"><h3>Factures</h3><p>Facturation, rappels, paiements</p></div>
+        <div class="col-box"><h3>Planning</h3><p>Calendrier des interventions</p></div>
+        <div class="col-box"><h3>Interventions</h3><p>Suivi des travaux terrain</p></div>
+        <div class="col-box"><h3>Fournisseurs</h3><p>Contacts et achats fournisseurs</p></div>
+        <div class="col-box"><h3>Messagerie</h3><p>Communication bureau-terrain</p></div>
+        <div class="col-box"><h3>Chantiers</h3><p>Dossiers, lots, états d'avancement</p></div>
+        <div class="col-box"><h3>Paramètres</h3><p>Organisation, articles, utilisateurs, zones</p></div>
+    </div>
+
+    <div class="tip"><strong>Navigation rapide :</strong> Cliquez sur le nom de n'importe quel client, devis ou facture dans une liste pour ouvrir sa fiche détaillée. Le bouton « Retour » vous ramène toujours à la liste précédente.</div>
+
+    <h2>Mon profil</h2>
+    <p>Cliquez sur votre <strong>nom en haut à droite</strong> pour accéder à votre profil. Vous pouvez y modifier votre mot de passe, votre photo de profil et vos préférences de notification.</p>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRE 2 : CLIENTS ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 2</div></div>
+
+    <h1>2. Gestion des clients</h1>
+
+    <h2>Liste des clients</h2>
+    <p>Accédez à <span class="nav">Clients</span> dans le menu. La liste affiche tous vos clients avec nom, ville, téléphone et statut. Utilisez la <strong>barre de recherche</strong> pour chercher par nom, code postal, téléphone ou n° TVA.</p>
+
+    <h2>Créer un nouveau client</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Cliquez sur <strong>« + Nouveau client »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Choisissez le type : <strong>Particulier</strong> ou <strong>Société</strong>.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Remplissez les champs obligatoires : <strong>nom</strong> (ou raison sociale), <strong>adresse</strong>, <strong>code postal</strong>, <strong>ville</strong>.</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Complétez les champs optionnels : <strong>téléphone</strong>, <strong>email</strong>, <strong>n° TVA</strong>, <strong>notes internes</strong>.</div></div>
+    <div class="how"><div class="how-num">5</div><div class="how-text">Cliquez sur <strong>« Enregistrer »</strong>.</div></div>
+
+    <h2>Fiche client détaillée</h2>
+    <p>Cliquez sur un client pour ouvrir sa fiche complète. Vous y trouvez :</p>
+    <ul>
+        <li><strong>Informations</strong> — coordonnées, TVA, notes</li>
+        <li><strong>Sites</strong> — adresses d'intervention (un client peut avoir plusieurs sites)</li>
+        <li><strong>Installations</strong> — chaudières, ECS, PAC enregistrées par site</li>
+        <li><strong>Historique</strong> — tous les devis, factures, interventions et attestations liés au client</li>
+        <li><strong>Documents</strong> — fichiers PDF téléchargeables (attestations, bons de travail, factures)</li>
+    </ul>
+
+    <h2>Ajouter un site d'intervention</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Depuis la fiche client, onglet <strong>« Sites »</strong>, cliquez sur <strong>« + Ajouter un site »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Renseignez l'<strong>adresse complète</strong> du site (chantier, résidence secondaire, etc.).</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Ajoutez les <strong>installations</strong> du site si connues (type de chaudière, marque, année, puissance).</div></div>
+
+    <div class="tip"><strong>Astuce :</strong> L'adresse du site est utilisée pour le GPS du technicien sur KeydyApp et pour déterminer automatiquement la zone de déplacement à facturer.</div>
+
+    <h2>Importer des clients</h2>
+    <p>Pour un import en masse, allez dans <span class="nav">Clients &gt; Importer</span>. Préparez un fichier Excel avec les colonnes suivantes :</p>
+    <ul>
+        <li>Nom (ou Raison sociale)</li>
+        <li>Prénom (si particulier)</li>
+        <li>Adresse, Code postal, Ville</li>
+        <li>Téléphone, Email</li>
+        <li>N° TVA (si société)</li>
+    </ul>
+    <p>Glissez le fichier dans la zone d'import. Le système détecte automatiquement les colonnes et affiche un aperçu avant validation.</p>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRE 3 : DEVIS ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 3</div></div>
+
+    <h1>3. Devis</h1>
+
+    <h2>Créer un devis</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Allez dans <span class="nav">Devis &gt; + Nouveau devis</span>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Sélectionnez le <strong>client</strong> (tapez son nom pour le chercher). Si le client n'existe pas, créez-le directement.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Sélectionnez le <strong>site</strong> d'intervention (si le client a plusieurs adresses).</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Ajoutez des <strong>lignes</strong> au devis (voir ci-dessous).</div></div>
+    <div class="how"><div class="how-num">5</div><div class="how-text">Vérifiez le <strong>total HTVA</strong>, la <strong>TVA</strong> et le <strong>total TTC</strong>.</div></div>
+    <div class="how"><div class="how-num">6</div><div class="how-text">Cliquez sur <strong>« Enregistrer »</strong> (brouillon) ou <strong>« Envoyer »</strong> (envoi par email).</div></div>
+
+    <h2>Types de lignes</h2>
+    <div class="two-col">
+        <div class="col-box"><h3>Ligne article</h3><p>Cherchez un article du catalogue par référence ou nom. La quantité, le prix et la TVA se remplissent automatiquement. Modifiez-les si besoin.</p></div>
+        <div class="col-box"><h3>Ligne texte libre</h3><p>Ajoutez un titre de section, une description ou un commentaire sans montant. Utile pour structurer le devis en chapitres.</p></div>
+        <div class="col-box"><h3>Ligne sous-total</h3><p>Insère un sous-total qui additionne toutes les lignes au-dessus (depuis le début ou le dernier sous-total). Pratique pour les devis multi-postes.</p></div>
+        <div class="col-box"><h3>Ligne combinée</h3><p>Poste regroupant fourniture + main d'oeuvre en une seule ligne avec un prix global. Le détail reste visible en interne.</p></div>
+    </div>
+
+    <h2>Envoyer un devis par email</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Depuis le devis, cliquez sur <strong>« Envoyer par email »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Vérifiez l'adresse email du client. Ajoutez un <strong>message personnalisé</strong> si souhaité.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Le client reçoit le devis en PDF + un <strong>lien de signature en ligne</strong>.</div></div>
+
+    <h2>Cycle de vie d'un devis</h2>
+    <p>Un devis passe par les statuts suivants :</p>
+    <ul>
+        <li><strong>Brouillon</strong> — en cours de rédaction, non envoyé</li>
+        <li><strong>Envoyé</strong> — envoyé au client, en attente de réponse</li>
+        <li><strong>Accepté</strong> — le client a signé (en ligne ou manuellement)</li>
+        <li><strong>Refusé</strong> — le client a décliné l'offre</li>
+        <li><strong>Facturé</strong> — le devis a été converti en facture</li>
+    </ul>
+
+    <h2>Convertir un devis en facture</h2>
+    <p>Lorsqu'un devis est accepté, cliquez sur <strong>« Convertir en facture »</strong>. Toutes les lignes, quantités et prix sont repris automatiquement. La facture reçoit le numéro suivant dans la séquence.</p>
+
+    <div class="warn"><strong>Attention :</strong> Un devis converti en facture ne peut plus être modifié. Vérifiez bien les quantités et prix avant la conversion.</div>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRE 4 : FACTURATION ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 4</div></div>
+
+    <h1>4. Facturation</h1>
+
+    <h2>Créer une facture</h2>
+    <p>Il y a 3 manières de créer une facture :</p>
+    <ol>
+        <li><strong>Depuis un devis accepté</strong> — cliquez sur « Convertir en facture » (recommandé)</li>
+        <li><strong>Depuis une intervention clôturée</strong> — cliquez sur « Facturer » dans l'intervention</li>
+        <li><strong>Manuellement</strong> — <span class="nav">Factures &gt; + Nouvelle facture</span></li>
+    </ol>
+
+    <h2>Éléments d'une facture</h2>
+    <ul>
+        <li><strong>Numéro</strong> — généré automatiquement (ex: FA2026-0043)</li>
+        <li><strong>Communication structurée</strong> — générée automatiquement au format belge +++xxx/xxxx/xxxxx+++</li>
+        <li><strong>Date de facturation</strong> — date du jour par défaut, modifiable</li>
+        <li><strong>Date d'échéance</strong> — calculée selon les conditions de paiement configurées</li>
+        <li><strong>Lignes</strong> — articles, main d'oeuvre, forfaits, zone de déplacement</li>
+        <li><strong>TVA</strong> — calculée automatiquement (6%, 21%, 0% selon les lignes et le type de site)</li>
+    </ul>
+
+    <h2>Envoyer une facture</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Depuis la facture, cliquez sur <strong>« Envoyer par email »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Le client reçoit un email avec la facture en <strong>PDF</strong> et un <strong>lien de paiement en ligne</strong> (Bancontact, carte, Payconiq).</div></div>
+
+    <h2>Suivi des paiements</h2>
+    <p>Les statuts de paiement sont :</p>
+    <ul>
+        <li><strong>Non payée</strong> — en attente de paiement</li>
+        <li><strong>Payée partiellement</strong> — un acompte a été reçu</li>
+        <li><strong>Payée</strong> — le montant total a été réglé</li>
+        <li><strong>En retard</strong> — la date d'échéance est dépassée</li>
+    </ul>
+    <p>Pour marquer une facture comme payée manuellement (virement reçu), cliquez sur <strong>« Marquer comme payée »</strong> et indiquez la date de paiement.</p>
+
+    <h2>Rappels de paiement</h2>
+    <p>Keydy envoie automatiquement des rappels par email pour les factures en retard :</p>
+    <ul>
+        <li><strong>1er rappel</strong> — 30 jours après l'échéance</li>
+        <li><strong>2e rappel</strong> — 60 jours</li>
+        <li><strong>3e rappel</strong> — 90 jours (mise en demeure)</li>
+    </ul>
+    <p>Les rappels sont envoyés uniquement au client (jamais en interne). Vous pouvez les désactiver ou ajuster les délais dans <span class="nav">Paramètres &gt; Facturation</span>.</p>
+
+    <h2>Notes de crédit</h2>
+    <p>Pour annuler partiellement ou totalement une facture :</p>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Ouvrez la facture concernée.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Cliquez sur <strong>« Créer une note de crédit »</strong>.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Sélectionnez les lignes à créditer et les quantités. La note de crédit est générée avec un numéro NC-xxx.</div></div>
+
+    <h2>Facturation depuis intervention</h2>
+    <p>Lorsqu'un technicien clôture une intervention via KeydyApp, les articles utilisés, la main d'oeuvre et la zone de déplacement sont automatiquement pré-remplis. Il suffit de cliquer sur <strong>« Facturer »</strong> depuis l'intervention pour générer la facture en un clic.</p>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRE 5 : PLANNING ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 5</div></div>
+
+    <h1>5. Planning et rendez-vous</h1>
+
+    <h2>Vue du planning</h2>
+    <p>Le planning est accessible via <span class="nav">Planning</span>. Il propose 3 vues :</p>
+    <ul>
+        <li><strong>Vue jour</strong> — toutes les interventions du jour, par technicien</li>
+        <li><strong>Vue semaine</strong> — vue d'ensemble de la semaine avec les techniciens en colonnes</li>
+        <li><strong>Vue mois</strong> — calendrier mensuel avec les RDV en miniature</li>
+    </ul>
+    <p>Chaque technicien a sa propre <strong>couleur</strong> pour un repérage visuel rapide. Les <strong>absences</strong> (congés, maladie) apparaissent en grisé sur le planning.</p>
+
+    <h2>Créer un rendez-vous</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Cliquez sur un créneau vide dans le planning ou sur <strong>« + Nouveau RDV »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Sélectionnez le <strong>type d'intervention</strong> : entretien, dépannage, installation, devis, autre.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Choisissez le <strong>client</strong> et le <strong>site</strong>.</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Assignez un <strong>technicien</strong> et définissez la <strong>date/heure et durée</strong>.</div></div>
+    <div class="how"><div class="how-num">5</div><div class="how-text">Ajoutez une <strong>description</strong> et des <strong>notes</strong> (visibles par le technicien sur l'app).</div></div>
+
+    <div class="warn"><strong>Conflit détecté :</strong> Si le technicien est déjà occupé sur le créneau choisi, un avertissement visuel apparaît. Vous pouvez quand même forcer la planification si nécessaire.</div>
+
+    <h2>Modifier ou déplacer un RDV</h2>
+    <p>Cliquez sur un RDV existant pour l'ouvrir. Vous pouvez modifier tous les champs. Les modifications sont synchronisées immédiatement sur l'app mobile du technicien.</p>
+
+    <h1>6. Interventions</h1>
+
+    <h2>Cycle de vie d'une intervention</h2>
+    <ul>
+        <li><strong>Planifiée</strong> — le RDV est créé, en attente d'exécution</li>
+        <li><strong>En cours</strong> — le technicien a pointé son arrivée</li>
+        <li><strong>Clôturée</strong> — rapport rempli, signature client obtenue</li>
+        <li><strong>Facturée</strong> — la facture a été générée</li>
+    </ul>
+
+    <h2>Détail d'une intervention</h2>
+    <p>Chaque intervention contient :</p>
+    <ul>
+        <li><strong>Informations</strong> — client, site, type, technicien, date/heure</li>
+        <li><strong>Rapport de travail</strong> — travaux effectués, travaux à prévoir, devis à établir</li>
+        <li><strong>Articles utilisés</strong> — pièces, main d'oeuvre, forfaits ajoutés par le technicien</li>
+        <li><strong>Photos</strong> — photos prises par le technicien sur le terrain</li>
+        <li><strong>Signatures</strong> — signature du technicien et du client</li>
+        <li><strong>Attestation</strong> — si entretien, l'attestation officielle liée</li>
+        <li><strong>Bon de travail PDF</strong> — généré automatiquement à la clôture</li>
+    </ul>
+
+    <h2>Facturer une intervention</h2>
+    <p>Depuis l'intervention clôturée, cliquez sur <strong>« Facturer »</strong>. Les articles, la main d'oeuvre et la zone de déplacement sont repris automatiquement dans la facture.</p>
+
+    <div class="tip"><strong>Facturation en lot :</strong> Depuis la liste des interventions, sélectionnez plusieurs interventions du même client et cliquez sur « Facturer la sélection » pour générer une seule facture regroupée.</div>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRES 7-8 : CONTRATS & ATTESTATIONS ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitres 7-8</div></div>
+
+    <h1>7. Contrats de maintenance</h1>
+
+    <h2>Créer un contrat</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Allez dans <span class="nav">Contrats &gt; + Nouveau contrat</span>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Sélectionnez le <strong>client</strong>, le <strong>site</strong> et l'<strong>installation</strong> concernée.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Définissez la <strong>fréquence</strong> (annuelle, semestrielle, trimestrielle…).</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Indiquez le <strong>prix du contrat</strong> et la <strong>date de début</strong>.</div></div>
+    <div class="how"><div class="how-num">5</div><div class="how-text">Le système génère automatiquement les <strong>interventions préventives</strong> dans le planning selon la fréquence choisie.</div></div>
+
+    <h2>Suivi des contrats</h2>
+    <p>Le tableau des contrats affiche pour chaque contrat :</p>
+    <ul>
+        <li>Le <strong>statut</strong> (actif, expiré, à renouveler)</li>
+        <li>La <strong>prochaine échéance</strong></li>
+        <li>L'<strong>historique des interventions</strong> liées au contrat</li>
+        <li>La <strong>facturation récurrente</strong> associée</li>
+    </ul>
+
+    <div class="tip"><strong>Alertes automatiques :</strong> Keydy vous alerte par email lorsqu'un contrat approche de son échéance ou qu'une intervention préventive est bientôt due.</div>
+
+    <h1>8. Attestations</h1>
+
+    <h2>Attestation d'entretien</h2>
+    <p>L'attestation d'entretien est le document officiel prouvant que l'entretien d'une installation a été réalisé conformément à la réglementation belge.</p>
+
+    <div class="how"><div class="how-num">1</div><div class="how-text">Depuis une intervention de type <strong>entretien</strong>, cliquez sur <strong>« Créer l'attestation »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Le formulaire est <strong>pré-rempli</strong> avec les données du client, du site et de l'installation (marque, modèle, puissance, combustible).</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Complétez les <strong>mesures techniques</strong> : CO fumées, température, tirage, rendement, pression, etc.</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Indiquez si l'installation est <strong>conforme</strong> ou non, et ajoutez des <strong>remarques</strong> si nécessaire.</div></div>
+    <div class="how"><div class="how-num">5</div><div class="how-text">Le technicien et le client <strong>signent</strong> l'attestation (signature numérique sur l'app ou sur tablette).</div></div>
+    <div class="how"><div class="how-num">6</div><div class="how-text">Le <strong>PDF officiel</strong> est généré automatiquement et lié à l'intervention.</div></div>
+
+    <h2>Attestation de mise en service</h2>
+    <p>Même processus que l'attestation d'entretien, mais pour la <strong>première mise en service</strong> d'une installation neuve. Le formulaire inclut des champs spécifiques : date d'installation, référence du PV, données techniques initiales.</p>
+
+    <div class="warn"><strong>Obligatoire :</strong> Pour les entretiens de chaudières (gaz, mazout, pellet), l'attestation doit être complétée et signée avant de pouvoir clôturer l'intervention. Le système bloque la clôture sans attestation valide.</div>
+
+    <h2>Conformité régionale</h2>
+    <p>Les attestations sont conformes aux exigences :</p>
+    <ul>
+        <li><strong>Wallonie</strong> — format officiel SPW</li>
+        <li><strong>Bruxelles</strong> — format Bruxelles Environnement</li>
+        <li><strong>Flandre</strong> — format VEKA</li>
+    </ul>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRES 9-10 : CHANTIERS & MESSAGERIE ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitres 9-10</div></div>
+
+    <h1>9. Chantiers et états d'avancement</h1>
+
+    <h2>Créer un chantier</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Allez dans <span class="nav">Chantiers &gt; + Nouveau chantier</span>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Renseignez : <strong>client</strong>, <strong>site</strong>, <strong>nom du chantier</strong>, <strong>description</strong>.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Ajoutez les <strong>lots</strong> (chauffage, sanitaire, ventilation…) avec les lignes détaillées et les montants.</div></div>
+
+    <h2>États d'avancement</h2>
+    <p>Les états d'avancement permettent de facturer progressivement un chantier :</p>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Depuis le chantier, cliquez sur <strong>« Nouvel état d'avancement »</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Pour chaque ligne/lot, indiquez le <strong>pourcentage d'avancement</strong> ou le <strong>montant réalisé</strong>.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Le système calcule automatiquement le <strong>montant à facturer</strong> (différence entre le nouvel avancement et le précédent).</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Générez la <strong>facture d'avancement</strong> en un clic.</div></div>
+
+    <h2>Récapitulatif financier</h2>
+    <p>Le récapitulatif du chantier affiche en temps réel :</p>
+    <ul>
+        <li><strong>Montant du marché</strong> — total du devis + avenants</li>
+        <li><strong>Montant facturé</strong> — total des factures émises</li>
+        <li><strong>Reste à facturer</strong> — différence entre marché et facturé</li>
+        <li><strong>Acomptes reçus</strong> — paiements anticipés</li>
+    </ul>
+
+    <h2>Avenants</h2>
+    <p>Pour les travaux supplémentaires ou modifications :</p>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Cliquez sur <strong>« + Avenant »</strong> dans le chantier.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Ajoutez les lignes en <strong>plus-value</strong> (travaux ajoutés) ou <strong>moins-value</strong> (travaux supprimés).</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">L'avenant modifie automatiquement le montant total du marché.</div></div>
+
+    <h1>10. Messagerie interne</h1>
+
+    <h2>Envoyer un message</h2>
+    <p>La messagerie permet la communication directe entre le bureau et les techniciens terrain.</p>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Allez dans <span class="nav">Messagerie</span>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Sélectionnez un <strong>destinataire</strong> (un technicien, plusieurs, ou un groupe).</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Tapez votre message et ajoutez des <strong>pièces jointes</strong> si nécessaire (photos, PDF).</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Le technicien reçoit une <strong>notification push</strong> sur son smartphone via KeydyApp.</div></div>
+
+    <h2>Discussions de groupe</h2>
+    <p>Créez des groupes de discussion pour communiquer avec une équipe (ex: « Équipe chauffage », « Tous les techniciens »). Les messages sont visibles par tous les membres du groupe.</p>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRE 11 : KEYDYAPP ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 11</div></div>
+
+    <h1>11. KeydyApp — Application mobile technicien</h1>
+
+    <h2>Écran d'accueil</h2>
+    <p>Après connexion, le technicien voit son <strong>agenda du jour</strong> : liste des RDV avec le client, l'adresse, le type d'intervention et l'heure. Un tap sur l'adresse ouvre la <strong>navigation GPS</strong> (Google Maps).</p>
+
+    <h2>Pointage</h2>
+    <p>Le technicien pointe son arrivée et son départ de chaque intervention :</p>
+    <div class="how"><div class="how-num">1</div><div class="how-text"><strong>Arrivée</strong> — entrez votre PIN à 4 chiffres et appuyez sur « Arrivée ». L'heure est enregistrée automatiquement.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text"><strong>Départ</strong> — même processus en fin d'intervention. La durée est calculée automatiquement.</div></div>
+
+    <h2>Pendant l'intervention</h2>
+    <div class="two-col">
+        <div class="col-box"><h3>Fiche installation</h3><p>Consultez et mettez à jour les données techniques de l'installation (marque, modèle, année, puissance…).</p></div>
+        <div class="col-box"><h3>Photos</h3><p>Prenez des photos avec la caméra du téléphone. Elles sont uploadées automatiquement et liées à l'intervention.</p></div>
+        <div class="col-box"><h3>Articles utilisés</h3><p>Ajoutez les pièces et forfaits utilisés depuis le catalogue. Cherchez par référence ou scannez le code-barres (avec KeydyScan).</p></div>
+        <div class="col-box"><h3>Rapport de travail</h3><p>Décrivez les travaux effectués, les travaux à prévoir et si un devis doit être établi. Le rapport se sauvegarde automatiquement.</p></div>
+    </div>
+
+    <h2>Attestation depuis l'app</h2>
+    <p>Pour les entretiens, l'attestation est remplie directement depuis l'app :</p>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Les données client et installation sont <strong>pré-remplies</strong>.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Complétez les <strong>mesures</strong> (CO, température, pression, rendement…).</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Indiquez la <strong>conformité</strong> et les remarques éventuelles.</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text"><strong>Signez</strong> l'attestation (technicien + client) sur l'écran du téléphone.</div></div>
+
+    <h2>Clôturer l'intervention</h2>
+    <div class="how"><div class="how-num">1</div><div class="how-text">Vérifiez que le rapport est complet et les articles renseignés.</div></div>
+    <div class="how"><div class="how-num">2</div><div class="how-text">Si entretien : vérifiez que l'attestation est remplie et signée.</div></div>
+    <div class="how"><div class="how-num">3</div><div class="how-text">Obtenez la <strong>signature du client</strong> sur l'écran.</div></div>
+    <div class="how"><div class="how-num">4</div><div class="how-text">Cliquez sur <strong>« Clôturer »</strong>. Le bon de travail PDF est généré automatiquement.</div></div>
+
+    <h2>Autres fonctions</h2>
+    <ul>
+        <li><strong>Messagerie</strong> — recevoir et envoyer des messages au bureau</li>
+        <li><strong>Demande de congés</strong> — par jour ou demi-journée, avec photo du certificat si maladie</li>
+        <li><strong>Création client/site</strong> — enregistrer un nouveau client ou site directement depuis le terrain</li>
+        <li><strong>Mode hors ligne</strong> — toutes les données sont sauvegardées localement et synchronisées au retour du réseau</li>
+    </ul>
+
+    <div class="tip"><strong>Sauvegarde anti-perte :</strong> Le rapport et les données sont sauvegardés automatiquement toutes les 500 ms. Même en cas de coupure réseau, de fermeture accidentelle de l'app ou de batterie vide, rien n'est perdu.</div>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ CHAPITRE 12 : PARAMÈTRES ══════════ -->
+<div class="page">
+    <div class="page-header"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div><div class="page-num">Chapitre 12</div></div>
+
+    <h1>12. Paramètres et administration</h1>
+    <p>Les paramètres sont accessibles via <span class="nav">Paramètres</span> dans le menu (réservé aux administrateurs).</p>
+
+    <h2>Organisation</h2>
+    <ul>
+        <li><strong>Nom, adresse, TVA, BCE</strong> — informations légales de la société</li>
+        <li><strong>Logo</strong> — utilisé sur tous les documents (devis, factures, attestations, bon de travail)</li>
+        <li><strong>Coordonnées bancaires</strong> — IBAN et BIC affichés sur les factures</li>
+        <li><strong>Email d'envoi</strong> — adresse utilisée pour l'envoi des documents par email</li>
+    </ul>
+
+    <h2>Facturation</h2>
+    <ul>
+        <li><strong>Préfixes</strong> — format de numérotation des factures, devis et notes de crédit</li>
+        <li><strong>Conditions de paiement</strong> — délai par défaut (15, 30, 60 jours)</li>
+        <li><strong>Mentions légales</strong> — texte en bas de facture/devis</li>
+        <li><strong>Rappels</strong> — délais et activation des rappels automatiques</li>
+        <li><strong>Paiement en ligne</strong> — configuration Stripe / Mollie (Bancontact, carte, Payconiq)</li>
+    </ul>
+
+    <h2>Articles</h2>
+    <ul>
+        <li><strong>Catalogue</strong> — liste de tous les articles (pièces, main d'oeuvre, forfaits)</li>
+        <li><strong>Catégories</strong> — organisation par type (Chauffage, Sanitaire, MO…)</li>
+        <li><strong>Import / Export</strong> — import en masse via Excel, export du catalogue</li>
+    </ul>
+
+    <h2>Zones de déplacement</h2>
+    <ul>
+        <li><strong>Zones</strong> — noms, codes postaux et forfaits de déplacement</li>
+        <li><strong>Zone par défaut</strong> — utilisée si le code postal du client n'est dans aucune zone</li>
+    </ul>
+
+    <h2>Utilisateurs</h2>
+    <ul>
+        <li><strong>Créer / modifier / désactiver</strong> des comptes utilisateurs</li>
+        <li><strong>Rôles</strong> : Administrateur, Bureau, Technicien</li>
+        <li><strong>Couleur de planning</strong> par technicien</li>
+        <li><strong>Accès KeydyApp</strong> — activer/désactiver l'app mobile par utilisateur</li>
+    </ul>
+
+    <h2>Employés et RH</h2>
+    <ul>
+        <li><strong>Fiches employés</strong> — données personnelles, contrat, ancienneté</li>
+        <li><strong>Congés</strong> — validation des demandes depuis le bureau</li>
+        <li><strong>Pointage</strong> — suivi des heures prestées par technicien</li>
+    </ul>
+
+    <h2>Portail client</h2>
+    <ul>
+        <li><strong>Activation</strong> — activer le portail client en marque blanche</li>
+        <li><strong>Branding</strong> — logo et couleurs de votre société (pas de mention Keydy)</li>
+        <li><strong>Sous-domaine</strong> — votre-societe.keydy.be ou domaine personnalisé</li>
+        <li><strong>Fonctions</strong> — consultation devis/factures, signature, paiement, demande SAV</li>
+    </ul>
+
+    <h2>Besoin d'aide ?</h2>
+    <div style="background:#f0f7ff; border-radius:10px; padding:16px; margin-top:10px; text-align:center;">
+        <p style="font-size:14px; font-weight:700; margin-bottom:6px;">Support technique Keydy</p>
+        <p style="font-size:12px; color:#555;">Email : <strong>contact@keydy.be</strong></p>
+        <p style="font-size:12px; color:#555;">Du lundi au vendredi, 9h - 17h</p>
+        <p style="font-size:11px; color:#999; margin-top:8px;">Support téléphonique disponible sur rendez-vous.</p>
+    </div>
+
+    <div class="footer"><span>Keydy — Mode d'emploi</span><span>contact@keydy.be — www.keydy.be</span></div>
+</div>
+
+</body>
+</html>

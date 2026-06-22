@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Keydey — Logiciel HVAC tout-en-un</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.6; }
+@page { size: A4; margin: 0; }
+
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0; page-break-after: always; position: relative; overflow: hidden; }
+
+/* ── Cover ── */
+.cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.cover-logo { font-size: 72px; font-weight: 800; letter-spacing: 2px; margin-bottom: 8px; }
+.cover-logo span { color: #1a73e8; }
+.cover-tagline { font-size: 22px; font-weight: 300; opacity: 0.9; margin-bottom: 40px; }
+.cover-subtitle { font-size: 16px; font-weight: 400; opacity: 0.7; max-width: 500px; }
+.cover-badge { display: inline-block; background: #1a73e8; color: white; padding: 8px 24px; border-radius: 20px; font-weight: 600; font-size: 14px; margin-top: 40px; }
+.cover-features { display: flex; gap: 24px; margin-top: 50px; flex-wrap: wrap; justify-content: center; }
+.cover-feat { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px 20px; width: 140px; text-align: center; }
+.cover-feat-icon { font-size: 28px; margin-bottom: 6px; }
+.cover-feat-label { font-size: 12px; font-weight: 500; }
+
+/* ── Content pages ── */
+.content { padding: 40px 50px; }
+.section-title { font-size: 28px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; border-bottom: 3px solid #1a73e8; padding-bottom: 8px; display: inline-block; }
+.section-sub { font-size: 14px; color: #666; margin-bottom: 24px; }
+h3 { font-size: 18px; font-weight: 600; color: #1a73e8; margin: 20px 0 8px 0; }
+p, li { font-size: 13px; }
+ul { margin-left: 20px; margin-bottom: 12px; }
+li { margin-bottom: 4px; }
+
+.module-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+.module-card { background: #f5f7ff; border-radius: 10px; padding: 16px; border-left: 4px solid #1a73e8; }
+.module-card h4 { font-size: 15px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
+.module-card p { font-size: 12px; color: #555; }
+.module-card .price { font-size: 11px; color: #1a73e8; font-weight: 600; margin-top: 6px; }
+
+.advantage-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 16px 0; }
+.adv-card { text-align: center; padding: 16px 10px; background: white; border: 1px solid #e8eeff; border-radius: 10px; }
+.adv-icon { font-size: 32px; margin-bottom: 6px; }
+.adv-title { font-size: 13px; font-weight: 600; }
+.adv-desc { font-size: 11px; color: #666; margin-top: 4px; }
+
+.pricing-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 12px; }
+.pricing-table th { background: #1a1a2e; color: white; padding: 10px; text-align: center; font-weight: 600; }
+.pricing-table td { padding: 8px 10px; border-bottom: 1px solid #eee; text-align: center; }
+.pricing-table tr:nth-child(even) { background: #f9f9ff; }
+.pricing-table .plan-name { font-weight: 700; font-size: 14px; }
+.pricing-table .plan-price { font-size: 18px; font-weight: 700; color: #1a73e8; }
+
+.footer { position: absolute; bottom: 20px; left: 50px; right: 50px; font-size: 10px; color: #999; border-top: 1px solid #eee; padding-top: 8px; display: flex; justify-content: space-between; }
+
+.highlight { background: linear-gradient(135deg, #1a73e8 0%, #0f3460 100%); color: white; border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight h3 { color: white; margin-top: 0; }
+.highlight p, .highlight li { color: rgba(255,255,255,0.9); }
+
+.cta { text-align: center; margin: 30px 0; }
+.cta-btn { display: inline-block; background: #1a73e8; color: white; padding: 14px 40px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; }
+.cta-sub { font-size: 12px; color: #999; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ PAGE 1 : COUVERTURE ══════════ -->
+<div class="page cover">
+    <div class="cover-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:72px;"><rect x="2" y="4" width="10" height="36" rx="2" fill="white"/><polygon points="12,22 34,4 44,4 22,22" fill="white"/><polygon points="22,22 34,4 44,4 32,22" fill="#4da3ff"/><polygon points="12,22 34,40 44,40 22,22" fill="white"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="white">Keydy</text></svg></div>
+    <div class="cover-tagline">La solution HVAC tout-en-un</div>
+    <div class="cover-subtitle">
+        Gestion complète de votre entreprise de chauffage, climatisation et sanitaire.
+        Du bureau au terrain, en passant par vos clients.
+    </div>
+    <div class="cover-badge">Web + Mobile + Portail Client</div>
+    <div class="cover-features">
+        <div class="cover-feat"><div class="cover-feat-icon">📋</div><div class="cover-feat-label">Devis &<br>Factures</div></div>
+        <div class="cover-feat"><div class="cover-feat-icon">📱</div><div class="cover-feat-label">App<br>Techniciens</div></div>
+        <div class="cover-feat"><div class="cover-feat-icon">📅</div><div class="cover-feat-label">Planning &<br>Interventions</div></div>
+        <div class="cover-feat"><div class="cover-feat-icon">🔧</div><div class="cover-feat-label">SAV &<br>Contrats</div></div>
+        <div class="cover-feat"><div class="cover-feat-icon">🌐</div><div class="cover-feat-label">Portail<br>Client</div></div>
+    </div>
+</div>
+
+<!-- ══════════ PAGE 2 : KEYDYWEB ══════════ -->
+<div class="page content">
+    <div class="section-title">KeydyWeb</div>
+    <div class="section-sub">Votre bureau dans le cloud — accessible partout, tout le temps</div>
+
+    <div class="module-grid">
+        <div class="module-card">
+            <h4>Clients & Sites</h4>
+            <p>Fiche client complète, multi-sites, historique 360°, coordonnées, TVA, notes internes.</p>
+        </div>
+        <div class="module-card">
+            <h4>Devis professionnels</h4>
+            <p>Création rapide, catalogue articles, signature en ligne, conversion en facture en 1 clic.</p>
+        </div>
+        <div class="module-card">
+            <h4>Facturation</h4>
+            <p>Numérotation auto, communication structurée, rappels impayés, PDF personnalisé, TVA multi-taux.</p>
+        </div>
+        <div class="module-card">
+            <h4>Interventions</h4>
+            <p>Demandes SAV, planification, suivi statut, rapport technicien, bon de travail PDF.</p>
+        </div>
+        <div class="module-card">
+            <h4>Planning & Calendrier</h4>
+            <p>Vue journalière/semaine/mois, glisser-déposer, détection conflits, multi-techniciens.</p>
+        </div>
+        <div class="module-card">
+            <h4>Contrats de maintenance</h4>
+            <p>Fréquence configurable, rappels automatiques, facturation récurrente, cycle de vie équipements.</p>
+        </div>
+        <div class="module-card">
+            <h4>Comptabilité & Rapports</h4>
+            <p>Export comptable, journal des opérations, rapports CA/technicien/client, tableau de bord.</p>
+        </div>
+        <div class="module-card">
+            <h4>Portail Client</h4>
+            <p>Espace client marque blanche aux couleurs de votre société. Devis, factures, historique, paiement en ligne.</p>
+        </div>
+    </div>
+
+    <div class="highlight">
+        <h3>Historique 360° Client</h3>
+        <p>En un coup d'oeil : tous les RDV planifiés, interventions passées par site et par installation, devis, factures et attestations. Avec téléchargement PDF en un clic.</p>
+    </div>
+
+    <div class="footer">
+        <span>Keydey — La solution HVAC tout-en-un</span>
+        <span>www.keydy.be</span>
+    </div>
+</div>
+
+<!-- ══════════ PAGE 3 : KEYDYAPP ══════════ -->
+<div class="page content">
+    <div class="section-title">KeydyApp</div>
+    <div class="section-sub">L'application mobile pour vos techniciens terrain</div>
+
+    <div class="advantage-grid">
+        <div class="adv-card"><div class="adv-icon">📍</div><div class="adv-title">Navigation GPS</div><div class="adv-desc">Direction vers le site en un tap</div></div>
+        <div class="adv-card"><div class="adv-icon">⏱</div><div class="adv-title">Pointage terrain</div><div class="adv-desc">Arrivée/départ en temps réel</div></div>
+        <div class="adv-card"><div class="adv-icon">📸</div><div class="adv-title">Photos</div><div class="adv-desc">Prises de vue terrain avec upload auto</div></div>
+        <div class="adv-card"><div class="adv-icon">📝</div><div class="adv-title">Rapport de travail</div><div class="adv-desc">Saisi sur place, sauvegarde auto</div></div>
+        <div class="adv-card"><div class="adv-icon">✍️</div><div class="adv-title">Signature client</div><div class="adv-desc">Signature numérique sur l'écran</div></div>
+        <div class="adv-card"><div class="adv-icon">📄</div><div class="adv-title">Attestations</div><div class="adv-desc">Entretien et mise en service officielles</div></div>
+        <div class="adv-card"><div class="adv-icon">🔧</div><div class="adv-title">Fiche installation</div><div class="adv-desc">Consultation et mise à jour terrain</div></div>
+        <div class="adv-card"><div class="adv-icon">💬</div><div class="adv-title">Messagerie</div><div class="adv-desc">Communication bureau-terrain</div></div>
+        <div class="adv-card"><div class="adv-icon">📅</div><div class="adv-title">Congés</div><div class="adv-desc">Demande depuis l'app, validation bureau</div></div>
+    </div>
+
+    <h3>Fonctionnement hors ligne</h3>
+    <p>Les données sont sauvegardées localement. En cas de coupure réseau, le technicien continue de travailler. Les données se synchronisent automatiquement au retour du réseau. Plus jamais de données perdues.</p>
+
+    <h3>Forfaits entretien intelligents</h3>
+    <p>Pour les entretiens (mazout, gaz, pellet...), le technicien voit les codes forfait adaptés à l'installation du site. Un tap = le forfait est ajouté. La facturation sait automatiquement qu'il ne faut pas compter la zone de déplacement.</p>
+
+    <div class="section-title" style="margin-top: 30px;">KeydyScan</div>
+    <div class="section-sub">Scanner vos articles en un flash</div>
+
+    <div class="module-grid">
+        <div class="module-card">
+            <h4>Scan codes-barres & QR</h4>
+            <p>Scannez l'étiquette d'un article pour l'ajouter instantanément à une intervention ou un devis. Fini les erreurs de saisie.</p>
+        </div>
+        <div class="module-card">
+            <h4>Étiquettes personnalisées</h4>
+            <p>Générez et imprimez des étiquettes avec code-barres pour votre stock. Compatible imprimantes thermiques.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span>Keydey — La solution HVAC tout-en-un</span>
+        <span>www.keydy.be</span>
+    </div>
+</div>
+
+<!-- ══════════ PAGE 4 : AVANTAGES ══════════ -->
+<div class="page content">
+    <div class="section-title">Pourquoi choisir Keydey ?</div>
+    <div class="section-sub">Les avantages concrets pour votre entreprise</div>
+
+    <div class="advantage-grid">
+        <div class="adv-card"><div class="adv-icon">☁️</div><div class="adv-title">100% Cloud</div><div class="adv-desc">Accessible depuis n'importe quel navigateur, rien à installer</div></div>
+        <div class="adv-card"><div class="adv-icon">🔒</div><div class="adv-title">Sécurisé</div><div class="adv-desc">Données chiffrées, hébergement européen, sauvegardes quotidiennes</div></div>
+        <div class="adv-card"><div class="adv-icon">🏢</div><div class="adv-title">Multi-entreprise</div><div class="adv-desc">Chaque société a ses données isolées et sa propre configuration</div></div>
+        <div class="adv-card"><div class="adv-icon">📱</div><div class="adv-title">Mobile natif</div><div class="adv-desc">App Android dédiée pour vos techniciens terrain</div></div>
+        <div class="adv-card"><div class="adv-icon">🇧🇪</div><div class="adv-title">Adapté Belgique</div><div class="adv-desc">TVA belge, attestations HVAC, F-Gas, communication structurée</div></div>
+        <div class="adv-card"><div class="adv-icon">🔄</div><div class="adv-title">Import facile</div><div class="adv-desc">Reprise de données depuis fichier Excel en quelques clics</div></div>
+    </div>
+
+    <h3>Gain de temps concret</h3>
+    <ul>
+        <li><strong>-70% de paperasse</strong> : rapport, signature, attestation, tout se fait sur le smartphone</li>
+        <li><strong>-50% de temps administratif</strong> : la facturation se fait en 1 clic depuis l'intervention clôturée</li>
+        <li><strong>0 ressaisie</strong> : ce que le technicien encode sur le terrain arrive directement au bureau</li>
+        <li><strong>0 perte de données</strong> : sauvegarde automatique même hors réseau</li>
+    </ul>
+
+    <div class="section-title" style="margin-top: 30px;">Tarification</div>
+    <div class="section-sub">Prix par utilisateur / mois — composez votre formule sur mesure</div>
+
+    <table class="pricing-table">
+        <tr><th>Module</th><th>Prix / utilisateur / mois HTVA</th></tr>
+        <tr><td style="text-align:left; font-weight:700;">Base (CRM + Devis + Factures)</td><td><div class="plan-price">29 &euro;</div></td></tr>
+        <tr><td style="text-align:left">+ Planning / Calendrier</td><td>+5 &euro;/user</td></tr>
+        <tr><td style="text-align:left">+ SAV / Contrats / Attestations / F-Gas</td><td>+8 &euro;/user</td></tr>
+        <tr><td style="text-align:left">+ KeydyApp (application mobile terrain)</td><td>+12 &euro;/user</td></tr>
+        <tr><td style="text-align:left">+ Chantiers + États d'avancement</td><td>+8 &euro;/user</td></tr>
+        <tr><td style="text-align:left">+ Portail client marque blanche</td><td>+6 &euro;/org</td></tr>
+        <tr><td style="text-align:left">+ Comptabilité / Rapports</td><td>+5 &euro;/org</td></tr>
+        <tr><td style="text-align:left">+ KeydyScan (codes-barres)</td><td>+3 &euro;/user</td></tr>
+        <tr><td style="text-align:left">+ Assistant IA</td><td>+5 &euro;/user</td></tr>
+        <tr><td style="text-align:left">+ Calcul thermique</td><td>+5 &euro;/org</td></tr>
+        <tr><td style="text-align:left">+ Gestion flotte véhicules</td><td>+5 &euro;/véhicule</td></tr>
+    </table>
+
+    <div class="highlight" style="margin-top:12px; padding:14px 20px;">
+        <h3 style="font-size:14px; margin:0 0 6px 0;">Exemple : entreprise HVAC 5 techniciens</h3>
+        <p style="font-size:12px; margin:0;">5 &times; 29&euro; (base) + 5 &times; 5&euro; (planning) + 5 &times; 8&euro; (SAV) + 5 &times; 12&euro; (mobile) + 5 &times; 8&euro; (chantier) + 6&euro; (portail) + 5&euro; (compta) + 15&euro; (3 v&eacute;hicules) = <strong>336 &euro;/mois HTVA</strong> soit 67&euro;/user tout compris</p>
+    </div>
+
+    <div class="cta">
+        <a class="cta-btn" href="mailto:contact@keydy.be">Demander une démo gratuite</a>
+        <div class="cta-sub">Sans engagement — configuration offerte pour les premiers clients</div>
+    </div>
+
+    <div class="footer">
+        <span>Keydey — La solution HVAC tout-en-un</span>
+        <span>contact@keydy.be — www.keydy.be</span>
+    </div>
+</div>
+
+</body>
+</html>

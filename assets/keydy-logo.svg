@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none">
+  <!-- K icon -->
+  <!-- Vertical bar -->
+  <rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/>
+  <!-- Upper arm (black) -->
+  <polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/>
+  <!-- Blue accent upper diagonal -->
+  <polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/>
+  <!-- Lower arm (black) -->
+  <polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/>
+
+  <!-- "Keydy" text -->
+  <text x="54" y="31" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="22" font-weight="700" letter-spacing="0.5"
+        fill="#1a1a2e">Keydy</text>
+</svg>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Keydy — Fiche d'informations nouvelle société</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.7; }
+@page { size: A4; margin: 0; }
+
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 40px 45px; page-break-after: always; position: relative; }
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e8eeff; }
+.logo { font-size: 28px; font-weight: 800; }
+.logo span { color: #1a73e8; }
+.page-title { font-size: 12px; color: #999; }
+
+h1 { font-size: 24px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+h2 { font-size: 16px; font-weight: 700; color: #1a73e8; margin: 20px 0 10px; border-bottom: 2px solid #1a73e8; padding-bottom: 4px; display: inline-block; }
+h3 { font-size: 14px; font-weight: 600; color: #1a1a2e; margin: 14px 0 6px; }
+p { font-size: 13px; }
+.subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
+
+.field-group { margin-bottom: 8px; display: flex; align-items: baseline; gap: 8px; }
+.field-label { font-size: 12px; font-weight: 600; color: #333; min-width: 180px; flex-shrink: 0; }
+.field { border-bottom: 1px dotted #999; flex: 1; min-height: 20px; font-size: 12px; }
+.field-full { border-bottom: 1px dotted #999; min-height: 20px; font-size: 12px; margin-bottom: 8px; }
+.field-box { border: 1px solid #ddd; border-radius: 6px; min-height: 50px; margin-bottom: 8px; padding: 8px; font-size: 12px; }
+
+.check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0; }
+.check-item { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 6px 10px; background: #f8f9ff; border-radius: 6px; }
+.check-box { width: 14px; height: 14px; border: 1.5px solid #1a73e8; border-radius: 3px; flex-shrink: 0; }
+
+.section-box { background: #f5f7ff; border-radius: 8px; padding: 14px 16px; margin: 10px 0; border-left: 4px solid #1a73e8; }
+.section-box h3 { margin-top: 0; color: #1a73e8; }
+
+.info-box { background: #fff8e6; border-radius: 8px; padding: 12px 14px; margin: 10px 0; border-left: 4px solid #f2a93b; font-size: 12px; }
+.info-box strong { color: #c77800; }
+
+.doc-list { margin: 8px 0; }
+.doc-item { display: flex; align-items: center; gap: 10px; font-size: 12px; padding: 8px 12px; margin-bottom: 4px; background: #f8f9ff; border-radius: 6px; border: 1px solid #e8eeff; }
+.doc-check { width: 16px; height: 16px; border: 1.5px solid #1a73e8; border-radius: 3px; flex-shrink: 0; }
+.doc-required { color: #e53935; font-weight: 700; font-size: 10px; }
+.doc-optional { color: #1a73e8; font-weight: 600; font-size: 10px; }
+
+.footer { position: absolute; bottom: 20px; left: 45px; right: 45px; font-size: 10px; color: #999; border-top: 1px solid #eee; padding-top: 8px; display: flex; justify-content: space-between; }
+
+table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 12px; }
+table th { background: #1a1a2e; color: white; padding: 8px 10px; text-align: left; font-weight: 600; font-size: 11px; }
+table td { padding: 6px 10px; border-bottom: 1px solid #eee; }
+table tr:nth-child(even) { background: #f9f9ff; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ PAGE 1 : INFORMATIONS SOCIÉTÉ ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-title">Fiche nouvelle société — Page 1/3</div>
+    </div>
+
+    <h1>Fiche d'informations — Nouvelle société</h1>
+    <p class="subtitle">Merci de compléter cette fiche le plus précisément possible. Ces informations nous permettent de préparer votre environnement Keydy (paramètres, logo, TVA, articles, zones…) avant la mise en route.</p>
+
+    <h2>1. Informations légales de la société</h2>
+
+    <div class="field-group"><span class="field-label">Nom commercial :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Forme juridique :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">N° BCE / TVA :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Adresse du siège :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Code postal + Ville :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Téléphone principal :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Email général :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Site web (si existant) :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">IBAN principal :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">BIC :</span><span class="field"></span></div>
+
+    <h2>2. Personne de contact principale</h2>
+    <p style="font-size:12px; color:#666; margin-bottom:8px;">Personne responsable du projet Keydy au sein de la société.</p>
+
+    <div class="field-group"><span class="field-label">Nom et prénom :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Fonction :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Téléphone / GSM :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Email :</span><span class="field"></span></div>
+
+    <h2>3. Activités de la société</h2>
+
+    <p style="font-size:12px; color:#666; margin-bottom:6px;">Cochez les métiers exercés par votre société :</p>
+    <div class="check-grid">
+        <div class="check-item"><div class="check-box"></div> Chauffage (gaz, mazout, pellet)</div>
+        <div class="check-item"><div class="check-box"></div> Climatisation / PAC</div>
+        <div class="check-item"><div class="check-box"></div> Sanitaire</div>
+        <div class="check-item"><div class="check-box"></div> VMC / Ventilation</div>
+        <div class="check-item"><div class="check-box"></div> Électricité</div>
+        <div class="check-item"><div class="check-box"></div> Bâtiment / Rénovation</div>
+        <div class="check-item"><div class="check-box"></div> Dépannage / SAV</div>
+        <div class="check-item"><div class="check-box"></div> Maintenance / Contrats</div>
+        <div class="check-item"><div class="check-box"></div> Solaire / Photovoltaïque</div>
+        <div class="check-item"><div class="check-box"></div> Autre : ………………………………</div>
+    </div>
+
+    <h2>4. Taille de l'entreprise</h2>
+
+    <div class="field-group"><span class="field-label">Nombre total d'employés :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Nombre de techniciens terrain :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Nombre de personnes bureau :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Nombre de véhicules :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Nombre d'interventions / mois :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Nombre de clients actifs (estimation) :</span><span class="field"></span></div>
+
+    <div class="footer"><span>Keydy — Fiche nouvelle société</span><span>contact@keydy.be — www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ PAGE 2 : PARAMÈTRES & BESOINS ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-title">Fiche nouvelle société — Page 2/3</div>
+    </div>
+
+    <h2>5. Paramètres de facturation</h2>
+
+    <div class="field-group"><span class="field-label">Préfixe de facture souhaité :</span><span class="field"></span></div>
+    <p style="font-size:11px; color:#999; margin-bottom:8px;">Exemple : FA2026-, FABE-, ou laissez vide pour utiliser le format par défaut.</p>
+    <div class="field-group"><span class="field-label">Préfixe de devis souhaité :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Préfixe note de crédit :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Taux TVA principal :</span><span class="field"></span></div>
+    <p style="font-size:11px; color:#999; margin-bottom:8px;">Habituellement 21% (neuf) ou 6% (rénovation &gt;10 ans).</p>
+    <div class="field-group"><span class="field-label">Conditions de paiement :</span><span class="field"></span></div>
+    <p style="font-size:11px; color:#999; margin-bottom:8px;">Exemple : 30 jours, 15 jours, comptant…</p>
+    <div class="field-group"><span class="field-label">Mention légale obligatoire :</span><span class="field"></span></div>
+    <p style="font-size:11px; color:#999; margin-bottom:8px;">Texte en bas de facture (conditions générales, mentions TVA, etc.)</p>
+    <div class="field-group"><span class="field-label">Email de facturation :</span><span class="field"></span></div>
+    <div class="field-group"><span class="field-label">Logiciel comptable actuel :</span><span class="field"></span></div>
+    <p style="font-size:11px; color:#999; margin-bottom:8px;">WinBooks, BOB, Exact, comptable externe…</p>
+
+    <h2>6. Zones de déplacement</h2>
+    <p style="font-size:12px; color:#666; margin-bottom:8px;">Renseignez les zones de déplacement et les tarifs associés (utilisés pour la facturation des interventions).</p>
+
+    <table>
+        <tr><th>Nom de la zone</th><th>Codes postaux couverts</th><th>Forfait DZ (€ HTVA)</th></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td></tr>
+    </table>
+
+    <h2>7. Forfaits entretien</h2>
+    <p style="font-size:12px; color:#666; margin-bottom:8px;">Si vous utilisez des forfaits pour les entretiens, indiquez les types et tarifs :</p>
+
+    <table>
+        <tr><th>Type d'entretien</th><th>Code forfait</th><th>Prix HTVA</th><th>Inclut DZ ?</th></tr>
+        <tr><td style="height:24px;">Entretien chaudière gaz</td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;">Entretien chaudière mazout</td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;">Entretien chaudière pellet</td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;">Entretien PAC</td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;">Autre : ……………………</td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;">Autre : ……………………</td><td></td><td></td><td></td></tr>
+    </table>
+
+    <h2>8. Utilisateurs à créer</h2>
+    <p style="font-size:12px; color:#666; margin-bottom:8px;">Liste des personnes qui auront accès au logiciel :</p>
+
+    <table>
+        <tr><th>Nom &amp; Prénom</th><th>Email</th><th>Rôle (Admin / Bureau / Technicien)</th><th>App mobile ?</th></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td><td></td></tr>
+        <tr><td style="height:24px;"></td><td></td><td></td><td></td></tr>
+    </table>
+
+    <div class="footer"><span>Keydy — Fiche nouvelle société</span><span>contact@keydy.be — www.keydy.be</span></div>
+</div>
+
+<!-- ══════════ PAGE 3 : DOCUMENTS À FOURNIR & BESOINS ══════════ -->
+<div class="page">
+    <div class="page-header">
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 44" fill="none" style="height:32px;vertical-align:middle;"><rect x="2" y="4" width="10" height="36" rx="2" fill="#1a1a2e"/><polygon points="12,22 34,4 44,4 22,22" fill="#1a1a2e"/><polygon points="22,22 34,4 44,4 32,22" fill="#1a73e8"/><polygon points="12,22 34,40 44,40 22,22" fill="#1a1a2e"/><text x="54" y="31" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="0.5" fill="#1a1a2e">Keydy</text></svg></div>
+        <div class="page-title">Fiche nouvelle société — Page 3/3</div>
+    </div>
+
+    <h2>9. Documents à fournir</h2>
+    <p style="font-size:12px; color:#666; margin-bottom:10px;">Préparez les documents suivants pour permettre la configuration complète de votre environnement Keydy.</p>
+
+    <div class="doc-list">
+        <div class="doc-item"><div class="doc-check"></div><strong>Logo de la société</strong> (format PNG ou SVG, fond transparent, haute résolution) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Fichier clients existant</strong> (Excel ou CSV : nom, adresse, téléphone, email, n° TVA) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Catalogue articles / tarif</strong> (Excel : référence, libellé, prix d'achat, prix de vente, TVA) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Liste des fournisseurs</strong> (nom, contact, n° TVA, conditions) <span class="doc-optional">RECOMMANDÉ</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Exemple de facture actuelle</strong> (PDF — pour reproduire la mise en page) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Exemple de devis actuel</strong> (PDF — pour reproduire la mise en page) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Conditions générales de vente</strong> (texte à intégrer en bas de facture/devis) <span class="doc-optional">RECOMMANDÉ</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Liste des contrats de maintenance</strong> (client, type, fréquence, prix) <span class="doc-optional">SI APPLICABLE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Dernière facture émise</strong> (pour reprendre la numérotation correcte) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Dernier devis émis</strong> (pour reprendre la numérotation correcte) <span class="doc-required">OBLIGATOIRE</span></div>
+        <div class="doc-item"><div class="doc-check"></div><strong>Liste des installations / équipements</strong> (par site client, si disponible) <span class="doc-optional">RECOMMANDÉ</span></div>
+    </div>
+
+    <h2>10. Modules souhaités</h2>
+    <p style="font-size:12px; color:#666; margin-bottom:6px;">Cochez les modules que vous souhaitez activer :</p>
+
+    <div class="check-grid">
+        <div class="check-item"><div class="check-box"></div> Base — CRM + Devis + Factures (29 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> Planning / Calendrier (+5 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> SAV / Contrats / Attestations (+8 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> KeydyApp mobile terrain (+12 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> Chantiers + États d'avancement (+8 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> Portail client marque blanche (+6 €/org)</div>
+        <div class="check-item"><div class="check-box"></div> Comptabilité / Rapports (+5 €/org)</div>
+        <div class="check-item"><div class="check-box"></div> KeydyScan codes-barres (+3 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> Assistant IA (+5 €/user)</div>
+        <div class="check-item"><div class="check-box"></div> Gestion flotte véhicules (+5 €/véhicule)</div>
+    </div>
+
+    <h2>11. Services de mise en route</h2>
+    <div class="check-grid">
+        <div class="check-item"><div class="check-box"></div> Setup + import données (500 €)</div>
+        <div class="check-item"><div class="check-box"></div> Configuration / paramétrage (200 €)</div>
+        <div class="check-item"><div class="check-box"></div> Formation sur site 1 journée (600 €)</div>
+        <div class="check-item"><div class="check-box"></div> Personnalisation PDF / branding (250 €)</div>
+    </div>
+
+    <h2>12. Besoins spécifiques ou remarques</h2>
+    <div class="field-box" style="min-height: 80px;"></div>
+
+    <div class="info-box">
+        <strong>Prochaines étapes :</strong> Une fois cette fiche complétée et les documents fournis, nous configurons votre environnement Keydy sous 3 à 5 jours ouvrés. Vous recevrez vos identifiants de connexion par email, suivis d'un appel de mise en route pour valider ensemble les paramètres.
+    </div>
+
+    <div style="margin-top: 16px;">
+        <div class="field-group"><span class="field-label">Date :</span><span class="field"></span></div>
+        <div class="field-group"><span class="field-label">Nom + Signature :</span><span class="field"></span></div>
+    </div>
+
+    <div class="footer"><span>Keydy — Fiche nouvelle société</span><span>contact@keydy.be — www.keydy.be</span></div>
+</div>
+
+</body>
+</html>
