@@ -23,7 +23,7 @@ function updateModuleSelection() {
     : "Bonjour,%0D%0A%0D%0AJe souhaite une démo Keydy.%0D%0A%0D%0AMerci.";
 
   if (demoLink) {
-    demoLink.href = `mailto:contact@keydy.be?subject=${encodeURIComponent(subject)}&body=${body}`;
+    demoLink.href = `mailto:info@keydy.be?subject=${encodeURIComponent(subject)}&body=${body}`;
   }
 }
 
