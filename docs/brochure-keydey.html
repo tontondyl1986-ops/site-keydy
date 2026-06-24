@@ -6,10 +6,18 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.6; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.6;
+       -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
 @page { size: A4; margin: 0; }
+@media print {
+  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .page { page-break-after: always; page-break-inside: avoid; }
+  .module-card, .adv-card, .highlight, .pricing-table, .cover-feat { break-inside: avoid; }
+  .section-title { break-after: avoid; }
+  h3 { break-after: avoid; }
+}
 
-.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0; page-break-after: always; position: relative; overflow: hidden; }
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 0; page-break-after: always; page-break-inside: avoid; position: relative; overflow: hidden; }
 
 /* ── Cover ── */
 .cover { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }

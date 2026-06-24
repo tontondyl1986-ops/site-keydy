@@ -6,10 +6,17 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.6; }
+body { font-family: 'Inter', sans-serif; color: #1a1a2e; line-height: 1.6;
+       -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
 @page { size: A4; margin: 0; }
+@media print {
+  body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .page { page-break-after: always; page-break-inside: avoid; }
+  .module-header, .feat-grid, .feat-item, .benefit, .pricing-block { break-inside: avoid; }
+  .feat-title, h3 { break-after: avoid; }
+}
 
-.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 40px 45px; page-break-after: always; position: relative; }
+.page { width: 210mm; min-height: 297mm; margin: 0 auto; padding: 40px 45px; page-break-after: always; page-break-inside: avoid; position: relative; }
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid #e8eeff; }
 .logo { font-size: 28px; font-weight: 800; }
 .logo span { color: #1a73e8; }
