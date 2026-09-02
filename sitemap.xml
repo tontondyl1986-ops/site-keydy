@@ -17,6 +17,11 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.keydy.be/facturation-electronique-peppol.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.keydy.be/fonctionnalites.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
