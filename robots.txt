@@ -1,0 +1,10 @@
+# Le site commercial de Keydy.
+#
+# Tout est ouvert : ces pages n'existent que pour être trouvées.
+# L'application, elle, vit sur keydy.be — un autre hôte, donc un autre
+# robots.txt. Ce fichier ne la concerne pas et n'a rien à y interdire.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.keydy.be/sitemap.xml
