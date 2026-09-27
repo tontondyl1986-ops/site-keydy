@@ -31,7 +31,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     const subject=encodeURIComponent('Demande de démonstration Keydy — '+(d.get('societe')||d.get('nom')||''));
     const body=encodeURIComponent(lines.join('\n'));
     window.location.href='mailto:info@keydy.be?subject='+subject+'&body='+body;
-    document.querySelector('[data-form-result]').textContent='Votre messagerie va s\'ouvrir avec la demande pré-remplie, à destination de info@keydy.be.';
-    form.reset();
+    // Le formulaire n'est plus vidé : sans logiciel de messagerie configuré
+    // (webmail, poste partagé), le mailto ne s'ouvre pas et la demande était
+    // perdue en silence. On affiche aussi le texte à copier.
+    const result=document.querySelector('[data-form-result]');
+    result.style.whiteSpace='pre-wrap';
+    result.textContent='Votre messagerie va s\'ouvrir avec la demande pré-remplie, à destination de info@keydy.be.\n'
+      +'Si rien ne s\'ouvre, copiez le texte ci-dessous et envoyez-le à info@keydy.be :\n\n'
+      +lines.join('\n');
   });}
 });
