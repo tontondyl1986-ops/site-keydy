@@ -1,0 +1,33 @@
+name: Site commercial — tests sans publication
+on:
+  push:
+    branches: [feat/subscription-commerce-20261027]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - name: Browser checks on local fixtures only
+        run: |
+          python3 -m http.server 18745 --bind 127.0.0.1 > /tmp/keydy-site-test.log 2>&1 &
+          KEYDY_SITE_PID=$!
+          trap 'kill "$KEYDY_SITE_PID"' EXIT
+          npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: commercial-site-browser-fixtures
+          path: site-smoke-output/
+          retention-days: 5
