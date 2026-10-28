@@ -1,9 +1,9 @@
 name: Site commercial — tests sans publication
 on:
   push:
-    branches: [feat/subscription-commerce-20261027]
+    branches: [feat/subscription-commerce-20261027, feat/site-subscription-experience-20261028]
   pull_request:
-    branches: [main]
+    branches: [main, feat/subscription-commerce-20261027]
 permissions:
   contents: read
 jobs:
