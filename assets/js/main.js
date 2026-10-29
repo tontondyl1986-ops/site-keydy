@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       'Ce que le prospect souhaite améliorer :',
       (d.get('besoin')||'—')
     ];
-    const subject=encodeURIComponent('Demande de démonstration Keydy — '+(d.get('societe')||d.get('nom')||''));
+    if(d.get('configuration'))lines.push('',d.get('configuration'));
+    const subject=encodeURIComponent((d.get('configuration')?'Projet d’abonnement Keydy — ':'Demande de démonstration Keydy — ')+(d.get('societe')||d.get('nom')||''));
     const body=encodeURIComponent(lines.join('\n'));
     window.location.href='mailto:info@keydy.be?subject='+subject+'&body='+body;
     // Le formulaire n'est plus vidé : sans logiciel de messagerie configuré
