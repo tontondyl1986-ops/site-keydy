@@ -21,14 +21,14 @@ async function intercept(context,mode={}){
     }
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/preview'){
       const users=Number(url.searchParams.get('users')),annual=url.searchParams.get('annual')==='true';
-      if(mode.error&&users===4)return route.fulfill({status:503,headers:{'access-control-allow-origin':'*'},body:'unavailable'});
+      if(mode.error&&users===4||mode.annualError&&annual&&users===4)return route.fulfill({status:503,headers:{'access-control-allow-origin':'*'},body:'unavailable'});
       const modules=(url.searchParams.get('modules')||'').split(',').filter(Boolean);
       const lines=[{code:'SOCLE',label:'Socle Keydy',quantity:1,unitPrice:100},{code:'USERS',label:'Utilisateurs',quantity:users,unitPrice:20},...modules.map(key=>({code:key,label:catalog.modules.find(m=>m.key===key).label,quantity:1,unitPrice:catalog.configuration.prices[key]}))];
       const monthlyHt=lines.reduce((s,c)=>s+c.quantity*c.unitPrice,0),recurringHt=Math.round(monthlyHt*(annual?12*.8:1)*100)/100;
       const recurringVat=Math.round(recurringHt*.21*100)/100;
       if(mode.race&&users===4)await new Promise(r=>setTimeout(r,700));
       return route.fulfill({contentType:'application/json',headers:{'access-control-allow-origin':'*'},
-        body:JSON.stringify({revision:1,monthlyHt,lines,recurringHt,recurringVat,recurringTtc:Math.round((recurringHt+recurringVat)*100)/100,setupHt:500,setupVat:105,setupTtc:605})});
+        body:JSON.stringify({revision:mode.revised&&users===4?2:mode.annualRevision&&annual&&users===4?2:1,monthlyHt,lines,recurringHt,recurringVat,recurringTtc:Math.round((recurringHt+recurringVat)*100)/100,setupHt:500,setupVat:105,setupTtc:605})});
     }
     if(url.origin==='https://keydy.be' && url.pathname==='/souscription-keydy')
       return route.fulfill({contentType:'text/html',body:'<html lang="fr"><title>Reprise fictive</title><h1>Choix transmis au serveur fictif</h1></html>'});
@@ -46,6 +46,9 @@ try{
     assert.equal(await page.locator('input[value="STOCK"]').isChecked(),true);
     await page.locator('input[value="STOCK"]').click();assert.equal(await page.locator('input[value="STOCK"]').isChecked(),true);
     await page.locator('#annual').check();await page.locator('#continue:enabled').waitFor();
+    assert.equal(await page.locator('.cycle-choice').count(),2);assert.equal(await page.locator('[data-cycle=annual]').getAttribute('aria-pressed'),'true');
+    await page.locator('[data-cycle=monthly]').click();await page.locator('[data-cycle=monthly][aria-pressed=true]').waitFor();assert.equal(await page.locator('#annual').isChecked(),false);
+    await page.locator('[data-cycle=annual]').click();await page.locator('[data-cycle=annual][aria-pressed=true]').waitFor();
     const text=await page.locator('#price-summary').innerText();assert.ok(text.includes('Socle Keydy'));assert.ok(text.includes('Utilisateurs'));assert.ok(text.includes('HTVA'));assert.ok(text.includes('TTC'));
     await page.reload();await page.locator('#continue:enabled').waitFor();assert.equal(await page.locator('input[value="FOURNISSEURS"]').isChecked(),true);assert.equal(await page.locator('#annual').isChecked(),true);
     await page.locator('#module-search').fill('impossible');assert.equal(await page.locator('.module-choice:visible').count(),0);assert.match(await page.locator('#search-result').innerText(),/Aucun module/);
@@ -57,6 +60,12 @@ try{
     results.push({label,width,height,dependencies:true,restore:true,search:true,itemizedPrices:true,handoff:true,horizontalOverflow:false});
     await page.goto(new URL('index.html',base).href);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'home '+label+' overflow');
     await page.screenshot({path:path.join(out,'home-'+label+'.png'),fullPage:true});
+    await page.goto(new URL('tarifs.html?users=5&annual=true&modules=FOURNISSEURS',base).href);await page.locator('#continue:enabled').waitFor();
+    await page.locator('#contact-configuration').click();await page.locator('[data-configuration-detail]').filter({hasText:'Utilisateurs : 5'}).waitFor();
+    const request=await page.locator('input[name=configuration]').inputValue();assert.match(request,/Achats & fournisseurs/);assert.match(request,/Stock & articles/);assert.match(request,/annuel/);assert.match(request,/aucun contrat ni paiement/);
+    assert.equal(await page.locator('input[name=email]').inputValue(),'');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'contact '+label+' overflow');
+    await page.screenshot({path:path.join(out,'contact-'+label+'.png'),fullPage:true});
+    await page.locator('[data-configuration-edit]').click();await page.locator('#continue:enabled').waitFor();assert.equal(await page.locator('#users').inputValue(),'5');
     if(width===390){await page.locator('.nav-toggle').click();assert.equal(await page.locator('.nav-toggle').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('.nav-toggle').getAttribute('aria-expanded'),'false');}
     await context.close();
   }
@@ -64,5 +73,17 @@ try{
   {const {context,page}=await localPage({offline:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'unavailable-catalog',blocksSubmission:true});await context.close();}
   {const {context,page}=await localPage({error:true});await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('.summary-total').count(),0);assert.equal(await page.locator('#continue').isDisabled(),true);await page.locator('#users').fill('3');await page.locator('#retry-price').click();await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('0');await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('.summary-total').count(),0);results.push({label:'invalid-and-failed-preview',clearsStalePrice:true,recovery:true});await context.close();}
   {const {context,page}=await localPage({race:true});await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#users').fill('5');await page.locator('#continue:enabled').waitFor();await page.waitForTimeout(900);assert.match(await page.locator('#price-summary').innerText(),/242/);assert.equal(new URL(page.url()).searchParams.get('users'),'5');results.push({label:'out-of-order-previews',latestSelectionWins:true});await context.close();}
+  for(const mode of [{annualError:true},{annualRevision:true},{revised:true}]){
+    const {context,page}=await localPage(mode);await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#catalog-status.error').waitFor();
+    assert.equal(await page.locator('.summary-total').count(),0);assert.equal(await page.locator('.cycle-choice').count(),0);assert.equal(await page.locator('#continue').isDisabled(),true);
+    if(!mode.annualError){assert.equal(await page.locator('#reload-catalog').isVisible(),true);assert.equal(new URL(await page.locator('#reload-catalog').getAttribute('href')).searchParams.get('users'),'4');}
+    results.push({label:mode.annualError?'annual-quote-unavailable':mode.revised?'catalogue-updated':'mismatched-cycle-revisions',clearsBothCycles:true,blocksSubmission:true});await context.close();
+  }
+  {const {context,page}=await localPage({closed:true});await page.locator('.cycle-choice').first().waitFor();await page.locator('#contact-configuration').click();
+    await page.locator('[data-configuration-detail]').filter({hasText:'Utilisateurs : 3'}).waitFor();assert.match(await page.locator('input[name=configuration]').inputValue(),/aucun contrat ni paiement/);
+    results.push({label:'closed-commerce-contact',contactAvailable:true,noSubscriptionCreated:true});await context.close();}
+  {const {context,page}=await localPage({offline:true});await page.goto(new URL('contact.html?configuration=true&users=5&modules=UNKNOWN&email=private%40invalid.test',base).href);
+    await page.locator('[data-configuration-detail]').filter({hasText:'catalogue est indisponible'}).waitFor();assert.equal(await page.locator('input[name=configuration]').inputValue(),'');assert.equal(await page.locator('button[type=submit]').isEnabled(),true);assert.equal(await page.locator('input[name=email]').inputValue(),'');
+    results.push({label:'contact-offline-catalogue',manualRequestAvailable:true,noUnverifiedSelection:true});await context.close();}
   await writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results));
 }finally{await browser.close();}

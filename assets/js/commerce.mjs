@@ -10,6 +10,21 @@ export function configurationUrl(base,selection){
   for(const key of fields)if(selection[key]!==undefined)target.searchParams.set(key,Array.isArray(selection[key])?selection[key].join(','):String(selection[key]));
   return target.href;
 }
+export function contactConfigurationUrl(base,selection){
+  const target=new URL('contact.html',base);target.searchParams.set('configuration','true');
+  for(const key of fields.filter(k=>k!=='revision'))if(selection[key]!==undefined)target.searchParams.set(key,Array.isArray(selection[key])?selection[key].join(','):String(selection[key]));
+  return target.href;
+}
+export function validateCycleComparison(monthly,annual,revision){
+  for(const p of [monthly,annual]){
+    if(!p||!Number.isSafeInteger(p.revision)||p.revision!==revision)throw new Error('CATALOG_CHANGED');
+    if(!['monthlyHt','recurringHt','recurringVat','recurringTtc','setupHt','setupVat','setupTtc'].every(k=>Number.isFinite(p[k])&&p[k]>=0)||!Array.isArray(p.lines)||p.lines.length<1||
+      p.lines.some(c=>typeof c.code!=='string'||typeof c.label!=='string'||!Number.isFinite(c.quantity)||c.quantity<0||!Number.isFinite(c.unitPrice)||c.unitPrice<0))throw new Error('INVALID_PREVIEW');
+  }
+  if(monthly.monthlyHt!==annual.monthlyHt||['setupHt','setupVat','setupTtc'].some(k=>monthly[k]!==annual[k])||
+    JSON.stringify(monthly.lines)!==JSON.stringify(annual.lines))throw new Error('INCONSISTENT_PREVIEWS');
+  return {monthly,annual};
+}
 export function restoreSelection(params,catalog){
   const integer=(key,fallback,min,max)=>{const raw=params.get(key);if(raw===null||!/^\d+$/.test(raw))return fallback;const n=Number(raw);return n>=min&&n<=max?n:fallback;};
   return {modules:[...normalize((params.get('modules')||'').split(','),catalog)],users:integer('users',3,1,50),
@@ -26,13 +41,14 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
   const form=document.querySelector('#subscription-builder');if(!form)return;
   const status=document.querySelector('#catalog-status'),summary=document.querySelector('#price-summary'),button=document.querySelector('#continue');
   const jump=document.querySelector('#summary-jump'),view=document.defaultView;
+  const comparison=document.querySelector('#cycle-comparison'),contact=document.querySelector('#contact-configuration'),reload=document.querySelector('#reload-catalog');
   const base=new URL(document.documentElement.dataset.keydyApi||'https://keydy.be');
   if(!['https:','http:'].includes(base.protocol))throw new Error('Adresse de catalogue invalide');
   const money=v=>new Intl.NumberFormat('fr-BE',{style:'currency',currency:'EUR'}).format(v);
   const selected=new Set(),boxes=new Map();let generation=0,preview=null;
   const values=()=>({modules:[...selected],users:Number(document.querySelector('#users').value),annual:document.querySelector('#annual').checked,
     vehicles:Number(document.querySelector('#vehicles').value),scanners:Number(document.querySelector('#scanners').value)});
-  const clearPrice=message=>{summary.textContent=message;summary.setAttribute('aria-busy','false');preview=null;button.disabled=true;jump.textContent='Voir mon récapitulatif';};
+  const clearPrice=message=>{summary.textContent=message;summary.setAttribute('aria-busy','false');comparison.replaceChildren();preview=null;button.disabled=true;jump.textContent='Voir mon récapitulatif';};
   const error=message=>{status.textContent=message;status.classList.add('error');clearPrice('Aucun tarif confirmé. Relancez le calcul après vérification.');};
   const line=(label,value)=>{const row=document.createElement('div');row.className='summary-line';const a=document.createElement('span'),b=document.createElement('span');a.textContent=label;b.textContent=value;row.append(a,b);return row;};
   try{
@@ -72,13 +88,20 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
     search.addEventListener('input',()=>{const query=search.value.trim().toLocaleLowerCase('fr');let visible=0;for(const card of modules.children){card.hidden=!card.dataset.search.includes(query);if(!card.hidden)visible++;}document.querySelector('#search-result').textContent=visible?visible+' module(s) affiché(s)':'Aucun module trouvé. Essayez un autre terme.';});
     async function recalculate(){
       const own=++generation;clearPrice('Calcul de votre configuration…');summary.setAttribute('aria-busy','true');
+      contact.href='contact.html';reload.hidden=true;
       document.querySelector('#selection-count').textContent=selected.size+' module(s) sélectionné(s)';
       if(!form.checkValidity())return error('Vérifiez le nombre d’utilisateurs et les quantités.');
-      const selection=values(),url=new URL('/api/keydy/preview',base);
-      for(const [k,v] of Object.entries(selection))url.searchParams.set(k,Array.isArray(v)?v.join(','):String(v));
+      const selection=values();contact.href=contactConfigurationUrl(view.location.href,selection);
+      const refreshed=new URL(view.location.href);refreshed.search='';
+      for(const [key,value] of Object.entries(selection))refreshed.searchParams.set(key,Array.isArray(value)?value.join(','):String(value));reload.href=refreshed.href;
       try{
-        const r=await fetcher(url,{credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw new Error('Configuration indisponible');const p=await r.json();if(own!==generation)return;
-        if(!['monthlyHt','recurringHt','recurringVat','recurringTtc','setupHt','setupVat','setupTtc'].every(k=>Number.isFinite(p[k])&&p[k]>=0)||!Array.isArray(p.lines)||!Number.isInteger(p.revision))throw new Error('Récapitulatif incomplet');
+        const quotes=await Promise.all([false,true].map(async annual=>{
+          const url=new URL('/api/keydy/preview',base);
+          for(const [k,v] of Object.entries({...selection,annual}))url.searchParams.set(k,Array.isArray(v)?v.join(','):String(v));
+          const r=await fetcher(url,{credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(12000)});if(!r.ok)throw new Error('Configuration indisponible');return r.json();
+        }));
+        if(own!==generation)return;
+        const pair=validateCycleComparison(quotes[0],quotes[1],catalog.revision),p=selection.annual?pair.annual:pair.monthly;
         const rows=p.lines.map(c=>{if(!Number.isFinite(c.quantity)||c.quantity<0||!Number.isFinite(c.unitPrice)||c.unitPrice<0)throw new Error('Ligne incomplète');return line(c.label+' · '+c.quantity+' × '+money(c.unitPrice),money(Math.round(c.quantity*c.unitPrice*100)/100));});
         summary.replaceChildren();summary.setAttribute('aria-busy','false');
         const total=document.createElement('div');total.className='summary-total';total.textContent=money(p.recurringTtc);
@@ -87,11 +110,16 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
         const divider=document.createElement('hr');divider.className='summary-divider';
         summary.append(total,period,detail,line('Abonnement HTVA / '+(selection.annual?'an':'mois'),money(p.recurringHt)),line('TVA',money(p.recurringVat)),divider,
           line('Mise en service unique HTVA',money(p.setupHt)),line('TVA des frais uniques',money(p.setupVat)),line('Frais initiaux TTC',money(p.setupTtc)));
+        for(const [cycle,label,quote] of [[false,'Mensuel',pair.monthly],[true,'Annuel',pair.annual]]){
+          const choice=document.createElement('button');choice.type='button';choice.className='cycle-choice';choice.setAttribute('aria-pressed',String(selection.annual===cycle));choice.dataset.cycle=cycle?'annual':'monthly';
+          const name=document.createElement('strong'),cost=document.createElement('span');name.textContent=label;cost.textContent=money(quote.recurringTtc)+' TTC / '+(cycle?'an':'mois');choice.append(name,cost);
+          choice.addEventListener('click',()=>{if(selection.annual===cycle)return;document.querySelector('#annual').checked=cycle;recalculate();});comparison.append(choice);
+        }
         preview={...selection,revision:p.revision};button.disabled=!open;
         const saved=new URL(view.location.href);saved.search='';for(const key of fields)saved.searchParams.set(key,Array.isArray(preview[key])?preview[key].join(','):String(preview[key]));view.history.replaceState(null,'',saved.href);
         jump.textContent='Voir mon récapitulatif · '+money(p.recurringTtc)+' TTC / '+(selection.annual?'an':'mois');
         status.classList.remove('error');status.textContent='Configuration actualisée. Tarifs calculés par Keydy ; TVA indicative pour une entreprise belge, autres régimes sur devis.';
-      }catch(e){if(own===generation)error('Le calcul est temporairement indisponible. Réessayez ou contactez Keydy pour votre devis.');}
+      }catch(e){if(own===generation){error(e.message==='CATALOG_CHANGED'?'Les tarifs ont changé. Rechargez le catalogue avant de poursuivre.':'Le calcul est temporairement indisponible. Réessayez ou contactez Keydy pour votre devis.');reload.hidden=e.message!=='CATALOG_CHANGED';}}
     }
     for(const id of ['users','annual','vehicles','scanners'])document.querySelector('#'+id).addEventListener('input',()=>recalculate());
     document.querySelector('#retry-price').addEventListener('click',()=>recalculate());
