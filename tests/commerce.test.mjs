@@ -7,8 +7,8 @@ test('prerequisite removal blocked',()=>assert.deepEqual(dependents(new Set(['AC
 test('dependency cycles terminate',()=>assert.equal(normalize(new Set(['A']),[{key:'A',required:['B']},{key:'B',required:['A']}]).size,2));
 test('handoff contains choices, no client amount',()=>{const u=new URL(configurationUrl('https://keydy.invalid',{modules:['STOCK','ACHATS'],users:3,annual:true,revision:2}));assert.equal(u.pathname,'/souscription-keydy');assert.equal(u.searchParams.get('users'),'3');assert.equal(u.searchParams.get('modules'),'STOCK,ACHATS');assert.equal(u.searchParams.has('amount'),false);});
 test('handoff drops amounts, identity and arbitrary URL parameters',()=>{const u=new URL(configurationUrl('https://keydy.invalid',{users:4,email:'private@example.invalid',amount:1,returnUrl:'https://other.invalid',revision:3}));assert.deepEqual([...u.searchParams.keys()],['users','revision']);});
-test('reload restores valid choices and their prerequisites',()=>{assert.deepEqual(restoreSelection(new URLSearchParams('modules=ACHATS,UNKNOWN&users=12&annual=true&vehicles=4'),catalog),{modules:['ACHATS','STOCK'],users:12,annual:true,vehicles:4,scanners:0});});
-test('invalid and out of range URL quantities use defaults',()=>{assert.deepEqual(restoreSelection(new URLSearchParams('users=999&vehicles=-1&scanners=1.5&annual=yes'),catalog),{modules:[],users:3,annual:false,vehicles:0,scanners:0});});
+test('reload restores valid choices and their prerequisites',()=>{assert.deepEqual(restoreSelection(new URLSearchParams('modules=ACHATS,UNKNOWN&users=12&annual=true&vehicles=4'),catalog),{modules:['ACHATS','STOCK'],users:12,annual:true,assistedImport:false,vehicles:4,scanners:0});});
+test('invalid and out of range URL quantities use defaults',()=>{assert.deepEqual(restoreSelection(new URLSearchParams('users=999&vehicles=-1&scanners=1.5&annual=yes'),catalog),{modules:[],users:3,annual:false,assistedImport:false,vehicles:0,scanners:0});});
 test('modules under development are never restored or selected',()=>{assert.deepEqual([...normalize(['PREVIEW'],[{key:'PREVIEW',inDevelopment:true}])],[]);});
 
 test('contact carries only intended choices, without amounts, personal details or a contractual revision',()=>{
@@ -33,4 +33,12 @@ test('contact text uses known catalogue labels and asks for confirmation rather 
   const text=configurationRequest(selection,catalog.map(m=>({...m,label:m.key==='STOCK'?'Stock':'Achats'})));
   assert.match(text,/Utilisateurs : 5/);assert.match(text,/Cycle souhaité : annuel/);assert.match(text,/Achats, Stock/);
   assert.match(text,/aucun contrat ni paiement créé/);assert.doesNotMatch(text,/UNKNOWN|EUR|TTC/);
+});
+
+test('assistance remains an explicit option across reload, contact and subscription handoff',()=>{
+  const selection=restoreSelection(new URLSearchParams('assistedImport=true&users=4'),catalog);assert.equal(selection.assistedImport,true);
+  assert.equal(new URL(configurationUrl('https://keydy.invalid',selection)).searchParams.get('assistedImport'),'true');
+  assert.equal(new URL(contactConfigurationUrl('https://site.invalid/tarifs.html',selection)).searchParams.get('assistedImport'),'true');
+  assert.match(configurationRequest(selection,catalog),/option demandée/);
+  assert.equal(restoreSelection(new URLSearchParams('assistedImport=yes'),catalog).assistedImport,false);
 });

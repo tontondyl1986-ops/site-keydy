@@ -6,6 +6,7 @@ export function configurationRequest(selection,catalog){
     'Utilisateurs : '+selection.users,'Cycle souhaité : '+(selection.annual?'annuel':'mensuel'),
     'Modules : '+(selection.modules.map(key=>labels.get(key)).filter(Boolean).join(', ')||'socle Keydy'),
     'Véhicules : '+selection.vehicles+' · Terminaux : '+selection.scanners,
+    'Reprise des données par Keydy : '+(selection.assistedImport?'option demandée':'non demandée ; import Excel autonome'),
     'Tarifs et conditions à confirmer dans un devis.'].join('\n');
 }
 export async function initContactConfiguration(document,fetcher=globalThis.fetch){
