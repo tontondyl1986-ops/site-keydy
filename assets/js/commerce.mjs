@@ -37,6 +37,17 @@ const descriptions={PLANNING:'Organisez les rendez-vous et les équipes.',CONGES
   STOCK:'Retrouvez les articles et mouvements de stock.',FOURNISSEURS:'Préparez vos achats et suivez les fournisseurs.',FLOTTE:'Rassemblez les informations de vos véhicules.',
   OUTILLAGE:'Suivez le matériel de votre entreprise.',MESSAGERIE:'Échangez dans Keydy.',BOITE_MAIL:'Retrouvez vos échanges e-mail dans votre outil.',
   PORTAIL:'Proposez un espace de consultation à vos clients.',CALCUL:'Retrouvez les outils de calcul métier.',ATTESTATIONS_PERSO:'Préparez vos modèles d’attestations.'};
+// Compatibility with the already deployed catalog, which omits unavailable entries.
+const preparationFallback=[
+  {key:'SCAN',label:'KeydyScan'}, {key:'FLOTTE_GPS',label:'Géolocalisation de flotte'},
+  {key:'ASSISTANT',label:'KeydyAssistant'}, {key:'CAD',label:'KeydyCAD'}, {key:'CERTIBEAU',label:'CertIBEau'}
+];
+export function unavailableModules(catalog){
+  const listed=Array.isArray(catalog.unavailableModules)?catalog.unavailableModules:preparationFallback;
+  return [...new Map([...listed,...catalog.modules.filter(m=>m.inDevelopment)]
+    .filter(m=>m&&typeof m.key==='string'&&typeof m.label==='string')
+    .map(m=>[m.key,{...m,inDevelopment:true}])).values()];
+}
 export async function initCommerce(document,fetcher=globalThis.fetch){
   const form=document.querySelector('#subscription-builder');if(!form)return;
   const status=document.querySelector('#catalog-status'),summary=document.querySelector('#price-summary'),button=document.querySelector('#continue');
@@ -56,7 +67,8 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
     if(!response.ok)throw new Error('Catalogue indisponible');const catalog=await response.json();
     if(!Array.isArray(catalog.modules)||!catalog.configuration?.prices)throw new Error('Catalogue incomplet');
     if(catalog.recurringPaymentRequired!==true||catalog.subscriptionFlow!=='SELF_SERVICE_V1'||catalog.selfImportIncluded!==true||!Number.isFinite(catalog.assistedImportHt)||catalog.assistedImportHt!==1500)throw new Error('Parcours de souscription à mettre à jour');
-    catalog.modules=catalog.modules.filter(m=>!m.inDevelopment);
+    const unavailable=unavailableModules(catalog),blocked=new Set(unavailable.map(m=>m.key));
+    catalog.modules=catalog.modules.filter(m=>!m.inDevelopment&&!blocked.has(m.key));
     const open=catalog.subscriptionsOpen===true;
     const availability=document.querySelector('#sales-availability');availability.hidden=false;
     availability.textContent=open?'Composez votre offre, puis consultez le devis et le contrat avant de signer.':'Ouverture commerciale à venir. Vous pouvez explorer les tarifs ; la création de nouveaux devis en ligne reste fermée.';
@@ -86,8 +98,28 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
         for(const [key,box] of boxes)box.checked=selected.has(key);recalculate();
       });
     }
+    if(unavailable.length){
+      const section=document.createElement('section');section.id='modules-in-preparation';
+      const title=document.createElement('h3');title.textContent='Modules en préparation';
+      const note=document.createElement('p');note.textContent='Ces modules ne sont pas encore disponibles. Ils ne peuvent pas être sélectionnés et ne seront pas facturés.';
+      const list=document.createElement('div');list.className='unavailable-module-list';
+      for(const module of unavailable){
+        const card=document.createElement('label');card.className='module-choice module-unavailable';card.dataset.search=module.label.toLocaleLowerCase('fr');
+        const input=document.createElement('input');input.type='checkbox';input.value=module.key;input.disabled=true;input.checked=false;
+        const text=document.createElement('span'),name=document.createElement('strong'),status=document.createElement('small');
+        name.textContent=module.label;status.textContent='En préparation · indisponible à la souscription';
+        text.append(name,status);card.append(input,text);list.append(card);
+      }
+      section.append(title,note,list);modules.after(section);
+    }
     const search=document.querySelector('#module-search');
-    search.addEventListener('input',()=>{const query=search.value.trim().toLocaleLowerCase('fr');let visible=0;for(const card of modules.children){card.hidden=!card.dataset.search.includes(query);if(!card.hidden)visible++;}document.querySelector('#search-result').textContent=visible?visible+' module(s) affiché(s)':'Aucun module trouvé. Essayez un autre terme.';});
+    search.addEventListener('input',()=>{
+      const query=search.value.trim().toLocaleLowerCase('fr');let visible=0,pending=0;
+      for(const card of modules.children){card.hidden=!card.dataset.search.includes(query);if(!card.hidden)visible++;}
+      const preparation=document.querySelector('#modules-in-preparation');
+      if(preparation){for(const card of preparation.querySelectorAll('.module-choice')){card.hidden=!card.dataset.search.includes(query);if(!card.hidden)pending++;}preparation.hidden=pending===0;}
+      document.querySelector('#search-result').textContent=visible?visible+' module(s) disponible(s) affiché(s)':pending?pending+' module(s) en préparation, indisponible(s) à la souscription':'Aucun module trouvé. Essayez un autre terme.';
+    });
     async function recalculate(){
       const own=++generation;clearPrice('Calcul de votre configuration…');summary.setAttribute('aria-busy','true');
       contact.href='contact.html';reload.hidden=true;

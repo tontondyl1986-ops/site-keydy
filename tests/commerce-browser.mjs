@@ -16,7 +16,7 @@ async function intercept(context,mode={}){
     const url=new URL(route.request().url());
     if(url.origin===base.origin)return route.continue();
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/catalog'){
-      const data={...catalog};if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;if(mode.oldFlow)delete data.subscriptionFlow;if(mode.optionalDebit)delete data.recurringPaymentRequired;
+      const data={...catalog,modules:[...catalog.modules]};if(mode.unavailableInMain)data.modules.push({key:'SCAN',label:'KeydyScan',inDevelopment:false,required:[]});if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;if(mode.oldFlow)delete data.subscriptionFlow;if(mode.optionalDebit)delete data.recurringPaymentRequired;
       return route.fulfill({status:mode.offline?503:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
     }
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/preview'){
@@ -53,7 +53,7 @@ try{
     const text=await page.locator('#price-summary').innerText();assert.ok(text.includes('Socle Keydy'));assert.ok(text.includes('Utilisateurs'));assert.ok(text.includes('HTVA'));assert.ok(text.includes('TTC'));
     await page.reload();await page.locator('#continue:enabled').waitFor();assert.equal(await page.locator('input[value="FOURNISSEURS"]').isChecked(),true);assert.equal(await page.locator('#annual').isChecked(),true);assert.equal(await page.locator('#assisted-import').isChecked(),true);
     await page.locator('#module-search').fill('impossible');assert.equal(await page.locator('.module-choice:visible').count(),0);assert.match(await page.locator('#search-result').innerText(),/Aucun module/);
-    await page.locator('#module-search').fill('');assert.equal(await page.locator('.module-choice:visible').count(),2);
+    await page.locator('#module-search').fill('');assert.equal(await page.locator('#modules .module-choice:visible').count(),2);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,label+' must not overflow horizontally');
     await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(out,'saas-site-'+label+'.png'),fullPage:true});
     await page.locator('#continue').click();await page.waitForURL('https://keydy.be/souscription-keydy?**');
@@ -89,5 +89,22 @@ try{
   {const {context,page}=await localPage({offline:true});await page.goto(new URL('contact.html?configuration=true&users=5&modules=UNKNOWN&email=private%40invalid.test',base).href);
     await page.locator('[data-configuration-detail]').filter({hasText:'catalogue est indisponible'}).waitFor();assert.equal(await page.locator('input[name=configuration]').inputValue(),'');assert.equal(await page.locator('button[type=submit]').isEnabled(),true);assert.equal(await page.locator('input[name=email]').inputValue(),'');
     results.push({label:'contact-offline-catalogue',manualRequestAvailable:true,noUnverifiedSelection:true});await context.close();}
+  for(const badCatalog of [false,true]){
+    const context=await browser.newContext({viewport:{width:390,height:844}});await intercept(context,{unavailableInMain:badCatalog});
+    const page=await context.newPage(),requests=[];
+    page.on('request',r=>{const url=new URL(r.url());if(url.pathname==='/api/keydy/preview')requests.push((url.searchParams.get('modules')||'').split(','));});
+    await page.goto(new URL('tarifs.html?users=5&modules=STOCK,SCAN,FLOTTE_GPS,ASSISTANT,CAD,CERTIBEAU',base).href);
+    await page.locator('#continue:enabled').waitFor();
+    for(const key of ['SCAN','FLOTTE_GPS','ASSISTANT','CAD','CERTIBEAU']){
+      const box=page.locator('#modules-in-preparation input[value="'+key+'"]');
+      assert.equal(await box.isDisabled(),true);assert.equal(await box.isChecked(),false);
+      assert.equal(requests.some(modules=>modules.includes(key)),false);
+    }
+    assert.equal(await page.locator('#modules input[value="STOCK"]').isChecked(),true);
+    assert.match(await page.locator('#modules-in-preparation').innerText(),/ne seront pas facturés/);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+    if(!badCatalog)await page.screenshot({path:path.join(out,'modules-in-preparation-mobile.png'),fullPage:true});
+    results.push({label:badCatalog?'unavailable-even-in-active-list':'unavailable-modules-and-direct-link',fiveDisabled:true,noUnavailableModuleQuoted:true});await context.close();
+  }
   await writeFile(path.join(out,'results.json'),JSON.stringify(results,null,2));console.log(JSON.stringify(results));
 }finally{await browser.close();}

@@ -42,3 +42,14 @@ test('assistance remains an explicit option across reload, contact and subscript
   assert.match(configurationRequest(selection,catalog),/option demandée/);
   assert.equal(restoreSelection(new URLSearchParams('assistedImport=yes'),catalog).assistedImport,false);
 });
+
+const {unavailableModules}=await import('../assets/js/commerce.mjs');
+test('older deployed catalogs keep the five confirmed development modules unavailable',()=>{
+  const unavailable=unavailableModules({modules:[]});
+  assert.deepEqual(unavailable.map(m=>m.key).sort(),['ASSISTANT','CAD','CERTIBEAU','FLOTTE_GPS','SCAN']);
+  assert.ok(unavailable.every(m=>m.inDevelopment));
+});
+test('explicit unavailable entries remain blocked even if also advertised as available',()=>{
+  const unavailable=unavailableModules({modules:[{key:'SCAN',label:'Scan',inDevelopment:false}],unavailableModules:[{key:'SCAN',label:'Scan'}]});
+  assert.equal(unavailable.length,1);assert.equal(unavailable[0].inDevelopment,true);
+});
