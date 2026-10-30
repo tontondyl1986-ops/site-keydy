@@ -7,7 +7,7 @@ const {chromium}=require(process.env.KEYDY_PLAYWRIGHT_MODULE||'playwright');
 const base=new URL(process.env.KEYDY_SITE_TEST_URL||'http://127.0.0.1:18745');
 assert.ok(['127.0.0.1','localhost'].includes(base.hostname),'Only a local static test server is allowed');
 const out=process.env.KEYDY_SITE_SCREENSHOTS||'site-smoke-output';await mkdir(out,{recursive:true});
-const catalog={revision:1,subscriptionsOpen:true,vatPercent:21,configuration:{prices:{SOCLE_1:100,USERS:20,STOCK:30,FOURNISSEURS:15},annualDiscount:20,includedUsers:0,moduleRules:{}},
+const catalog={revision:1,subscriptionsOpen:true,recurringPaymentRequired:true,subscriptionFlow:"SELF_SERVICE_V1",selfImportIncluded:true,assistedImportHt:1500,vatPercent:21,configuration:{prices:{SOCLE_1:100,USERS:20,STOCK:30,FOURNISSEURS:15},annualDiscount:20,includedUsers:0,moduleRules:{}},
   modules:[{key:'STOCK',label:'Stock & articles',required:[]},{key:'FOURNISSEURS',label:'Achats & fournisseurs',required:['STOCK']}]};
 const browser=await chromium.launch({headless:true,...(process.env.KEYDY_BROWSER_CHANNEL?{channel:process.env.KEYDY_BROWSER_CHANNEL}:{})});
 const results=[];
@@ -16,7 +16,7 @@ async function intercept(context,mode={}){
     const url=new URL(route.request().url());
     if(url.origin===base.origin)return route.continue();
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/catalog'){
-      const data={...catalog};if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;
+      const data={...catalog};if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;if(mode.oldFlow)delete data.subscriptionFlow;if(mode.optionalDebit)delete data.recurringPaymentRequired;
       return route.fulfill({status:mode.offline?503:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
     }
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/preview'){
@@ -25,10 +25,10 @@ async function intercept(context,mode={}){
       const modules=(url.searchParams.get('modules')||'').split(',').filter(Boolean);
       const lines=[{code:'SOCLE',label:'Socle Keydy',quantity:1,unitPrice:100},{code:'USERS',label:'Utilisateurs',quantity:users,unitPrice:20},...modules.map(key=>({code:key,label:catalog.modules.find(m=>m.key===key).label,quantity:1,unitPrice:catalog.configuration.prices[key]}))];
       const monthlyHt=lines.reduce((s,c)=>s+c.quantity*c.unitPrice,0),recurringHt=Math.round(monthlyHt*(annual?12*.8:1)*100)/100;
-      const recurringVat=Math.round(recurringHt*.21*100)/100;
+      const recurringVat=Math.round(recurringHt*.21*100)/100;const setupHt=mode.wrongFee?500:url.searchParams.get('assistedImport')==='true'?1500:0;
       if(mode.race&&users===4)await new Promise(r=>setTimeout(r,700));
       return route.fulfill({contentType:'application/json',headers:{'access-control-allow-origin':'*'},
-        body:JSON.stringify({revision:mode.revised&&users===4?2:mode.annualRevision&&annual&&users===4?2:1,monthlyHt,lines,recurringHt,recurringVat,recurringTtc:Math.round((recurringHt+recurringVat)*100)/100,setupHt:500,setupVat:105,setupTtc:605})});
+        body:JSON.stringify({revision:mode.revised&&users===4?2:mode.annualRevision&&annual&&users===4?2:1,monthlyHt,lines,recurringHt,recurringVat,recurringTtc:Math.round((recurringHt+recurringVat)*100)/100,setupHt,setupVat:setupHt*.21,setupTtc:setupHt*1.21})});
     }
     if(url.origin==='https://keydy.be' && url.pathname==='/souscription-keydy')
       return route.fulfill({contentType:'text/html',body:'<html lang="fr"><title>Reprise fictive</title><h1>Choix transmis au serveur fictif</h1></html>'});
@@ -45,18 +45,19 @@ try{
     await page.locator('input[value="FOURNISSEURS"]').check();await page.locator('#continue:enabled').waitFor();
     assert.equal(await page.locator('input[value="STOCK"]').isChecked(),true);
     await page.locator('input[value="STOCK"]').click();assert.equal(await page.locator('input[value="STOCK"]').isChecked(),true);
+    await page.locator('#assisted-import').check();await page.locator('#continue:enabled').waitFor();assert.match(await page.locator('#price-summary').innerText(),/1[\s\u00a0\u202f]?500/);
     await page.locator('#annual').check();await page.locator('#continue:enabled').waitFor();
     assert.equal(await page.locator('.cycle-choice').count(),2);assert.equal(await page.locator('[data-cycle=annual]').getAttribute('aria-pressed'),'true');
     await page.locator('[data-cycle=monthly]').click();await page.locator('[data-cycle=monthly][aria-pressed=true]').waitFor();assert.equal(await page.locator('#annual').isChecked(),false);
     await page.locator('[data-cycle=annual]').click();await page.locator('[data-cycle=annual][aria-pressed=true]').waitFor();
     const text=await page.locator('#price-summary').innerText();assert.ok(text.includes('Socle Keydy'));assert.ok(text.includes('Utilisateurs'));assert.ok(text.includes('HTVA'));assert.ok(text.includes('TTC'));
-    await page.reload();await page.locator('#continue:enabled').waitFor();assert.equal(await page.locator('input[value="FOURNISSEURS"]').isChecked(),true);assert.equal(await page.locator('#annual').isChecked(),true);
+    await page.reload();await page.locator('#continue:enabled').waitFor();assert.equal(await page.locator('input[value="FOURNISSEURS"]').isChecked(),true);assert.equal(await page.locator('#annual').isChecked(),true);assert.equal(await page.locator('#assisted-import').isChecked(),true);
     await page.locator('#module-search').fill('impossible');assert.equal(await page.locator('.module-choice:visible').count(),0);assert.match(await page.locator('#search-result').innerText(),/Aucun module/);
     await page.locator('#module-search').fill('');assert.equal(await page.locator('.module-choice:visible').count(),2);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,label+' must not overflow horizontally');
     await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(out,'saas-site-'+label+'.png'),fullPage:true});
     await page.locator('#continue').click();await page.waitForURL('https://keydy.be/souscription-keydy?**');
-    const target=new URL(page.url());assert.equal(target.searchParams.get('users'),'3');assert.equal(target.searchParams.get('annual'),'true');assert.equal(target.searchParams.has('amount'),false);assert.deepEqual(errors,[]);
+    const target=new URL(page.url());assert.equal(target.searchParams.get('users'),'3');assert.equal(target.searchParams.get('annual'),'true');assert.equal(target.searchParams.get('assistedImport'),'true');assert.equal(target.searchParams.has('amount'),false);assert.deepEqual(errors,[]);
     results.push({label,width,height,dependencies:true,restore:true,search:true,itemizedPrices:true,handoff:true,horizontalOverflow:false});
     await page.goto(new URL('index.html',base).href);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'home '+label+' overflow');
     await page.screenshot({path:path.join(out,'home-'+label+'.png'),fullPage:true});
@@ -70,9 +71,12 @@ try{
     await context.close();
   }
   for(const mode of [{closed:true},{legacy:true}]){const {context,page}=await localPage(mode);await page.locator('.summary-total').waitFor();assert.equal(await page.locator('#continue').isDisabled(),true);assert.match(await page.locator('#sales-availability').innerText(),/Ouverture commerciale/);await page.locator('#users').fill('5');await page.locator('.summary-total').waitFor();assert.equal(await page.locator('#continue').isDisabled(),true);results.push({label:mode.closed?'closed-commerce':'legacy-catalog',previewAvailable:true,blocksSubmission:true});await context.close();}
+  {const {context,page}=await localPage({optionalDebit:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'optional-debit-backend-rejected',blocksSubmission:true});await context.close();}
+  {const {context,page}=await localPage({oldFlow:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'incompatible-old-flow',blocksSubmission:true});await context.close();}
+  {const {context,page}=await localPage({wrongFee:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#continue').isDisabled(),true);assert.equal(await page.locator('.summary-total').count(),0);results.push({label:'unselected-fee-rejected',blocksSubmission:true});await context.close();}
   {const {context,page}=await localPage({offline:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'unavailable-catalog',blocksSubmission:true});await context.close();}
   {const {context,page}=await localPage({error:true});await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('.summary-total').count(),0);assert.equal(await page.locator('#continue').isDisabled(),true);await page.locator('#users').fill('3');await page.locator('#retry-price').click();await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('0');await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('.summary-total').count(),0);results.push({label:'invalid-and-failed-preview',clearsStalePrice:true,recovery:true});await context.close();}
-  {const {context,page}=await localPage({race:true});await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#users').fill('5');await page.locator('#continue:enabled').waitFor();await page.waitForTimeout(900);assert.match(await page.locator('#price-summary').innerText(),/242/);assert.equal(new URL(page.url()).searchParams.get('users'),'5');results.push({label:'out-of-order-previews',latestSelectionWins:true});await context.close();}
+  {const {context,page}=await localPage({race:true});await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#users').fill('5');await page.locator('#continue:enabled').waitFor();await page.waitForTimeout(900);assert.match(await page.locator('#price-summary').innerText(),/200/);assert.equal(new URL(page.url()).searchParams.get('users'),'5');results.push({label:'out-of-order-previews',latestSelectionWins:true});await context.close();}
   for(const mode of [{annualError:true},{annualRevision:true},{revised:true}]){
     const {context,page}=await localPage(mode);await page.locator('#continue:enabled').waitFor();await page.locator('#users').fill('4');await page.locator('#catalog-status.error').waitFor();
     assert.equal(await page.locator('.summary-total').count(),0);assert.equal(await page.locator('.cycle-choice').count(),0);assert.equal(await page.locator('#continue').isDisabled(),true);

@@ -1,4 +1,4 @@
-﻿const fields=['modules','users','annual','vehicles','scanners','revision'];
+﻿const fields=['modules','users','annual','vehicles','scanners','assistedImport','revision'];
 export function normalize(selected,catalog){
   const allowed=new Map(catalog.filter(m=>!m.inDevelopment).map(m=>[m.key,m])),result=new Set();
   const append=key=>{const m=allowed.get(key);if(!m||result.has(key))return;result.add(key);for(const need of m.required||[])append(need);};
@@ -28,7 +28,7 @@ export function validateCycleComparison(monthly,annual,revision){
 export function restoreSelection(params,catalog){
   const integer=(key,fallback,min,max)=>{const raw=params.get(key);if(raw===null||!/^\d+$/.test(raw))return fallback;const n=Number(raw);return n>=min&&n<=max?n:fallback;};
   return {modules:[...normalize((params.get('modules')||'').split(','),catalog)],users:integer('users',3,1,50),
-    annual:params.get('annual')==='true',vehicles:integer('vehicles',0,0,1000),scanners:integer('scanners',0,0,1000)};
+    annual:params.get('annual')==='true',assistedImport:params.get('assistedImport')==='true',vehicles:integer('vehicles',0,0,1000),scanners:integer('scanners',0,0,1000)};
 }
 const descriptions={PLANNING:'Organisez les rendez-vous et les équipes.',CONGES:'Centralisez les demandes et les absences.',TACHES:'Suivez les tâches et leurs responsables.',
   CARTE_SITES:'Repérez vos sites et lieux d’intervention.',COMPTA:'Retrouvez les fonctions comptables dans Keydy.',REPORTS:'Consultez vos rapports et indicateurs.',
@@ -47,7 +47,7 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
   const money=v=>new Intl.NumberFormat('fr-BE',{style:'currency',currency:'EUR'}).format(v);
   const selected=new Set(),boxes=new Map();let generation=0,preview=null;
   const values=()=>({modules:[...selected],users:Number(document.querySelector('#users').value),annual:document.querySelector('#annual').checked,
-    vehicles:Number(document.querySelector('#vehicles').value),scanners:Number(document.querySelector('#scanners').value)});
+    vehicles:Number(document.querySelector('#vehicles').value),scanners:Number(document.querySelector('#scanners').value),assistedImport:document.querySelector('#assisted-import').checked});
   const clearPrice=message=>{summary.textContent=message;summary.setAttribute('aria-busy','false');comparison.replaceChildren();preview=null;button.disabled=true;jump.textContent='Voir mon récapitulatif';};
   const error=message=>{status.textContent=message;status.classList.add('error');clearPrice('Aucun tarif confirmé. Relancez le calcul après vérification.');};
   const line=(label,value)=>{const row=document.createElement('div');row.className='summary-line';const a=document.createElement('span'),b=document.createElement('span');a.textContent=label;b.textContent=value;row.append(a,b);return row;};
@@ -55,6 +55,7 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
     const response=await fetcher(new URL('/api/keydy/catalog',base),{credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(12000)});
     if(!response.ok)throw new Error('Catalogue indisponible');const catalog=await response.json();
     if(!Array.isArray(catalog.modules)||!catalog.configuration?.prices)throw new Error('Catalogue incomplet');
+    if(catalog.recurringPaymentRequired!==true||catalog.subscriptionFlow!=='SELF_SERVICE_V1'||catalog.selfImportIncluded!==true||!Number.isFinite(catalog.assistedImportHt)||catalog.assistedImportHt!==1500)throw new Error('Parcours de souscription à mettre à jour');
     catalog.modules=catalog.modules.filter(m=>!m.inDevelopment);
     const open=catalog.subscriptionsOpen===true;
     const availability=document.querySelector('#sales-availability');availability.hidden=false;
@@ -67,6 +68,7 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
     initial.modules.forEach(key=>selected.add(key));
     for(const key of ['users','vehicles','scanners'])document.querySelector('#'+key).value=initial[key];
     document.querySelector('#annual').checked=initial.annual;
+    document.querySelector('#assisted-import').checked=initial.assistedImport;
     const modules=document.querySelector('#modules');
     for(const module of catalog.modules){
       const label=document.createElement('label');label.className='module-choice';label.dataset.search=(module.label+' '+(descriptions[module.key]||'')).toLocaleLowerCase('fr');
@@ -104,24 +106,25 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
         const pair=validateCycleComparison(quotes[0],quotes[1],catalog.revision),p=selection.annual?pair.annual:pair.monthly;
         const rows=p.lines.map(c=>{if(!Number.isFinite(c.quantity)||c.quantity<0||!Number.isFinite(c.unitPrice)||c.unitPrice<0)throw new Error('Ligne incomplète');return line(c.label+' · '+c.quantity+' × '+money(c.unitPrice),money(Math.round(c.quantity*c.unitPrice*100)/100));});
         summary.replaceChildren();summary.setAttribute('aria-busy','false');
-        const total=document.createElement('div');total.className='summary-total';total.textContent=money(p.recurringTtc);
-        const period=document.createElement('p');period.className='summary-period';period.textContent='TTC / '+(selection.annual?'an':'mois')+' · à la mise à disposition';
+        if(p.setupHt!==(selection.assistedImport?catalog.assistedImportHt:0))throw new Error('Option de reprise incohérente');
+        const total=document.createElement('div');total.className='summary-total';total.textContent=money(p.recurringHt);
+        const period=document.createElement('p');period.className='summary-period';period.textContent='HTVA / '+(selection.annual?'an':'mois')+' · après activation';
         const detail=document.createElement('details');detail.className='price-detail';detail.open=true;const heading=document.createElement('summary');heading.textContent='Détail mensuel HTVA';detail.append(heading,...rows,line('Total mensuel avant remise annuelle',money(p.monthlyHt)));
         const divider=document.createElement('hr');divider.className='summary-divider';
         summary.append(total,period,detail,line('Abonnement HTVA / '+(selection.annual?'an':'mois'),money(p.recurringHt)),line('TVA',money(p.recurringVat)),divider,
-          line('Mise en service unique HTVA',money(p.setupHt)),line('TVA des frais uniques',money(p.setupVat)),line('Frais initiaux TTC',money(p.setupTtc)));
+          line('Import Excel autonome', 'Inclus'),line('Reprise par Keydy (option unique HTVA)',money(p.setupHt)),line('TVA de l’option',money(p.setupVat)),line('Premier paiement TTC',money(Math.round((p.recurringTtc+p.setupTtc)*100)/100)));
         for(const [cycle,label,quote] of [[false,'Mensuel',pair.monthly],[true,'Annuel',pair.annual]]){
           const choice=document.createElement('button');choice.type='button';choice.className='cycle-choice';choice.setAttribute('aria-pressed',String(selection.annual===cycle));choice.dataset.cycle=cycle?'annual':'monthly';
-          const name=document.createElement('strong'),cost=document.createElement('span');name.textContent=label;cost.textContent=money(quote.recurringTtc)+' TTC / '+(cycle?'an':'mois');choice.append(name,cost);
+          const name=document.createElement('strong'),cost=document.createElement('span');name.textContent=label;cost.textContent=money(quote.recurringHt)+' HTVA / '+(cycle?'an':'mois');choice.append(name,cost);
           choice.addEventListener('click',()=>{if(selection.annual===cycle)return;document.querySelector('#annual').checked=cycle;recalculate();});comparison.append(choice);
         }
         preview={...selection,revision:p.revision};button.disabled=!open;
         const saved=new URL(view.location.href);saved.search='';for(const key of fields)saved.searchParams.set(key,Array.isArray(preview[key])?preview[key].join(','):String(preview[key]));view.history.replaceState(null,'',saved.href);
-        jump.textContent='Voir mon récapitulatif · '+money(p.recurringTtc)+' TTC / '+(selection.annual?'an':'mois');
+        jump.textContent='Voir mon récapitulatif · '+money(p.recurringHt)+' HTVA / '+(selection.annual?'an':'mois');
         status.classList.remove('error');status.textContent='Configuration actualisée. Tarifs calculés par Keydy ; TVA indicative pour une entreprise belge, autres régimes sur devis.';
       }catch(e){if(own===generation){error(e.message==='CATALOG_CHANGED'?'Les tarifs ont changé. Rechargez le catalogue avant de poursuivre.':'Le calcul est temporairement indisponible. Réessayez ou contactez Keydy pour votre devis.');reload.hidden=e.message!=='CATALOG_CHANGED';}}
     }
-    for(const id of ['users','annual','vehicles','scanners'])document.querySelector('#'+id).addEventListener('input',()=>recalculate());
+    for(const id of ['users','annual','vehicles','scanners','assisted-import'])document.querySelector('#'+id).addEventListener('input',()=>recalculate());
     document.querySelector('#retry-price').addEventListener('click',()=>recalculate());
     form.addEventListener('submit',e=>{e.preventDefault();if(preview&&open&&!button.disabled)view.location.assign(configurationUrl(base,preview));});
     form.hidden=false;await recalculate();
