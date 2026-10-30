@@ -61,3 +61,5 @@ vers Keydy/Stripe et n’effectuent aucune souscription réelle.
 Résiliation des nouveaux abonnements autonomes : fin de période payée, accès
 conservé jusqu’à la date affichée, sans remboursement automatique. Ce travail
 ne publie pas le site et n’ouvre ni commerce ni paiements réels.
+
+Le catalogue doit aussi annoncer `recurringPaymentRequired=true`. Les nouvelles souscriptions payantes nécessitent une autorisation explicite de prélèvement récurrent, confirmée par le prestataire avant activation. Aucun renouvellement ne demande au client de souscrire de nouveau. La résiliation volontaire reste en fin de période payée.

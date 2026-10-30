@@ -55,7 +55,7 @@ export async function initCommerce(document,fetcher=globalThis.fetch){
     const response=await fetcher(new URL('/api/keydy/catalog',base),{credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(12000)});
     if(!response.ok)throw new Error('Catalogue indisponible');const catalog=await response.json();
     if(!Array.isArray(catalog.modules)||!catalog.configuration?.prices)throw new Error('Catalogue incomplet');
-    if(catalog.subscriptionFlow!=='SELF_SERVICE_V1'||catalog.selfImportIncluded!==true||!Number.isFinite(catalog.assistedImportHt)||catalog.assistedImportHt!==1500)throw new Error('Parcours de souscription à mettre à jour');
+    if(catalog.recurringPaymentRequired!==true||catalog.subscriptionFlow!=='SELF_SERVICE_V1'||catalog.selfImportIncluded!==true||!Number.isFinite(catalog.assistedImportHt)||catalog.assistedImportHt!==1500)throw new Error('Parcours de souscription à mettre à jour');
     catalog.modules=catalog.modules.filter(m=>!m.inDevelopment);
     const open=catalog.subscriptionsOpen===true;
     const availability=document.querySelector('#sales-availability');availability.hidden=false;

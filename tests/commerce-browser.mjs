@@ -7,7 +7,7 @@ const {chromium}=require(process.env.KEYDY_PLAYWRIGHT_MODULE||'playwright');
 const base=new URL(process.env.KEYDY_SITE_TEST_URL||'http://127.0.0.1:18745');
 assert.ok(['127.0.0.1','localhost'].includes(base.hostname),'Only a local static test server is allowed');
 const out=process.env.KEYDY_SITE_SCREENSHOTS||'site-smoke-output';await mkdir(out,{recursive:true});
-const catalog={revision:1,subscriptionsOpen:true,subscriptionFlow:"SELF_SERVICE_V1",selfImportIncluded:true,assistedImportHt:1500,vatPercent:21,configuration:{prices:{SOCLE_1:100,USERS:20,STOCK:30,FOURNISSEURS:15},annualDiscount:20,includedUsers:0,moduleRules:{}},
+const catalog={revision:1,subscriptionsOpen:true,recurringPaymentRequired:true,subscriptionFlow:"SELF_SERVICE_V1",selfImportIncluded:true,assistedImportHt:1500,vatPercent:21,configuration:{prices:{SOCLE_1:100,USERS:20,STOCK:30,FOURNISSEURS:15},annualDiscount:20,includedUsers:0,moduleRules:{}},
   modules:[{key:'STOCK',label:'Stock & articles',required:[]},{key:'FOURNISSEURS',label:'Achats & fournisseurs',required:['STOCK']}]};
 const browser=await chromium.launch({headless:true,...(process.env.KEYDY_BROWSER_CHANNEL?{channel:process.env.KEYDY_BROWSER_CHANNEL}:{})});
 const results=[];
@@ -16,7 +16,7 @@ async function intercept(context,mode={}){
     const url=new URL(route.request().url());
     if(url.origin===base.origin)return route.continue();
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/catalog'){
-      const data={...catalog};if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;if(mode.oldFlow)delete data.subscriptionFlow;
+      const data={...catalog};if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;if(mode.oldFlow)delete data.subscriptionFlow;if(mode.optionalDebit)delete data.recurringPaymentRequired;
       return route.fulfill({status:mode.offline?503:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});
     }
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/preview'){
@@ -71,6 +71,7 @@ try{
     await context.close();
   }
   for(const mode of [{closed:true},{legacy:true}]){const {context,page}=await localPage(mode);await page.locator('.summary-total').waitFor();assert.equal(await page.locator('#continue').isDisabled(),true);assert.match(await page.locator('#sales-availability').innerText(),/Ouverture commerciale/);await page.locator('#users').fill('5');await page.locator('.summary-total').waitFor();assert.equal(await page.locator('#continue').isDisabled(),true);results.push({label:mode.closed?'closed-commerce':'legacy-catalog',previewAvailable:true,blocksSubmission:true});await context.close();}
+  {const {context,page}=await localPage({optionalDebit:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'optional-debit-backend-rejected',blocksSubmission:true});await context.close();}
   {const {context,page}=await localPage({oldFlow:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'incompatible-old-flow',blocksSubmission:true});await context.close();}
   {const {context,page}=await localPage({wrongFee:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#continue').isDisabled(),true);assert.equal(await page.locator('.summary-total').count(),0);results.push({label:'unselected-fee-rejected',blocksSubmission:true});await context.close();}
   {const {context,page}=await localPage({offline:true});await page.locator('#catalog-status.error').waitFor();assert.equal(await page.locator('#subscription-builder').isVisible(),false);results.push({label:'unavailable-catalog',blocksSubmission:true});await context.close();}
