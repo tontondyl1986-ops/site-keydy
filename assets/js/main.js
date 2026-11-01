@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded',()=>{
   const toggle=document.querySelector('.nav-toggle');
   const nav=document.querySelector('.nav-links');
-  if(toggle&&nav) toggle.addEventListener('click',()=>nav.classList.toggle('open'));
+  if(toggle&&nav){
+    nav.id=nav.id||'navigation-principale';toggle.setAttribute('aria-controls',nav.id);toggle.setAttribute('aria-expanded','false');
+    const close=()=>{nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');};
+    toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});
+    nav.addEventListener('click',e=>{if(e.target.closest('a'))close();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){close();toggle.focus();}});
+  }
   const search=document.querySelector('[data-help-search]');
   if(search){
     const items=[...document.querySelectorAll('[data-help-item]')];
@@ -28,7 +34,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       'Ce que le prospect souhaite améliorer :',
       (d.get('besoin')||'—')
     ];
-    const subject=encodeURIComponent('Demande de démonstration Keydy — '+(d.get('societe')||d.get('nom')||''));
+    if(d.get('configuration'))lines.push('',d.get('configuration'));
+    const subject=encodeURIComponent((d.get('configuration')?'Projet d’abonnement Keydy — ':'Demande de démonstration Keydy — ')+(d.get('societe')||d.get('nom')||''));
     const body=encodeURIComponent(lines.join('\n'));
     window.location.href='mailto:info@keydy.be?subject='+subject+'&body='+body;
     // Le formulaire n'est plus vidé : sans logiciel de messagerie configuré

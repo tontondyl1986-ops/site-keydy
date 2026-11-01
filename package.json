@@ -1,0 +1,13 @@
+{
+  "name": "keydy-commercial-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/commerce.test.mjs",
+    "test:browser": "node tests/commerce-browser.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
+}
