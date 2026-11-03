@@ -1,0 +1,20 @@
+.family-hero{padding:74px 0 66px;background:linear-gradient(180deg,#f3f7fc,#fff)}
+.family-hero .hero-grid{grid-template-columns:1.12fr .88fr;gap:54px}.family-hero h1{max-width:800px}
+.family-hero p{font-size:1.14rem;color:var(--muted);max-width:690px}.family-note{font-size:.9rem!important;max-width:760px}
+.family-visual{display:grid;gap:14px;padding:22px;background:#eaf0f7;border:1px solid #d5dfeb;border-radius:24px}
+.family-visual .mini-app{background:#fff;border:1px solid #dce5ee;border-radius:14px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}.mini-app img{width:228px;height:auto}.mini-app span{font-size:.73rem;color:#52647b;max-width:100px}
+.family-visual>p{font-size:.86rem;margin:3px 0 0;text-align:center}.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+.product-card{border:1px solid var(--line);border-top:4px solid var(--product-accent,#1A73E8);border-radius:18px;padding:28px;background:white;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.product-card img{width:100%;max-width:360px;height:auto}.product-card h2,.product-card h3{margin:0;font-size:1.5rem;line-height:1.3}.product-card p{color:var(--muted);margin:0}.product-card ul{margin:0 0 8px;padding-left:20px;color:#435870}.product-card .btn{margin-top:auto}
+.product-stage{font-size:.76rem;line-height:1.4;font-weight:700;padding:5px 10px;border:1px solid #ccd9e6;border-radius:20px;background:#f4f7fa;color:#425b72}
+.product-card.batiment{--product-accent:#9A5B1A}.product-card.etudes{--product-accent:#0B6F68}.product-card.promotion{--product-accent:#7042A8}.product-card.techniques-speciales{--product-accent:#1A73E8}
+.product-intro-logo{max-width:390px;margin-bottom:20px}.product-actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}.product-meta{font-size:.92rem;color:var(--muted)}
+.roadmap{background:#f6f8fb;border:1px solid var(--line);padding:26px;border-radius:18px}.roadmap h3{margin-top:0}.roadmap ul{padding-left:20px;color:#52647b}
+.module-state{font-size:.78rem;display:inline-block;border-radius:20px;padding:4px 9px;background:#eaf3ef;color:#24533f}.module-state.future{background:#edf0f6;color:#536575}
+.family-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}.family-table{border-collapse:collapse;width:100%;min-width:850px;background:white}.family-table th,.family-table td{padding:16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);font-size:.92rem}.family-table th{background:#f3f7fb;color:#18344f}.family-table th:first-child{min-width:225px}.family-table caption{text-align:left;padding:18px;font-weight:700;color:#17334e}
+.shared-example{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}.example-sheet{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:white}.example-sheet>div{padding:18px 22px;border-bottom:1px solid #e7edf3}.example-sheet strong{display:block}.example-sheet small{color:var(--muted)}.example-sheet .sheet-top{background:#edf5f2;color:#215b53}
+.offer-price{font-size:1.9rem!important;line-height:1.2;font-weight:750;color:#17334e!important}.offer-intro{padding-top:50px;padding-bottom:38px}.offer-intro h1{max-width:900px}.technical-config-title{font-size:2rem!important;line-height:1.2}.technical-config-anchor{scroll-margin-top:110px}.family-footer-note{font-size:.9rem;color:#63758a}
+.family-scope{border-left:4px solid #8aa4bd;padding:14px 20px;background:#f1f5fa;color:#425b72;margin:22px 0}.family-nav a[aria-current=page]{color:var(--blue)}
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #c47a24;outline-offset:4px}
+@media(max-width:980px){.family-hero .hero-grid,.shared-example{grid-template-columns:1fr}.family-visual{max-width:620px}}
+@media(max-width:680px){.product-grid{grid-template-columns:1fr}.family-hero{padding:44px 0}.family-visual{padding:14px}.mini-app img{width:190px}.mini-app span{font-size:.7rem}.product-card{padding:22px}.product-actions .btn{width:100%}}

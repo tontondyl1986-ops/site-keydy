@@ -13,6 +13,7 @@ export async function initContactConfiguration(document,fetcher=globalThis.fetch
   const view=document.defaultView,params=new URL(view.location.href).searchParams;
   const section=document.querySelector('#contact-configuration-summary');
   if(!section||params.get('configuration')!=='true')return;
+  if(params.has('saas')&&params.get('saas')!=='techniques-speciales')return;
   const form=document.querySelector('[data-demo-form]'),field=form.querySelector('[name="configuration"]'),submit=form.querySelector('[type="submit"]');
   const detail=section.querySelector('[data-configuration-detail]'),edit=section.querySelector('[data-configuration-edit]');
   section.hidden=false;detail.textContent='Vérification de votre sélection…';submit.disabled=true;
@@ -25,6 +26,7 @@ export async function initContactConfiguration(document,fetcher=globalThis.fetch
     if(!response.ok)throw new Error('catalog');const data=await response.json();
     if(!Array.isArray(data.modules))throw new Error('catalog');
     const modules=data.modules.filter(m=>!m.inDevelopment),selection=restoreSelection(params,modules);
+    const chosen=form.querySelector('[name=saas]')?.value;if(chosen&&chosen!=='techniques-speciales')return;
     const text=configurationRequest(selection,modules);detail.textContent=text;field.value=text;
     const target=new URL('tarifs.html',view.location.href);
     for(const [key,value] of Object.entries(selection))target.searchParams.set(key,Array.isArray(value)?value.join(','):String(value));

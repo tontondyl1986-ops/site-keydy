@@ -1,7 +1,7 @@
 name: Site commercial — tests sans publication
 on:
   push:
-    branches: [feat/subscription-commerce-20261027, feat/site-subscription-experience-20261028, feat/commerce-journey-20261029, feat/automated-subscription-20261030, feat/module-availability-20261030]
+    branches: [feat/famille-saas-modules-20261103, feat/subscription-commerce-20261027, feat/site-subscription-experience-20261028, feat/commerce-journey-20261029, feat/automated-subscription-20261030, feat/module-availability-20261030]
   pull_request:
     branches: [main, feat/subscription-commerce-20261027, feat/site-subscription-experience-20261028, feat/commerce-journey-20261029, feat/automated-subscription-20261030]
 permissions:

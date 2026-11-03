@@ -24,11 +24,12 @@ document.addEventListener('DOMContentLoaded',()=>{
     e.preventDefault();
     const d=new FormData(form);
     const lines=[
+      'Logiciel envisagé : '+(form.querySelector('[name=saas] option:checked')?.textContent||'À préciser'),
       'Société : '+(d.get('societe')||''),
       'Nom et prénom : '+(d.get('nom')||''),
       'E-mail : '+(d.get('email')||''),
       'Téléphone : '+(d.get('telephone')||''),
-      'Nombre de techniciens : '+(d.get('techniciens')||''),
+      'Nombre de collaborateurs : '+(d.get('techniciens')||''),
       'Activité principale : '+(d.get('activite')||''),
       '',
       'Ce que le prospect souhaite améliorer :',

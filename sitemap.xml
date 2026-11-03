@@ -51,4 +51,12 @@
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
+
+  <url><loc>https://www.keydy.be/logiciels.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.keydy.be/modules.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.keydy.be/tarifs.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.keydy.be/logiciel-batiment.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.keydy.be/logiciel-etudes-architecture.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.keydy.be/logiciel-promotion.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.keydy.be/logiciel-techniques-speciales.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
