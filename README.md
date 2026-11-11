@@ -1,5 +1,7 @@
 # Site vitrine de la famille Keydy
 
+Préparation audience du 11 novembre 2026 : `assets/js/site-statistics.mjs` compte les pages et destinations de clics après accord explicite, sans identifiant de visiteur, saisie ni URL brute. Le serveur Keydy conserve seulement des compteurs journaliers, visibles dans Super Admin → Keydy Intelligence → Site public. La collecte est fermée par défaut et exige la livraison Web correspondante (`feat/keydy-intelligence-v1-20261111`), une information publiée et des origines autorisées. Aucun VPS2 ni fournisseur IA n'est requis pour ce comptage. Pas de publication automatique, de visiteurs uniques ou de rapprochement avec les paiements. Le choix se modifie via « Mes choix d'audience ». Voir la section dédiée de `confidentialite.html` avant activation.
+
 Quatre SaaS : Bâtiment, Études & Architecture, Promotion et Techniques spéciales. Le site distingue l’application existante, les fonctions des pilotes et la feuille de route. Aucun déploiement n’est effectué par ce travail.
 
 ## Pages et sources

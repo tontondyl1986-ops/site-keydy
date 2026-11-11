@@ -10,7 +10,10 @@ const results=[];
 try{
   for(const width of [390,800,1280]){
     const context=await browser.newContext({viewport:{width,height:900}});const external=[];
-    await context.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===base.origin)return route.continue();external.push(u.href);return route.abort();});
+    await context.route('**/*',route=>{const u=new URL(route.request().url());if(u.origin===base.origin)return route.continue();
+      // The optional anonymous audience configuration is separate from ERP commerce.
+      if(u.origin==='https://keydy.be'&&u.pathname==='/public/site-statistics/config')return route.fulfill({contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({schema:1,enabled:false,retentionDays:30})});
+      external.push(u.href);return route.abort();});
     const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
     for(const name of ['index.html','logiciels.html','modules.html',...products.map(p=>p.page)]){
       const response=await page.goto(new URL(name,base).href);assert.equal(response.status(),200);

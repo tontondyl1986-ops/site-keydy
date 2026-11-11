@@ -15,6 +15,8 @@ async function intercept(context,mode={}){
   await context.route('**/*',async route=>{
     const url=new URL(route.request().url());
     if(url.origin===base.origin)return route.continue();
+    if(url.origin==='https://keydy.be'&&url.pathname==='/public/site-statistics/config')
+      return route.fulfill({contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({schema:1,enabled:false,retentionDays:30})});
     if(url.origin==='https://keydy.be' && url.pathname==='/api/keydy/catalog'){
       const data={...catalog,modules:[...catalog.modules]};if(mode.unavailableInMain)data.modules.push({key:'SCAN',label:'KeydyScan',inDevelopment:false,required:[]});if(mode.closed)data.subscriptionsOpen=false;if(mode.legacy)delete data.subscriptionsOpen;if(mode.oldFlow)delete data.subscriptionFlow;if(mode.optionalDebit)delete data.recurringPaymentRequired;
       return route.fulfill({status:mode.offline?503:200,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify(data)});

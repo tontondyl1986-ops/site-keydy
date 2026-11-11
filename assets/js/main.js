@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded',()=>{
+  import('./site-statistics.mjs').then(module=>module.initSiteStatistics(document)).catch(()=>{});
   const toggle=document.querySelector('.nav-toggle');
   const nav=document.querySelector('.nav-links');
   if(toggle&&nav){
