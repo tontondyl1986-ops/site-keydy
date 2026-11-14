@@ -1,0 +1,10 @@
+.trial-hero { background: linear-gradient(120deg,#eef5ff,#fff); }
+.trial-hero h1 { max-width: 920px; font-size: clamp(2.5rem,5.5vw,4.8rem); line-height: 1.1; }
+.trial-hero .lead { max-width: 780px; }
+.trial-benefits { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+.trial-benefits span { background: #fff; border: 1px solid #dae5f3; padding: 10px 16px; border-radius: 100px; color: #244f7c; font-size: 14px; }
+.trial-policy { max-width: 920px; }
+[data-start-trial][aria-disabled="true"] { opacity: .55; cursor: wait; }
+.trial-retry { border: 0; color: #245f9d; background: transparent; padding: 4px 0; cursor: pointer; text-decoration: underline; }
+.trial-callout { border: 1px solid #cddff5; border-radius: 16px; padding: 24px; background: #f2f7fe; margin: 24px 0; }
+.trial-callout p { margin: 8px 0; }

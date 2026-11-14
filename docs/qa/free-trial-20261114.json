@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-14",
+  "base_revision": "0bd3d97d3ba866adfcc59e9d6cb113ed91173f0f",
+  "changes": [
+    "Public 30 day no-card offer with activation, selected modules, 3 users and self-service Excel import.",
+    "Discloses exact expiry, automatic application-data erasure without grace, optional feedback, segregated backup caveat.",
+    "Home and pricing link to the offer; selected modules and dependencies carry over, never paid quantities or consent.",
+    "Backend catalog must explicitly advertise available 30 day trials before signup handoff is enabled; old, closed and offline versions remain disabled."
+  ],
+  "validation": {
+    "node_tests": 20,
+    "failures": 0,
+    "errors": 0,
+    "browser": {
+      "passed": true,
+      "syntheticOnly": true,
+      "checks": [
+        "Desktop offer, module handoff and exact expiry disclosure",
+        "Mobile offer and no overflow",
+        "Unavailable handoff blocked: {\"old\":true}",
+        "Unavailable handoff blocked: {\"closed\":true}",
+        "Unavailable handoff blocked: {\"offline\":true}",
+        "Configurator trial carries modules without paid quantities or payment consent",
+        "Home page exposes the free trial",
+        "No browser JavaScript errors"
+      ]
+    },
+    "existing_commerce_browser_passed": true,
+    "desktop_and_mobile_screens_viewed": true,
+    "production_accessed": false
+  },
+  "source_sha256": {
+    "assets/css/free-trial.css": "4345523b402e2cfcd508994dd27f87a988141b09d803bb52fdd01370c231100f",
+    "assets/js/free-trial.mjs": "2fd212c0b230f98964781bcbc334e68cc9b1ab1aab17208408f66756dc3183e0",
+    "conditions-generales.html": "4829ae18688d3defe4efb0f35096e1c4c7a9349c3dae892eeff2cd090be0d75d",
+    "confidentialite.html": "2932fcd0f4c0e1e38b93ea67c2ef8a24f2305623f372638087815ea07ef14043",
+    "essai-gratuit.html": "aa2d57d43007181e08846881a6eea3497fbf0af2b25603d7b3de1d494a6aaf69",
+    "index.html": "a86c189e33842c37fb45c7c8ea340a8605e04faff4890a5593ed85e44916f646",
+    "package.json": "ef1d1c74b4f2aa5ba7121b035f4253246a8d4c1a613693feb2404779c990264a",
+    "sitemap.xml": "2ab2c15498e98affce5805fe44292323baafcd2d27b1ecbd448d5f02bc7bb6e4",
+    "tarifs.html": "c500ba94b1c0bfbfab6b6222cfa3b41e22fde2e09ad9bcdcf69828f180a306b6",
+    "tests/free-trial-browser.mjs": "3c1cdf817a08c70c52ca93163c34e78bc540b39b62fee6a2b4f4a69b41fd8d74",
+    "tests/free-trial.test.mjs": "60f24898e79b6d61d8fd47a7ff9b56a06dc55e21e46294fc9aaf9cc87c1e3627"
+  },
+  "limits": [
+    "Live hosting is not verified by these local checks.",
+    "Signup requires the corresponding backend delivery on keydy.be; the site alone cannot activate trials.",
+    "No real payment or SMTP delivery was created."
+  ]
+}
