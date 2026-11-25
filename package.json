@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/commerce.test.mjs tests/free-trial.test.mjs",
-    "test:browser": "node tests/commerce-browser.mjs && node tests/free-trial-browser.mjs && node tests/products-browser.mjs"
+    "test": "node --test tests/commerce.test.mjs tests/free-trial.test.mjs && node scripts/sync-site-navigation.mjs --check",
+    "test:browser": "node tests/commerce-browser.mjs && node tests/free-trial-browser.mjs && node tests/products-browser.mjs && node tests/site-browser.mjs",
+    "nav:sync": "node scripts/sync-site-navigation.mjs"
   },
   "devDependencies": {
     "playwright": "1.64.1"

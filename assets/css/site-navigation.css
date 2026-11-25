@@ -1,0 +1,138 @@
+.site-header:is([data-site-header], [data-keydy-site-header]) .nav {
+  height: auto;
+  min-height: 76px;
+}
+
+.site-header:is([data-site-header], [data-keydy-site-header]) .nav-links {
+  display: flex;
+  position: static;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(14px, 2vw, 26px);
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.site-header:is([data-site-header], [data-keydy-site-header]) .nav-toggle {
+  display: none;
+}
+
+.site-header:is([data-site-header], [data-keydy-site-header]) .nav-links .btn { width: auto; }
+.site-header:is([data-site-header], [data-keydy-site-header]) :focus-visible {
+  outline: 2px solid var(--blue, #1956a7);
+  outline-offset: 4px;
+}
+
+.site-products-menu {
+  position: relative;
+}
+
+.site-products-menu summary {
+  cursor: pointer;
+  padding-block: 8px;
+}
+
+.site-products-menu summary:hover,
+.site-products-menu summary.active { color: var(--blue, #1956a7); }
+
+.site-products-links {
+  position: absolute;
+  inset: calc(100% + 6px) auto auto 0;
+  min-width: 200px;
+  padding: 8px;
+  margin: 0;
+  list-style: none;
+  border: 1px solid var(--line, #dce5ee);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--shadow, 0 12px 30px #102c461a);
+}
+
+.site-products-menu:not([open]) .site-products-links { display: none; }
+.site-products-links a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+.site-products-links a:hover,
+.site-products-links a:focus-visible { background: #f2f7ff; }
+
+.footer:is([data-site-footer], [data-keydy-site-footer]) .footer-grid h2 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 1rem;
+  letter-spacing: normal;
+}
+.footer:is([data-site-footer], [data-keydy-site-footer]) .footer-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer:is([data-site-footer], [data-keydy-site-footer]) a:hover { text-decoration: underline; }
+.footer:is([data-site-footer], [data-keydy-site-footer]) a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+  .site-header:is([data-site-header], [data-keydy-site-header]) .nav {
+    min-height: 68px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .site-header:is([data-site-header], [data-keydy-site-header]) .nav-links {
+    flex-basis: 100%;
+    padding-bottom: 12px;
+  }
+
+  .site-header:is([data-site-header], [data-keydy-site-header]).site-navigation-enhanced .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--line, #dce5ee);
+    border-radius: 8px;
+    color: var(--navy, #0c2139);
+    background: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+  }
+
+  .site-header:is([data-site-header], [data-keydy-site-header]).site-navigation-enhanced .nav-links {
+    display: none;
+    position: absolute;
+    inset: 100% 13px auto;
+    max-height: calc(100dvh - 100px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 12px;
+    border: 1px solid var(--line, #dce5ee);
+    border-radius: 12px;
+    box-shadow: var(--shadow, 0 12px 30px #102c461a);
+    background: #fff;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .site-header:is([data-site-header], [data-keydy-site-header]).site-navigation-enhanced .nav-links.open { display: flex; }
+  .site-header:is([data-site-header], [data-keydy-site-header]).site-navigation-enhanced .nav-links > a,
+  .site-header:is([data-site-header], [data-keydy-site-header]).site-navigation-enhanced .site-products-menu summary { padding: 10px; }
+  .site-header:is([data-site-header], [data-keydy-site-header]).site-navigation-enhanced .nav-links .btn { align-self: stretch; }
+  .site-header.site-navigation-enhanced .site-products-links {
+    position: static;
+    min-width: 0;
+    margin: 0 0 6px;
+    box-shadow: none;
+  }
+  .footer:is([data-site-footer], [data-keydy-site-footer]) .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+}

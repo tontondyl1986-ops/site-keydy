@@ -22,6 +22,10 @@ Le site fonctionne sans serveur et sans nom de domaine.
 - `assets/keydy-icon.png`: icône du site.
 - `assets/screenshots/`: captures d'écran du programme.
 
+## Navigation du site
+
+Le menu et le pied de page des pages publiques sont générés depuis `scripts/site-navigation.mjs`. Après modification des liens communs, exécuter `npm run nav:sync`. `npm test` vérifie que chaque page est synchronisée. GitHub Pages publie la racine de `main` sur `www.keydy.be`.
+
 ## Ajouter les captures du programme
 
 Déposer les images dans `assets/screenshots/` avec ces noms:

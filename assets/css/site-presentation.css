@@ -1,0 +1,135 @@
+.keydy-hero {
+  background: radial-gradient(ellipse at 89% 8%, #244d7c 0, transparent 60%), #0b2039;
+  color: #fff;
+  overflow: hidden;
+  padding: clamp(3.5rem, 7.8vw, 7rem) 0 clamp(3.3rem, 6vw, 5.75rem);
+}
+.keydy-hero-grid, .keydy-feature-grid, .keydy-about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(1.75rem, 5.5vw, 4.8rem);
+}
+.keydy-section-label {
+  color: #26568b;
+  font-size: .875rem;
+  font-weight: 750;
+  letter-spacing: .11em;
+  margin: 0 0 .65rem;
+  text-transform: uppercase;
+}
+.keydy-hero .keydy-section-label { color: #acd0f7; }
+.keydy-hero h1, .keydy-about-hero h1 {
+  font-size: clamp(2.95rem, 6.4vw, 5.7rem);
+  letter-spacing: -.065em;
+  margin: .2em 0 .25em;
+}
+.keydy-hero h1 { color: #fff; }
+.keydy-lead {
+  font-size: clamp(1.075rem, 1.75vw, 1.27rem);
+  margin: 0;
+  max-width: 35rem;
+}
+.keydy-hero .keydy-lead { color: #d6e5f6; }
+.keydy-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  margin-top: 1.55rem;
+}
+.btn.keydy-primary {
+  background: #b92732;
+  border-color: #b92732;
+  box-shadow: 0 .45rem 1.1rem #0b203916;
+  color: #fff;
+}
+.btn.keydy-primary:hover, .btn.keydy-primary:focus-visible { background: #a1202a; border-color: #a1202a; }
+.btn.keydy-hero-link { border-color: #b3cce07d; color: #fff; }
+.btn.keydy-hero-link:hover, .btn.keydy-hero-link:focus-visible { background: #ffffff14; }
+.keydy-hero-shot, .keydy-feature-shot, .keydy-about-shot { margin: 0; min-width: 0; }
+.keydy-hero-shot img, .keydy-feature-shot img, .keydy-about-shot img {
+  border: 1px solid #c9d9e8;
+  border-radius: 1.15rem;
+  box-shadow: 0 1.15rem 2.5rem #152f4329;
+  height: auto;
+  width: 100%;
+}
+.keydy-hero-shot figcaption { color: #c7daed; font-size: .875rem; margin-top: .7rem; }
+.keydy-content-section { padding: clamp(2.65rem, 5.5vw, 5rem) 0; }
+.keydy-content-section h2 {
+  color: #112b48;
+  font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+  letter-spacing: -.045em;
+  line-height: 1.09;
+  margin: 0 0 .6rem;
+}
+.keydy-content-section p { color: #465c72; }
+.keydy-content-section .keydy-section-label { color: #26568b; }
+.keydy-section-heading {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.25rem;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+.keydy-inline-link { color: #1b5087; font-weight: 725; text-decoration: underline; text-underline-offset: .2em; }
+.keydy-inline-link:hover { color: #a1202a; }
+.keydy-product-grid { display: grid; gap: 1rem; grid-template-columns: repeat(3,minmax(0,1fr)); }
+.keydy-product-card {
+  background: #f8fafc;
+  border: 1px solid #dce6ef;
+  border-top: 3px solid var(--keydy-product-color, #153c65);
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.15rem, 2.9vw, 1.65rem);
+}
+.keydy-product-card img { object-fit: contain; }
+.keydy-product-card h3 { color: #142d49; font-size: 1.4rem; letter-spacing: -.027em; margin: .85rem 0 0; }
+.keydy-product-card p { margin: .35rem 0 .8rem; }
+.keydy-product-card .keydy-product-state { color: #536980; font-size: .875rem; margin: 0 0 .9rem; }
+.keydy-product-card .keydy-actions, .keydy-product-card > a:last-child { margin-top: auto; }
+.keydy-product-time { --keydy-product-color: #245eaa; }
+.keydy-product-wallet { --keydy-product-color: #196756; }
+.keydy-feature { background: #eef4fa; }
+.keydy-details-list { color: #294762; padding-left: 1.2rem; }
+.keydy-details-list li + li { margin-top: .3rem; }
+.keydy-about-panel { align-items: center; border-top: 1px solid #dce6ef; display: flex; gap: 1.25rem; justify-content: space-between; padding-top: 1.6rem; }
+.keydy-about-panel .btn { flex: none; }
+.keydy-about-panel p:last-child { margin: .65rem 0 0; }
+.keydy-about-hero { background: linear-gradient(155deg,#eaf2fa,#f7fafc); padding: clamp(2.7rem, 7vw, 6rem) 0; }
+.keydy-about-hero .keydy-lead { color: #435a70; }
+.keydy-about-story { align-items: start; }
+.keydy-about-story p:first-child { margin-top: 0; }
+@media (max-width: 800px) {
+  .keydy-hero-grid, .keydy-feature-grid, .keydy-about-grid { grid-template-columns: minmax(0,1fr); }
+  .keydy-hero h1 br { display: none; }
+  .keydy-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .keydy-hero-shot, .keydy-feature-shot, .keydy-about-shot { max-width: 43rem; }
+}
+@media (max-width: 560px) {
+  .keydy-product-grid { grid-template-columns: minmax(0,1fr); }
+  .keydy-about-panel { align-items: flex-start; flex-direction: column; }
+}
+
+
+.keydy-contact-grid {
+  align-items: start;
+  display: grid;
+  grid-template-columns: minmax(0,2.2fr) minmax(15rem,1fr);
+  gap: clamp(1.1rem,4vw,3rem);
+}
+.keydy-contact-grid .form-card { margin: 0; max-width: none; }
+.keydy-contact-aside { background: #eef4fa; border-radius: 1rem; padding: clamp(1rem, 3vw, 1.8rem); }
+.keydy-contact-aside h2 { font-size: clamp(1.45rem,2.1vw,1.9rem); }
+.keydy-contact-aside hr { border: 0; border-top: 1px solid #d2e0ef; margin: 1.1rem 0; }
+.keydy-contact-aside p { margin: .35rem 0; }
+.keydy-contact-aside a + p { margin-top: 1rem; }
+.keydy-mail-copy { margin-top: 1.2rem; }
+.keydy-mail-copy label { display: block; font-weight: 700; }
+.keydy-mail-copy textarea { display: block; width: 100%; margin: .55rem 0 .75rem; padding: .8rem; font: inherit; border: 1px solid #b9cadd; border-radius: .55rem; }
+@media (max-width: 800px) {
+  .keydy-contact-grid { grid-template-columns: minmax(0,1fr); }
+}

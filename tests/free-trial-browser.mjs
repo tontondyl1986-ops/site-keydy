@@ -41,7 +41,7 @@ try {
   assert.equal(await page.locator('[data-start-trial]').getAttribute('href'),null);assert.equal(await page.locator('[data-start-trial]').getAttribute('aria-disabled'),'true');checks.push('Unavailable handoff blocked: '+JSON.stringify(mode));await c.close();
  }
  {const {c,page}=await context();await page.goto(new URL('/tarifs.html?modules=FOURNISSEURS&users=20&annual=true',base).href);await page.locator('#continue:enabled').waitFor();await page.locator('[data-start-trial][href]').waitFor();const link=new URL(await page.locator('[data-start-trial]').getAttribute('href'));assert.deepEqual(link.searchParams.get('modules').split(',').sort(),['FOURNISSEURS','STOCK']);assert.deepEqual([...link.searchParams.keys()],['modules']);checks.push('Configurator trial carries modules without paid quantities or payment consent');await c.close();}
- {const {c,page}=await context();await page.goto(base.href);assert.ok(await page.locator('a[href="essai-gratuit.html"]').count()>=2);checks.push('Home page exposes the free trial');await c.close();}
+ {const {c,page}=await context();await page.goto(base.href);assert.equal(await page.locator('footer a[href="essai-gratuit.html"]').count(),1);assert.equal(await page.locator('main a[href="essai-gratuit.html"]').count(),0);checks.push('Trial help remains discoverable through the shared footer');await c.close();}
  assert.deepEqual(errors,[]);checks.push('No browser JavaScript errors');
  await writeFile(path.join(out,'free-trial-browser.json'),JSON.stringify({passed:true,syntheticOnly:true,checks},null,2));console.log(JSON.stringify({passed:true,checks}));
 }finally{await browser.close();}

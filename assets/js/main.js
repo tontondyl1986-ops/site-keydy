@@ -1,13 +1,4 @@
 document.addEventListener('DOMContentLoaded',()=>{
-  const toggle=document.querySelector('.nav-toggle');
-  const nav=document.querySelector('.nav-links');
-  if(toggle&&nav){
-    nav.id=nav.id||'navigation-principale';toggle.setAttribute('aria-controls',nav.id);toggle.setAttribute('aria-expanded','false');
-    const close=()=>{nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');};
-    toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});
-    nav.addEventListener('click',e=>{if(e.target.closest('a'))close();});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('open')){close();toggle.focus();}});
-  }
   const search=document.querySelector('[data-help-search]');
   if(search){
     const items=[...document.querySelectorAll('[data-help-item]')];
@@ -19,32 +10,54 @@ document.addEventListener('DOMContentLoaded',()=>{
       });
     });
   }
+
   const form=document.querySelector('[data-demo-form]');
-  if(form){form.addEventListener('submit',e=>{
-    e.preventDefault();
-    const d=new FormData(form);
-    const lines=[
-      'Société : '+(d.get('societe')||''),
-      'Nom et prénom : '+(d.get('nom')||''),
-      'E-mail : '+(d.get('email')||''),
-      'Téléphone : '+(d.get('telephone')||''),
-      'Nombre de techniciens : '+(d.get('techniciens')||''),
-      'Activité principale : '+(d.get('activite')||''),
-      '',
-      'Ce que le prospect souhaite améliorer :',
-      (d.get('besoin')||'—')
-    ];
-    if(d.get('configuration'))lines.push('',d.get('configuration'));
-    const subject=encodeURIComponent((d.get('configuration')?'Projet d’abonnement Keydy — ':'Demande de démonstration Keydy — ')+(d.get('societe')||d.get('nom')||''));
-    const body=encodeURIComponent(lines.join('\n'));
-    window.location.href='mailto:info@keydy.be?subject='+subject+'&body='+body;
-    // Le formulaire n'est plus vidé : sans logiciel de messagerie configuré
-    // (webmail, poste partagé), le mailto ne s'ouvre pas et la demande était
-    // perdue en silence. On affiche aussi le texte à copier.
-    const result=document.querySelector('[data-form-result]');
-    result.style.whiteSpace='pre-wrap';
-    result.textContent='Votre messagerie va s\'ouvrir avec la demande pré-remplie, à destination de info@keydy.be.\n'
-      +'Si rien ne s\'ouvre, copiez le texte ci-dessous et envoyez-le à info@keydy.be :\n\n'
-      +lines.join('\n');
-  });}
+  if(form){
+    const params=new URLSearchParams(window.location.search);
+    const product=form.elements.produit;
+    const purpose=form.elements.demande;
+    const prepared=form.querySelector('[data-mail-copy]');
+    const message=prepared.querySelector('textarea');
+    const status=form.querySelector('[data-form-result]');
+    const selectValue=(field,value)=>{
+      if([...field.options].some(option=>option.value===value))field.value=value;
+    };
+    selectValue(product,params.get('produit'));
+    selectValue(purpose,params.get('configuration')==='true'?'devis':params.get('demande'));
+    if(purpose.value==='devis'&&params.get('configuration')!=='true'){
+      document.querySelector('[data-contact-title]').textContent='Demander un devis';
+      document.querySelector('[data-contact-intro]').textContent='Décrivez les besoins de votre équipe pour préparer une offre adaptée.';
+      document.title='Demander un devis | Keydy';
+    }
+    form.addEventListener('submit',e=>{
+      e.preventDefault();
+      const data=new FormData(form);
+      const label=purpose.selectedOptions[0].textContent.trim();
+      const subject=label[0].toUpperCase()+label.slice(1)+' · '+product.selectedOptions[0].textContent.trim();
+      const lines=[
+        'Demande : '+label,
+        'Produit : '+product.selectedOptions[0].textContent.trim(),
+        'Nom et prénom : '+data.get('nom'),
+        'E-mail : '+data.get('email')
+      ];
+      if(data.get('societe'))lines.push('Société : '+data.get('societe'));
+      if(data.get('telephone'))lines.push('Téléphone : '+data.get('telephone'));
+      lines.push('',String(data.get('besoin')).trim());
+      if(data.get('configuration'))lines.push('',data.get('configuration'));
+      const body=lines.join('\n');
+      message.value='Objet : '+subject+'\n\n'+body;
+      prepared.hidden=false;
+      status.textContent='Si la messagerie ne s’ouvre pas, copiez ce texte et envoyez-le à info@keydy.be.';
+      window.location.href='mailto:info@keydy.be?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    });
+    form.querySelector('[data-copy-request]').addEventListener('click',async()=>{
+      try{
+        await navigator.clipboard.writeText(message.value);
+        status.textContent='Demande copiée. Vous pouvez la coller dans un e-mail à info@keydy.be.';
+      }catch{
+        message.select();
+        status.textContent='Le texte est sélectionné. Copiez-le dans votre messagerie et envoyez-le à info@keydy.be.';
+      }
+    });
+  }
 });
