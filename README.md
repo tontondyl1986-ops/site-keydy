@@ -64,16 +64,21 @@ ne publie pas le site et n’ouvre ni commerce ni paiements réels.
 
 Le catalogue doit aussi annoncer `recurringPaymentRequired=true`. Les nouvelles souscriptions payantes nécessitent une autorisation explicite de prélèvement récurrent, confirmée par le prestataire avant activation. Aucun renouvellement ne demande au client de souscrire de nouveau. La résiliation volontaire reste en fin de période payée.
 
-## Vente directe de Wallet Local
+## Vente directe et abonnements Wallet
 
-Le bouton « Acheter Wallet Local » est fermé par défaut. Après validation de la
-recette de vente et publication des conditions de Wallet, passer
-`LOCAL_DIRECT_SALES_ENABLED` à `true` dans `assets/js/wallet-product-pricing.js`,
-puis publier le site. Le bouton ouvre
-`https://wallet.keydy.be/wallet/?offre=local`. L’espace Wallet gère la
-connexion, le prix, le paiement et la délivrance du téléchargement et de la
-licence. Cette bascule ne modifie ni Stripe ni le serveur Wallet. Les offres
-Cloud gardent leur propre état.
+Les cinq parcours payants sont fermés par défaut sur le site. Après validation
+de la recette de vente et publication des conditions de Wallet, activer chaque
+parcours qualifié dans `assets/js/wallet-product-pricing.js`.
 
-La recette navigateur vérifie la fermeture par défaut et simule l’ouverture
-sur le serveur local.
+| Offre | Montant TTC | Bascule | Destination sur `https://wallet.keydy.be` |
+| --- | ---: | --- | --- |
+| Local | 3,99 € | `LOCAL_DIRECT_SALES_ENABLED` | `/wallet/?offre=local` |
+| Personnel mensuel | 4,99 €/mois | `CLOUD_SALES_ENABLED.wallet_personal_monthly` | `/wallet/?offre=personnel&cycle=mensuel` |
+| Personnel annuel | 49,90 €/an | `CLOUD_SALES_ENABLED.wallet_personal_annual` | `/wallet/?offre=personnel&cycle=annuel` |
+| Famille mensuel | 8,99 €/mois | `CLOUD_SALES_ENABLED.wallet_family_monthly` | `/wallet/?offre=famille&cycle=mensuel` |
+| Famille annuel | 89,90 €/an | `CLOUD_SALES_ENABLED.wallet_family_annual` | `/wallet/?offre=famille&cycle=annuel` |
+
+L’espace Wallet gère la connexion, le prix vérifié, le paiement, les droits
+et le téléchargement de Wallet Local. Les bascules règlent l’affichage des
+liens sur le site. La recette Chromium vérifie la fermeture par défaut et
+simule séparément chacun des cinq parcours depuis un serveur local.

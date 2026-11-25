@@ -61,8 +61,8 @@ try {
     await page.keyboard.press('ArrowRight');
     assert.deepEqual(await visiblePrices.allTextContents(), annualPrices);
     assert.match(await page.locator('.product-status').innerText(), /fermés/);
-    assert.equal(await page.locator('[data-wallet-local-purchase]').isVisible(), false);
-    assert.equal(await page.locator('[data-wallet-local-purchase] a').getAttribute('href'), null);
+    assert.equal(await page.locator('.product-plan a[href]').count(), 0);
+    assert.equal(await page.locator('.product-plan-purchase:visible').count(), 0);
     assert.match(await page.getByText('Achat unique à 3,99 € TTC sur keydy.be.', { exact: false }).innerText(), /hors connexion/);
     const previews = page.locator('.product-preview img');
     assert.equal(await previews.count(), 2);
@@ -110,6 +110,7 @@ try {
   await staticPage.goto(new URL('/keydy-wallet.html', base).href);
   assert.deepEqual(await staticPage.locator('.product-price:visible strong').allTextContents(), ['3,99 €', 'Gratuit', '4,99 €', '49,90 €', '8,99 €', '89,90 €']);
   assert.equal(await staticPage.locator('[data-billing-control]').isVisible(), false);
+  assert.equal(await staticPage.locator('.product-plan a[href]').count(), 0);
   await noScript.close();
   checks.push('Tarifs disponibles sans JavaScript');
 
@@ -120,16 +121,18 @@ try {
   });
   const direct = await directContext.newPage();
   direct.on('pageerror', error => errors.push(error.message));
-  await direct.goto(new URL('/keydy-wallet.html?offre=local', base).href);
-  assert.equal(await direct.getByRole('link', { name: 'Acheter Wallet Local' }).count(), 0);
+  for (const query of ['offre=local', 'offre=personnel&cycle=annuel', 'offre=famille&cycle=mensuel']) {
+    await direct.goto(new URL('/keydy-wallet.html?' + query, base).href);
+    assert.equal(await direct.locator('.product-plan a[href]').count(), 0, query);
+    assert.equal(await direct.locator('.product-plan-purchase:visible').count(), 0, query);
+  }
+  let activation = 'const LOCAL_DIRECT_SALES_ENABLED = false;';
+  let activeLine = 'const LOCAL_DIRECT_SALES_ENABLED = true;';
   await direct.route(new URL('/assets/js/wallet-product-pricing.js', base).href, async route => {
     const response = await route.fetch();
     const script = await response.text();
-    assert.ok(script.includes('const LOCAL_DIRECT_SALES_ENABLED = false;'));
-    await route.fulfill({ response, body: script.replace(
-      'const LOCAL_DIRECT_SALES_ENABLED = false;',
-      'const LOCAL_DIRECT_SALES_ENABLED = true;'
-    ) });
+    assert.ok(script.includes(activation));
+    await route.fulfill({ response, body: script.replace(activation, activeLine) });
   });
   await direct.reload();
   const checkout = direct.getByRole('link', { name: 'Acheter Wallet Local' });
@@ -138,8 +141,34 @@ try {
   assert.match(await direct.locator('[data-wallet-sales-status]').innerText(), /disponible à l’achat.*Cloud sont en préparation/);
   assert.equal(await direct.locator('.product-plan a[href]').count(), 1);
   assert.ok(await direct.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+
+  const cloudOffers = [
+    ['personal', 'personnel', 'monthly', 'mensuel', '4,99 €'],
+    ['personal', 'personnel', 'annual', 'annuel', '49,90 €'],
+    ['family', 'famille', 'monthly', 'mensuel', '8,99 €'],
+    ['family', 'famille', 'annual', 'annuel', '89,90 €']
+  ];
+  for (const [edition, offer, period, cycle, amount] of cloudOffers) {
+    const flag = `wallet_${edition}_${period}`;
+    activation = `${flag}: false`;
+    activeLine = `${flag}: true`;
+    await direct.goto(new URL('/keydy-wallet.html', base).href);
+    await direct.locator(`[data-billing-control] input[value="${period}"]`).check();
+    const purchase = direct.locator(`[data-wallet-cloud-purchase="${edition}"]`);
+    const link = purchase.locator('a');
+    await link.waitFor({ state: 'visible' });
+    assert.equal(await link.getAttribute('href'), `https://wallet.keydy.be/wallet/?offre=${offer}&cycle=${cycle}`);
+    assert.equal(await purchase.locator('..').locator('.product-price:visible strong').innerText(), amount);
+    assert.equal(await direct.locator('.product-plan a[href]').count(), 1);
+    assert.match(await direct.locator('[data-wallet-sales-status]').innerText(), /Wallet Local est en préparation.*abonnements Cloud ouverts/);
+
+    const otherPeriod = period === 'monthly' ? 'annual' : 'monthly';
+    await direct.locator(`[data-billing-control] input[value="${otherPeriod}"]`).check();
+    assert.equal(await direct.locator('.product-plan a[href]').count(), 0);
+    assert.equal(await purchase.isVisible(), false);
+  }
   await directContext.close();
-  checks.push('Achat Local fermé par défaut, lien Wallet unique lorsque la vente simulée est ouverte');
+  checks.push('Cinq achats fermés par défaut, liens et montants exacts lorsque chaque période est ouverte individuellement en simulation');
 
   const homeContext = await browser.newContext({ viewport: { width: 1181, height: 800 } });
   await homeContext.route('**/*', route => {
