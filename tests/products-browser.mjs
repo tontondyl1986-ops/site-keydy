@@ -61,6 +61,9 @@ try {
     await page.keyboard.press('ArrowRight');
     assert.deepEqual(await visiblePrices.allTextContents(), annualPrices);
     assert.match(await page.locator('.product-status').innerText(), /fermés/);
+    assert.equal(await page.locator('[data-wallet-local-purchase]').isVisible(), false);
+    assert.equal(await page.locator('[data-wallet-local-purchase] a').getAttribute('href'), null);
+    assert.match(await page.getByText('Achat unique à 3,99 € TTC sur keydy.be.', { exact: false }).innerText(), /hors connexion/);
     const previews = page.locator('.product-preview img');
     assert.equal(await previews.count(), 2);
     for (const preview of await previews.all()) {
@@ -109,6 +112,34 @@ try {
   assert.equal(await staticPage.locator('[data-billing-control]').isVisible(), false);
   await noScript.close();
   checks.push('Tarifs disponibles sans JavaScript');
+
+  const directContext = await browser.newContext({ viewport: { width: 375, height: 800 } });
+  await directContext.route('**/*', route => {
+    const origin = new URL(route.request().url()).origin;
+    return origin === base.origin ? route.continue() : route.abort();
+  });
+  const direct = await directContext.newPage();
+  direct.on('pageerror', error => errors.push(error.message));
+  await direct.goto(new URL('/keydy-wallet.html?offre=local', base).href);
+  assert.equal(await direct.getByRole('link', { name: 'Acheter Wallet Local' }).count(), 0);
+  await direct.route(new URL('/assets/js/wallet-product-pricing.js', base).href, async route => {
+    const response = await route.fetch();
+    const script = await response.text();
+    assert.ok(script.includes('const LOCAL_DIRECT_SALES_ENABLED = false;'));
+    await route.fulfill({ response, body: script.replace(
+      'const LOCAL_DIRECT_SALES_ENABLED = false;',
+      'const LOCAL_DIRECT_SALES_ENABLED = true;'
+    ) });
+  });
+  await direct.reload();
+  const checkout = direct.getByRole('link', { name: 'Acheter Wallet Local' });
+  await checkout.waitFor({ state: 'visible' });
+  assert.equal(await checkout.getAttribute('href'), 'https://wallet.keydy.be/wallet/?offre=local');
+  assert.match(await direct.locator('[data-wallet-sales-status]').innerText(), /disponible à l’achat.*Cloud sont en préparation/);
+  assert.equal(await direct.locator('.product-plan a[href]').count(), 1);
+  assert.ok(await direct.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+  await directContext.close();
+  checks.push('Achat Local fermé par défaut, lien Wallet unique lorsque la vente simulée est ouverte');
 
   const homeContext = await browser.newContext({ viewport: { width: 1181, height: 800 } });
   await homeContext.route('**/*', route => {

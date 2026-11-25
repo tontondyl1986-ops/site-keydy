@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Keydy Wallet — Budget, crédits et projets</title>
-  <meta name="description" content="Suivez vos comptes, vos budgets et vos crédits avec Keydy Wallet. Comparez les offres Local, Découverte, Personnel et Famille avant l’ouverture des ventes.">
+  <meta name="description" content="Suivez vos comptes, vos budgets et vos crédits avec Keydy Wallet. Découvrez Wallet Local pour Android et comparez les offres Cloud.">
   <meta name="theme-color" content="#103d36">
   <link rel="canonical" href="https://www.keydy.be/keydy-wallet.html">
   <link rel="icon" href="assets/img/keydy-wallet-logo.svg" type="image/svg+xml">
@@ -15,7 +15,7 @@
   <meta property="og:locale" content="fr_BE">
   <meta property="og:url" content="https://www.keydy.be/keydy-wallet.html">
   <meta property="og:title" content="Keydy Wallet — Budget, crédits et projets">
-  <meta property="og:description" content="Vos comptes, vos échéances et vos projets financiers dans un même espace. Découvrez les éditions Local et Cloud en préparation.">
+  <meta property="og:description" content="Vos comptes, vos échéances et vos projets financiers dans un même espace. Découvrez les éditions Local et Cloud.">
   <meta property="og:image" content="https://www.keydy.be/assets/img/keydy-wallet-tableau-de-bord.png">
   <meta property="og:image:width" content="1280">
   <meta property="og:image:height" content="853">
@@ -47,7 +47,7 @@
             <a class="btn product-primary" href="#offres">Comparer les offres</a>
             <a class="btn btn-secondary" href="#fonctionnalites">Voir les fonctionnalités</a>
           </div>
-          <p class="product-status">En préparation. Les achats, inscriptions et téléchargements publics sont fermés.</p>
+          <p class="product-status" data-wallet-sales-status>En préparation. Les achats, inscriptions et téléchargements publics sont fermés.</p>
         </div>
         <figure class="product-preview">
           <img src="assets/img/keydy-wallet-tableau-de-bord.png" width="1280" height="853" alt="Vue d’ensemble Wallet avec un compte, son solde calculé et le bilan du mois.">
@@ -87,7 +87,7 @@
           <article>
             <span class="product-tag">Android</span>
             <h3>Local</h3>
-            <p>Gérez votre budget sur votre appareil, sans compte Keydy. L’achat unique est prévu à 3,99 € TTC.</p>
+            <p>Achat unique à 3,99 € TTC sur keydy.be. Après activation avec votre licence, gérez votre budget hors connexion sur votre appareil Android.</p>
           </article>
           <article>
             <span class="product-tag">Web et Android</span>
@@ -102,7 +102,7 @@
         <div class="product-pricing-heading">
           <div class="product-section-heading">
             <h2 id="offers-title">Les quatre offres Wallet</h2>
-            <p>Prix TTC. Les ventes sont fermées pendant la préparation du lancement.</p>
+            <p>Prix TTC.</p>
           </div>
           <fieldset class="product-billing" data-billing-control hidden>
             <legend>Périodicité Cloud</legend>
@@ -116,7 +116,10 @@
           <article class="product-plan">
             <h3>Local</h3>
             <p class="product-price"><strong>3,99 €</strong><small>TTC · achat unique</small></p>
-            <ul><li>Application Android</li><li>Fonctionnement sans compte ni abonnement</li><li>Données conservées sur votre appareil</li></ul>
+            <ul><li>Application Android en téléchargement direct</li><li>Utilisation hors connexion après activation</li><li>Données conservées sur votre appareil</li></ul>
+            <div class="product-plan-purchase" data-wallet-local-purchase hidden>
+              <a class="btn product-primary">Acheter Wallet Local</a>
+            </div>
           </article>
           <article class="product-plan">
             <h3>Découverte Cloud</h3>
@@ -143,9 +146,10 @@
         <div class="product-section-heading"><h2 id="faq-title">Questions fréquentes</h2></div>
         <div class="product-faq">
           <details><summary>Quelle est la différence entre Local et Cloud ?</summary><p>Avec Local, les données restent sur l’appareil Android sans synchronisation. Le Cloud est prévu pour retrouver ses données sur plusieurs appareils au moyen d’un compte Wallet.</p></details>
+          <details><summary>Comment se passe l’achat direct de Wallet Local ?</summary><p>Connectez-vous à votre espace Wallet pour commander. Après confirmation du paiement, téléchargez l’application Android et votre fichier de licence dans cet espace. Installez l’application puis importez la licence pour l’utiliser hors connexion.</p></details>
           <details><summary>Faut-il un abonnement Keydy Suite ?</summary><p>Keydy Wallet est une application indépendante pour les finances personnelles et familiales. Wallet s’utilise indépendamment de Keydy Suite.</p></details>
           <details><summary>Comment lire les résultats des simulations ?</summary><p>Les résultats estiment un coût et une mensualité à partir des hypothèses que vous saisissez. L’organisme de crédit confirme les conditions qu’il peut vous proposer.</p></details>
-          <details><summary>Quand puis-je installer Wallet ou souscrire une offre ?</summary><p>Le lancement commercial est en préparation. Les accès Web, Android et Google Play seront indiqués ici selon leur disponibilité.</p></details>
+          <details><summary>Quand puis-je installer Wallet ou souscrire une offre ?</summary><p>Retrouvez la disponibilité de Wallet Local et des offres Cloud sur cette page.</p></details>
           <details><summary>Où consulter la politique de confidentialité et les conditions de Wallet ?</summary><p>Les documents propres à Wallet seront disponibles sur cette page avant l’ouverture des ventes. Pour vos questions sur les données personnelles, écrivez à <a href="mailto:info@keydy.be?subject=Confidentialit%C3%A9%20Keydy%20Wallet">info@keydy.be</a>.</p></details>
         </div>
       </div>

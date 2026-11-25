@@ -297,6 +297,7 @@
 }
 
 .product-plan li + li { margin-top: 5px; }
+.product-plan-purchase { margin-top: 16px; }
 
 .product-faq-grid {
   display: grid;

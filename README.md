@@ -63,3 +63,17 @@ conservé jusqu’à la date affichée, sans remboursement automatique. Ce trava
 ne publie pas le site et n’ouvre ni commerce ni paiements réels.
 
 Le catalogue doit aussi annoncer `recurringPaymentRequired=true`. Les nouvelles souscriptions payantes nécessitent une autorisation explicite de prélèvement récurrent, confirmée par le prestataire avant activation. Aucun renouvellement ne demande au client de souscrire de nouveau. La résiliation volontaire reste en fin de période payée.
+
+## Vente directe de Wallet Local
+
+Le bouton « Acheter Wallet Local » est fermé par défaut. Après validation de la
+recette de vente et publication des conditions de Wallet, passer
+`LOCAL_DIRECT_SALES_ENABLED` à `true` dans `assets/js/wallet-product-pricing.js`,
+puis publier le site. Le bouton ouvre
+`https://wallet.keydy.be/wallet/?offre=local`. L’espace Wallet gère la
+connexion, le prix, le paiement et la délivrance du téléchargement et de la
+licence. Cette bascule ne modifie ni Stripe ni le serveur Wallet. Les offres
+Cloud gardent leur propre état.
+
+La recette navigateur vérifie la fermeture par défaut et simule l’ouverture
+sur le serveur local.
