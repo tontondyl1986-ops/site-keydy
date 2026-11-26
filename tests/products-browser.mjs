@@ -112,6 +112,9 @@ try {
     assert.equal(await page.locator('[data-site-header] [aria-current="page"]').textContent(), 'Keydy Time');
     assert.match(await page.locator('[data-time-availability]').innerText(), /disponible à l’achat en Belgique/);
     assert.equal((await page.locator('[data-time-price]').innerText()).replace(/\s/g, ' '), '3,99 € TTC');
+    const localNotice = page.locator('#offres [data-time-local]');
+    assert.ok(await localNotice.isVisible());
+    assert.match(await localNotice.innerText(), /Édition locale · Les pointages restent sur votre appareil\. Pour changer de téléphone, exportez une sauvegarde puis importez-la\./);
     assert.equal(await page.getByRole('link', {name:'Acheter Keydy Time'}).getAttribute('href'), timeCheckout);
     assert.equal(await page.getByRole('link', {name:'Retrouver mon achat'}).getAttribute('href'), timeCheckout);
     assert.equal(await page.getByRole('link', {name:'Conditions de vente et confidentialité'}).getAttribute('href'), timeCheckout + '#conditions');
