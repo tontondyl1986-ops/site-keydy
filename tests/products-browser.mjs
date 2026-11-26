@@ -12,8 +12,8 @@ const channel = process.env.KEYDY_BROWSER_CHANNEL;
 const browser = await chromium.launch({ headless: true, ...(channel ? { channel } : {}) });
 const checks = [];
 const errors = [];
-const monthlyPrices = ['3,99 €', 'Gratuit', '4,99 €', '8,99 €'];
-const annualPrices = ['3,99 €', 'Gratuit', '49,90 €', '89,90 €'];
+const monthlyPrices = ['3,99 €', '4,99 €', '8,99 €'];
+const annualPrices = ['3,99 €', '49,90 €', '89,90 €'];
 
 async function checkLocalLinks(page) {
   const hrefs = await page.locator('a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
@@ -55,7 +55,9 @@ try {
 
     await page.goto(new URL('/keydy-wallet.html', base).href);
     assert.equal(await page.locator('[data-site-header] [aria-current="page"]').textContent(), 'Keydy Wallet');
-    assert.deepEqual(await page.locator('.product-plan h3').allTextContents(), ['Local', 'Découverte Cloud', 'Personnel Cloud', 'Famille Cloud']);
+    assert.deepEqual(await page.locator('.product-plan h3').allTextContents(), ['Local', 'Personnel Cloud', 'Famille Cloud']);
+    const pricingColumns = await page.locator('.product-pricing-grid').evaluate(grid => getComputedStyle(grid).gridTemplateColumns.split(' ').length);
+    assert.equal(pricingColumns, name === 'mobile' ? 1 : 3);
     const visiblePrices = page.locator('.product-price:visible strong');
     assert.deepEqual(await visiblePrices.allTextContents(), monthlyPrices);
     await page.getByRole('radio', { name: 'Mensuel' }).focus();
@@ -109,7 +111,7 @@ try {
   const noScript = await browser.newContext({ javaScriptEnabled: false });
   const staticPage = await noScript.newPage();
   await staticPage.goto(new URL('/keydy-wallet.html', base).href);
-  assert.deepEqual(await staticPage.locator('.product-price:visible strong').allTextContents(), ['3,99 €', 'Gratuit', '4,99 €', '49,90 €', '8,99 €', '89,90 €']);
+  assert.deepEqual(await staticPage.locator('.product-price:visible strong').allTextContents(), ['3,99 €', '4,99 €', '49,90 €', '8,99 €', '89,90 €']);
   assert.equal(await staticPage.locator('[data-billing-control]').isVisible(), false);
   assert.equal(await staticPage.locator('.product-plan a[href]').count(), 0);
   await noScript.close();
@@ -186,6 +188,10 @@ try {
   for (const slug of ['keydy-wallet.html', 'keydy-time.html']) {
     assert.ok(xml.includes('<loc>https://www.keydy.be/' + slug + '</loc>'));
   }
+  await home.goto(new URL('/produits.html', base).href);
+  const walletSummary = await home.locator('.products-wallet dl').innerText();
+  assert.match(walletSummary, /Abonnements Personnel ou Famille/);
+  assert.doesNotMatch(walletSummary, /Découverte/);
   await homeContext.close();
   checks.push('Accueil, liens vers les deux produits et sitemap');
   assert.deepEqual(errors, []);

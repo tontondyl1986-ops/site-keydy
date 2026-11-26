@@ -206,10 +206,12 @@
 .product-features,
 .product-pricing-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
   margin-top: 25px;
 }
+
+.product-features { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.product-pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
 .product-features .card { padding: 21px; }
 .product-features h3 { margin: 0 0 8px; }
@@ -349,18 +351,19 @@
 }
 
 @media (max-width: 900px) {
-  .product-features, .product-pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .product-features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 700px) {
   .product-hero-grid,
   .wallet-product .product-hero-grid,
+  .product-pricing-grid,
   .product-faq-grid,
   .product-preview-section { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 490px) {
-  .product-features, .product-pricing-grid, .product-editions { grid-template-columns: 1fr; }
+  .product-features, .product-editions { grid-template-columns: 1fr; }
   .product-actions .btn { width: 100%; }
 }
 
