@@ -14,13 +14,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   const form=document.querySelector('[data-demo-form]');
   if(form){
     const params=new URLSearchParams(window.location.search);
+    const offerPages=new Map([['wallet','keydy-wallet.html#offres'],['time','keydy-time.html#offres']]);
+    const offerPage=offerPages.get(params.get('produit'));
+    if(offerPage){
+      window.location.replace(offerPage);
+      return;
+    }
     const product=form.elements.produit;
     const purpose=form.elements.demande;
     const prepared=form.querySelector('[data-mail-copy]');
     const message=prepared.querySelector('textarea');
     const status=form.querySelector('[data-form-result]');
     const selectValue=(field,value)=>{
-      if([...field.options].some(option=>option.value===value))field.value=value;
+      if([...field.options].some(option=>option.value===value&&!option.disabled))field.value=value;
     };
     selectValue(product,params.get('produit'));
     selectValue(purpose,params.get('configuration')==='true'?'devis':params.get('demande'));

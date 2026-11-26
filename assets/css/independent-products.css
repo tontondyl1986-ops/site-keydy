@@ -215,8 +215,7 @@
 .product-features h3 { margin: 0 0 8px; }
 .product-features p { color: #435460; }
 
-.product-pricing-heading,
-.product-support {
+.product-pricing-heading {
   display: flex;
   gap: 18px;
   align-items: flex-end;

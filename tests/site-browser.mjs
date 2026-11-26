@@ -27,7 +27,7 @@ try {
     const nav = navigation(page);
     assert.equal(await nav.getByRole('link', { name: 'Accueil', exact: true }).getAttribute('href'), 'index.html');
     assert.equal(await nav.getByRole('link', { name: 'À propos', exact: true }).getAttribute('href'), 'a-propos.html');
-    assert.equal(await nav.getByRole('link', { name: 'Démonstration', exact: true }).getAttribute('href'), 'contact.html');
+    assert.equal(await nav.getByRole('link', { name: 'Démo Keydy Suite', exact: true }).getAttribute('href'), 'contact.html');
     assert.equal(await nav.getByRole('link', { name: 'Connexion', exact: true }).getAttribute('href'), 'https://keydy.be/login');
     await nav.locator('summary').click();
     for (const name of ['Tous les produits', 'Keydy Suite', 'Keydy Time', 'Keydy Wallet']) {
@@ -39,16 +39,29 @@ try {
     await page.goto(new URL(file, base).href);
     await page.screenshot({ path: join(output, file.replace('.html', '-desktop.png')), fullPage: true });
   }
-  await page.goto(new URL('contact.html?produit=wallet', base).href);
-  assert.equal(await page.locator('select[name=produit]').inputValue(), 'wallet');
+  for (const [product, destination] of [['wallet','keydy-wallet.html#offres'], ['time','keydy-time.html#offres']]) {
+    await page.goto(new URL('contact.html?produit='+product, base).href);
+    await page.waitForURL(new URL(destination, base).href);
+    assert.equal(await page.locator('[data-demo-form]').count(),0);
+    assert.equal(await page.locator('main a[href*="subject=Keydy%20"]').count(),0);
+  }
+  await page.goto(new URL('contact.html?produit=batiment', base).href);
+  const product=page.locator('select[name=produit]');
+  assert.equal(await product.inputValue(),'suite');
+  assert.equal(await product.locator('option[value=time], option[value=wallet]').count(),0);
+  for(const value of ['batiment','etudes-architecture','promotion']) {
+    const future=product.locator('option[value="'+value+'"]');
+    assert.equal(await future.evaluate(option => option.disabled),true);
+    assert.match(await future.textContent(),/en développement/);
+  }
   await page.locator('input[name=nom]').fill('Compte de recette');
   await page.locator('input[name=email]').fill('demo@example.invalid');
-  await page.locator('textarea[name=besoin]').fill('Je souhaite comprendre le suivi du budget.');
+  await page.locator('textarea[name=besoin]').fill('Je souhaite voir le planning des techniciens.');
   await page.getByRole('button', { name: 'Préparer mon e-mail' }).click();
   assert.ok(await page.locator('[data-mail-copy]').isVisible());
   const prepared = await page.locator('#demande-a-copier').inputValue();
-  assert.match(prepared, /Objet : Une démonstration · Keydy Wallet/);
-  assert.match(prepared, /Je souhaite comprendre le suivi du budget/);
+  assert.match(prepared, /Objet : Une démonstration · Keydy Suite/);
+  assert.match(prepared, /Je souhaite voir le planning des techniciens/);
   await page.goto(new URL('contact.html?produit=suite&demande=devis', base).href);
   assert.equal(await page.getByRole('heading', { level: 1 }).innerText(), 'Demander un devis');
   assert.equal(await page.locator('select[name=demande]').inputValue(), 'devis');

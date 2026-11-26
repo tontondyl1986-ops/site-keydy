@@ -37,7 +37,7 @@ export function renderSiteHeader(page = 'index.html') {
         </ul>
       </details>
       ${link('a-propos.html', 'À propos')}
-      ${link('contact.html', 'Démonstration')}
+      ${link('contact.html', 'Démo Keydy Suite')}
       ${link(login, 'Connexion', 'btn btn-secondary btn-sm')}
     </nav>
   </div>
@@ -52,13 +52,13 @@ export function renderSiteFooter(page = 'index.html') {
       ['tarifs.html', 'Tarifs Keydy Suite'],
       ['essai-gratuit.html', 'Essai gratuit Keydy Suite'],
       ['aide.html', 'Centre d’aide'],
-      ['demonstration.html', 'Vidéo de démonstration'],
+      ['demonstration.html', 'Vidéo de Keydy Suite'],
       ['logiciel-chauffagiste.html', 'Logiciel chauffagiste'],
       ['facturation-electronique-peppol.html', 'Facturation Peppol']
     ]],
     ['Keydy', [
       ['a-propos.html', 'À propos'],
-      ['contact.html', 'Démonstration et contact'],
+      ['contact.html', 'Démo et contact Keydy Suite'],
       [login, 'Connexion'],
       ['confidentialite.html', 'Confidentialité'],
       ['conditions-generales.html', 'Conditions générales']
