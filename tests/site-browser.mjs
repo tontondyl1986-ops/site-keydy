@@ -62,6 +62,28 @@ try {
   const prepared = await page.locator('#demande-a-copier').inputValue();
   assert.match(prepared, /Objet : Une démonstration · Keydy Suite/);
   assert.match(prepared, /Je souhaite voir le planning des techniciens/);
+  const purpose=page.locator('select[name=demande]');
+  await purpose.selectOption('question');
+  assert.equal(await page.getByRole('heading', { level: 1 }).innerText(),'Demander un renseignement');
+  assert.equal(await page.locator('[data-mail-copy]').isVisible(),false);
+  for(const value of ['suite','batiment','etudes-architecture','promotion','time','wallet','autre']) {
+    await product.selectOption(value);
+    assert.equal(await product.inputValue(),value);
+  }
+  await product.selectOption('wallet');
+  await page.getByRole('button', { name: 'Préparer mon e-mail' }).click();
+  assert.match(await page.locator('#demande-a-copier').inputValue(),/Objet : Un renseignement · Keydy Wallet/);
+  await purpose.selectOption('devis');
+  assert.equal(await page.locator('[data-mail-copy]').isVisible(),false);
+  assert.equal(await product.inputValue(),'suite');
+  assert.equal(await product.locator('option[value=wallet], option[value=time]').count(),0);
+  assert.equal(await page.locator('input[name=email]').inputValue(),'demo@example.invalid');
+  assert.equal(await product.locator('option[value=batiment]').evaluate(option=>option.disabled),true);
+  for(const value of ['wallet','time','etudes-architecture']) {
+    await page.goto(new URL('contact.html?demande=question&produit='+value, base).href);
+    assert.equal(await purpose.inputValue(),'question');
+    assert.equal(await product.inputValue(),value);
+  }
   await page.goto(new URL('contact.html?produit=suite&demande=devis', base).href);
   assert.equal(await page.getByRole('heading', { level: 1 }).innerText(), 'Demander un devis');
   assert.equal(await page.locator('select[name=demande]').inputValue(), 'devis');

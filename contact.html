@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Demander une démonstration ou un devis | Keydy</title>
-  <meta name="description" content="Préparez une demande de démonstration ou de devis pour Keydy Suite.">
+  <meta name="description" content="Demandez une démonstration ou un devis pour Keydy Suite, ou un renseignement sur les produits Keydy.">
   <link rel="canonical" href="https://www.keydy.be/contact.html">
   <link rel="icon" href="assets/img/keydy-icon.png" type="image/png">
   <link rel="stylesheet" href="assets/css/styles.css">
@@ -59,15 +59,19 @@
                 <option value="question">Un renseignement</option>
               </select>
             </label>
-            <label class="field">Votre solution Keydy Suite
+            <label class="field">Le produit
               <select name="produit">
                 <option value="suite">Keydy Suite – Techniques spéciales</option>
-                <option value="batiment" disabled>Keydy Bâtiment — en développement</option>
-                <option value="etudes-architecture" disabled>Keydy Études &amp; Architecture — en développement</option>
-                <option value="promotion" disabled>Keydy Promotion — en développement</option>
+                <option value="batiment" disabled data-in-development>Keydy Bâtiment — en développement</option>
+                <option value="etudes-architecture" disabled data-in-development>Keydy Études &amp; Architecture — en développement</option>
+                <option value="promotion" disabled data-in-development>Keydy Promotion — en développement</option>
                 <option value="autre">À déterminer</option>
               </select>
             </label>
+            <template data-question-products>
+              <option value="time">Keydy Time</option>
+              <option value="wallet">Keydy Wallet</option>
+            </template>
             <label class="field">Nom et prénom *
               <input name="nom" autocomplete="name" maxlength="120" required>
             </label>

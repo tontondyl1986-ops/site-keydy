@@ -14,27 +14,54 @@ document.addEventListener('DOMContentLoaded',()=>{
   const form=document.querySelector('[data-demo-form]');
   if(form){
     const params=new URLSearchParams(window.location.search);
-    const offerPages=new Map([['wallet','keydy-wallet.html#offres'],['time','keydy-time.html#offres']]);
-    const offerPage=offerPages.get(params.get('produit'));
-    if(offerPage){
-      window.location.replace(offerPage);
-      return;
-    }
+    const fromConfigurator=params.get('configuration')==='true';
     const product=form.elements.produit;
     const purpose=form.elements.demande;
-    const prepared=form.querySelector('[data-mail-copy]');
-    const message=prepared.querySelector('textarea');
-    const status=form.querySelector('[data-form-result]');
     const selectValue=(field,value)=>{
       if([...field.options].some(option=>option.value===value&&!option.disabled))field.value=value;
     };
-    selectValue(product,params.get('produit'));
-    selectValue(purpose,params.get('configuration')==='true'?'devis':params.get('demande'));
-    if(purpose.value==='devis'&&params.get('configuration')!=='true'){
-      document.querySelector('[data-contact-title]').textContent='Demander un devis';
-      document.querySelector('[data-contact-intro]').textContent='Décrivez les besoins de votre équipe pour préparer une offre adaptée.';
-      document.title='Demander un devis | Keydy';
+    selectValue(purpose,fromConfigurator?'devis':params.get('demande'));
+    const offerPages=new Map([['wallet','keydy-wallet.html#offres'],['time','keydy-time.html#offres']]);
+    const offerPage=offerPages.get(params.get('produit'));
+    if(!fromConfigurator&&purpose.value!=='question'&&offerPage){
+      window.location.replace(offerPage);
+      return;
     }
+
+    const prepared=form.querySelector('[data-mail-copy]');
+    const message=prepared.querySelector('textarea');
+    const status=form.querySelector('[data-form-result]');
+    const configurationSummary=form.querySelector('#contact-configuration-summary');
+    const questionOptions=[...form.querySelector('[data-question-products]').content.children];
+    const futureOptions=product.querySelectorAll('[data-in-development]');
+    const otherOption=product.querySelector('option[value=autre]');
+    const title=document.querySelector('[data-contact-title]');
+    const intro=document.querySelector('[data-contact-intro]');
+    const requestHeadings={
+      demo:[title.textContent,intro.textContent],
+      devis:['Demander un devis','Décrivez les besoins de votre équipe pour préparer une offre adaptée.'],
+      question:['Demander un renseignement','Choisissez le produit Keydy sur lequel vous avez une question.']
+    };
+    const updatePurpose=()=>{
+      const isQuestion=purpose.value==='question';
+      const previousProduct=product.value;
+      if(isQuestion)otherOption.before(...questionOptions);
+      else questionOptions.forEach(option=>option.remove());
+      futureOptions.forEach(option=>{option.disabled=!isQuestion;});
+      product.value='suite';
+      selectValue(product,previousProduct);
+      if(!fromConfigurator){[title.textContent,intro.textContent]=requestHeadings[purpose.value];document.title=title.textContent+' | Keydy';}
+    };
+    const refreshRequest=()=>{
+      if(fromConfigurator)configurationSummary.hidden=purpose.value!=='devis'||product.value!=='suite';
+      message.value='';
+      prepared.hidden=true;
+    };
+    updatePurpose();
+    if(!fromConfigurator)selectValue(product,params.get('produit'));
+    refreshRequest();
+    purpose.addEventListener('change',()=>{updatePurpose();refreshRequest();});
+    product.addEventListener('change',refreshRequest);
     form.addEventListener('submit',e=>{
       e.preventDefault();
       const data=new FormData(form);
@@ -49,7 +76,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       if(data.get('societe'))lines.push('Société : '+data.get('societe'));
       if(data.get('telephone'))lines.push('Téléphone : '+data.get('telephone'));
       lines.push('',String(data.get('besoin')).trim());
-      if(data.get('configuration'))lines.push('',data.get('configuration'));
+      if(purpose.value==='devis'&&product.value==='suite'&&data.get('configuration'))lines.push('',data.get('configuration'));
       const body=lines.join('\n');
       message.value='Objet : '+subject+'\n\n'+body;
       prepared.hidden=false;
