@@ -1,0 +1,241 @@
+.features-page {
+  --max: 1250px;
+  background: #f6f9fc;
+}
+
+.features-intro {
+  padding: clamp(32px, 6vw, 78px) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.features-intro .container {
+  max-width: none;
+}
+
+.features-intro .breadcrumb {
+  margin: 0 0 12px;
+}
+
+.features-intro .lead {
+  max-width: 675px;
+  margin-bottom: 0;
+}
+
+.features-layout {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(20px, 3vw, 42px);
+  padding-block: 38px 65px;
+}
+
+.features-index {
+  position: sticky;
+  top: 92px;
+  max-height: calc(100vh - 104px);
+  overflow: auto;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.features-index strong {
+  color: var(--navy);
+}
+
+.features-index ul {
+  display: grid;
+  gap: 2px;
+  padding: 0;
+  margin: 10px 0 0;
+  list-style: none;
+}
+
+.features-index a {
+  display: block;
+  padding: 7px 8px;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.features-index a:hover,
+.features-index a:focus-visible {
+  background: #eaf3ff;
+  color: var(--navy);
+}
+
+.features-list {
+  display: grid;
+  gap: 20px;
+}
+
+.feature-module {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(18px, 3vw, 36px);
+  padding: clamp(18px, 3vw, 30px);
+  scroll-margin-top: 96px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgb(15 43 74 / 4%);
+}
+
+.feature-module h2 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  line-height: 1.22;
+}
+
+.feature-copy > p,
+.feature-copy > ul {
+  color: var(--muted);
+  font-size: .94rem;
+  line-height: 1.55;
+}
+
+.feature-copy > p {
+  margin: 0;
+}
+
+.feature-copy > ul {
+  display: grid;
+  gap: 5px;
+  margin: 12px 0 16px;
+  padding-left: 20px;
+}
+
+.feature-copy > .feature-example {
+  border-left: 3px solid #9fc3f8;
+  border-radius: 0 8px 8px 0;
+  padding: 9px 11px;
+  background: #f0f6ff;
+}
+
+.feature-example strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--navy);
+}
+
+.feature-visual {
+  min-width: 0;
+}
+
+.feature-capture {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f3f6fc;
+  color: #164b90;
+}
+
+.feature-capture img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+}
+
+.feature-capture span {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding: 8px 10px;
+  background: #fff;
+  font-size: .84rem;
+  font-weight: 700;
+}
+
+.feature-capture:hover span {
+  text-decoration: underline;
+}
+
+.feature-video-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 11px;
+  min-height: 40px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: #eaf3ff;
+  color: #164b90;
+  font-size: .88rem;
+  font-weight: 750;
+}
+
+.feature-video-link:hover {
+  background: #dceaff;
+}
+
+.feature-dialog {
+  width: min(1060px, calc(100% - 24px));
+  max-height: calc(100% - 24px);
+  margin: auto;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.feature-dialog::backdrop {
+  background: rgb(13 30 52 / 72%);
+}
+
+.feature-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.feature-dialog-header h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 1.15rem;
+}
+
+.feature-dialog img,
+.feature-dialog video {
+  display: block;
+  max-width: 100%;
+  max-height: 77vh;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+.feature-dialog video {
+  width: 100%;
+  background: #15263b;
+}
+
+.feature-dialog [hidden] {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .features-layout {
+    grid-template-columns: minmax(0, 1fr);
+    padding-block: 20px 42px;
+  }
+
+  .features-index {
+    position: static;
+    max-height: none;
+  }
+
+  .features-index ul {
+    grid-template-columns: repeat(auto-fit, minmax(124px, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .feature-module {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
