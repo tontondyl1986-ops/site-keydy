@@ -1,9 +1,9 @@
 const LOCAL_DIRECT_SALES_ENABLED = true;
 const CLOUD_SALES_ENABLED = Object.freeze({
-  wallet_personal_monthly: false,
-  wallet_personal_annual: false,
-  wallet_family_monthly: false,
-  wallet_family_annual: false
+  wallet_personal_monthly: true,
+  wallet_personal_annual: true,
+  wallet_family_monthly: true,
+  wallet_family_annual: true
 });
 
 const walletPortal = 'https://wallet.keydy.be/wallet/';
@@ -48,10 +48,10 @@ if (LOCAL_DIRECT_SALES_ENABLED) {
 const cloudOpen = Object.values(CLOUD_SALES_ENABLED).includes(true);
 if (LOCAL_DIRECT_SALES_ENABLED || cloudOpen) {
   const localStatus = LOCAL_DIRECT_SALES_ENABLED
-    ? 'Wallet Local est disponible à l’achat.'
+    ? 'Wallet Local est disponible à l’achat en Belgique.'
     : 'Wallet Local est en préparation.';
   const cloudStatus = cloudOpen
-    ? 'Retrouvez les abonnements Cloud ouverts dans les offres ci-dessous.'
+    ? 'Retrouvez les abonnements Cloud disponibles dans les offres ci-dessous.'
     : 'Les offres Cloud sont en préparation.';
   document.querySelector('[data-wallet-sales-status]').textContent = localStatus + ' ' + cloudStatus;
 }
