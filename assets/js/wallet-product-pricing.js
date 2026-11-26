@@ -1,4 +1,4 @@
-const LOCAL_DIRECT_SALES_ENABLED = false;
+const LOCAL_DIRECT_SALES_ENABLED = true;
 const CLOUD_SALES_ENABLED = Object.freeze({
   wallet_personal_monthly: false,
   wallet_personal_annual: false,

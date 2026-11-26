@@ -14,12 +14,13 @@ const checks = [];
 const errors = [];
 const monthlyPrices = ['3,99 €', '4,99 €', '8,99 €'];
 const annualPrices = ['3,99 €', '49,90 €', '89,90 €'];
+const localCheckout = 'https://wallet.keydy.be/wallet/?offre=local';
 
 async function checkLocalLinks(page) {
   const hrefs = await page.locator('a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
   const destinations = new Set();
   for (const href of hrefs) {
-    if (href === 'https://keydy.be/login') continue;
+    if (href === 'https://keydy.be/login' || href === localCheckout) continue;
     if (href.startsWith('mailto:')) {
       assert.match(href, /^mailto:info@keydy\.be(?:\?subject=|$)/);
       continue;
@@ -63,9 +64,9 @@ try {
     await page.getByRole('radio', { name: 'Mensuel' }).focus();
     await page.keyboard.press('ArrowRight');
     assert.deepEqual(await visiblePrices.allTextContents(), annualPrices);
-    assert.match(await page.locator('.product-status').innerText(), /fermés/);
-    assert.equal(await page.locator('.product-plan a[href]').count(), 0);
-    assert.equal(await page.locator('.product-plan-purchase:visible').count(), 0);
+    assert.match(await page.locator('[data-wallet-sales-status]').innerText(), /disponible à l’achat.*Cloud sont en préparation/);
+    assert.equal(await page.getByRole('link', { name: 'Acheter Wallet Local' }).getAttribute('href'), localCheckout);
+    assert.equal(await page.locator('.product-plan-purchase:visible').count(), 1);
     assert.match(await page.getByText('Achat unique à 3,99 € TTC sur keydy.be.', { exact: false }).innerText(), /hors connexion/);
     const previews = page.locator('.product-preview img');
     assert.equal(await previews.count(), 2);
@@ -105,7 +106,7 @@ try {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     await page.screenshot({ path: path.join(output, 'time-' + name + '.png'), fullPage: true });
     await context.close();
-    checks.push(name + ': offres, navigation, accès fermé et rendu des deux produits');
+    checks.push(name + ': offres, navigation, achat Wallet Local et rendu des deux produits');
   }
 
   const noScript = await browser.newContext({ javaScriptEnabled: false });
@@ -113,7 +114,7 @@ try {
   await staticPage.goto(new URL('/keydy-wallet.html', base).href);
   assert.deepEqual(await staticPage.locator('.product-price:visible strong').allTextContents(), ['3,99 €', '4,99 €', '49,90 €', '8,99 €', '89,90 €']);
   assert.equal(await staticPage.locator('[data-billing-control]').isVisible(), false);
-  assert.equal(await staticPage.locator('.product-plan a[href]').count(), 0);
+  assert.equal(await staticPage.locator('.product-plan-purchase:visible').count(), 0);
   await noScript.close();
   checks.push('Tarifs disponibles sans JavaScript');
 
@@ -126,24 +127,17 @@ try {
   direct.on('pageerror', error => errors.push(error.message));
   for (const query of ['offre=local', 'offre=personnel&cycle=annuel', 'offre=famille&cycle=mensuel']) {
     await direct.goto(new URL('/keydy-wallet.html?' + query, base).href);
-    assert.equal(await direct.locator('.product-plan a[href]').count(), 0, query);
-    assert.equal(await direct.locator('.product-plan-purchase:visible').count(), 0, query);
+    assert.equal(await direct.locator('.product-plan-purchase:visible').count(), 1, query);
+    assert.equal(await direct.getByRole('link', { name: 'Acheter Wallet Local' }).getAttribute('href'), localCheckout);
   }
-  let activation = 'const LOCAL_DIRECT_SALES_ENABLED = false;';
-  let activeLine = 'const LOCAL_DIRECT_SALES_ENABLED = true;';
-  await direct.route(new URL('/assets/js/wallet-product-pricing.js', base).href, async route => {
+  let activation;
+  let activeLine;
+  await direct.route(url => url.pathname === '/assets/js/wallet-product-pricing.js', async route => {
     const response = await route.fetch();
     const script = await response.text();
     assert.ok(script.includes(activation));
     await route.fulfill({ response, body: script.replace(activation, activeLine) });
   });
-  await direct.reload();
-  const checkout = direct.getByRole('link', { name: 'Acheter Wallet Local' });
-  await checkout.waitFor({ state: 'visible' });
-  assert.equal(await checkout.getAttribute('href'), 'https://wallet.keydy.be/wallet/?offre=local');
-  assert.match(await direct.locator('[data-wallet-sales-status]').innerText(), /disponible à l’achat.*Cloud sont en préparation/);
-  assert.equal(await direct.locator('.product-plan a[href]').count(), 1);
-  assert.ok(await direct.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
 
   const cloudOffers = [
     ['personal', 'personnel', 'monthly', 'mensuel', '4,99 €'],
@@ -162,16 +156,16 @@ try {
     await link.waitFor({ state: 'visible' });
     assert.equal(await link.getAttribute('href'), `https://wallet.keydy.be/wallet/?offre=${offer}&cycle=${cycle}`);
     assert.equal(await purchase.locator('..').locator('.product-price:visible strong').innerText(), amount);
-    assert.equal(await direct.locator('.product-plan a[href]').count(), 1);
-    assert.match(await direct.locator('[data-wallet-sales-status]').innerText(), /Wallet Local est en préparation.*abonnements Cloud ouverts/);
+    assert.equal(await direct.locator('.product-plan-purchase:visible').count(), 2);
+    assert.match(await direct.locator('[data-wallet-sales-status]').innerText(), /Wallet Local est disponible.*abonnements Cloud ouverts/);
 
     const otherPeriod = period === 'monthly' ? 'annual' : 'monthly';
     await direct.locator(`[data-billing-control] input[value="${otherPeriod}"]`).check();
-    assert.equal(await direct.locator('.product-plan a[href]').count(), 0);
+    assert.equal(await direct.locator('.product-plan-purchase:visible').count(), 1);
     assert.equal(await purchase.isVisible(), false);
   }
   await directContext.close();
-  checks.push('Cinq achats fermés par défaut, liens et montants exacts lorsque chaque période est ouverte individuellement en simulation');
+  checks.push('Achat Wallet Local ouvert, liens et montants Cloud vérifiés pour chaque période en simulation');
 
   const homeContext = await browser.newContext({ viewport: { width: 1181, height: 800 } });
   await homeContext.route('**/*', route => {
