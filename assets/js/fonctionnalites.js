@@ -25,6 +25,7 @@ if (featureDialog && typeof featureDialog.showModal === "function") {
         image.src = link.href;
       }
       featureDialog.showModal();
+      if (showingVideo) video.play().catch(() => {});
     });
   }
 
