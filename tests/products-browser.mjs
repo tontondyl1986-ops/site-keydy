@@ -15,6 +15,8 @@ const errors = [];
 const monthlyPrices = ['3,99 €', '4,99 €', '8,99 €'];
 const annualPrices = ['3,99 €', '49,90 €', '89,90 €'];
 const localCheckout = 'https://wallet.keydy.be/wallet/?offre=local';
+const timeCheckout = 'https://wallet.keydy.be/time/';
+const timeLinks = new Set([timeCheckout, timeCheckout + '#conditions', 'https://wallet.keydy.be/wallet/retractation.html']);
 const cloudOffers = [
   ['personal', 'personnel', 'monthly', 'mensuel', '4,99 €'],
   ['personal', 'personnel', 'annual', 'annuel', '49,90 €'],
@@ -28,7 +30,7 @@ async function checkLocalLinks(page) {
   const hrefs = await page.locator('a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
   const destinations = new Set();
   for (const href of hrefs) {
-    if (href === 'https://keydy.be/login' || checkoutLinks.has(href)) continue;
+    if (href === 'https://keydy.be/login' || checkoutLinks.has(href) || timeLinks.has(href)) continue;
     if (href.startsWith('mailto:')) {
       assert.match(href, /^mailto:info@keydy\.be(?:\?subject=|$)/);
       continue;
@@ -108,7 +110,11 @@ try {
 
     await page.goto(new URL('/keydy-time.html', base).href);
     assert.equal(await page.locator('[data-site-header] [aria-current="page"]').textContent(), 'Keydy Time');
-    assert.match(await page.locator('.product-status').innerText(), /distribution publique et tarifs en préparation/i);
+    assert.match(await page.locator('[data-time-availability]').innerText(), /disponible à l’achat en Belgique/);
+    assert.equal((await page.locator('[data-time-price]').innerText()).replace(/\s/g, ' '), '3,99 € TTC');
+    assert.equal(await page.getByRole('link', {name:'Acheter Keydy Time'}).getAttribute('href'), timeCheckout);
+    assert.equal(await page.getByRole('link', {name:'Retrouver mon achat'}).getAttribute('href'), timeCheckout);
+    assert.equal(await page.getByRole('link', {name:'Conditions de vente et confidentialité'}).getAttribute('href'), timeCheckout + '#conditions');
     assert.ok(await page.locator('.product-device img').evaluate(image => image.complete && image.naturalWidth > 0));
     await checkLocalLinks(page);
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));

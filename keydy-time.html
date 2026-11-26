@@ -57,9 +57,9 @@
           <p class="product-lead">Pointez vos arrivées, départs et pauses. Retrouvez votre solde d’heures et vos congés dans une application Android utilisable hors connexion.</p>
           <div class="product-actions">
             <a class="btn product-primary" href="#fonctionnalites">Voir les fonctionnalités</a>
-            <a class="btn btn-secondary" href="#offres">Disponibilité</a>
+            <a class="btn btn-secondary" href="#offres">Tarif et achat</a>
           </div>
-          <p class="product-status">Distribution publique et tarifs en préparation.</p>
+          <p class="product-status" data-time-availability>Distribution publique et tarifs en préparation.</p>
         </div>
         <figure class="product-device">
           <img src="assets/img/keydy-time-apercu.png" width="1080" height="1920" alt="Interface de Keydy Time montrant le pointage et le relevé de la semaine">
@@ -83,15 +83,22 @@
         <div class="product-section-heading"><h2 id="time-faq">Questions fréquentes</h2></div>
         <div class="product-faq">
           <details><summary>Quels appareils sont compatibles ?</summary><p>Keydy Time fonctionne sur Android 10 ou une version plus récente.</p></details>
-          <details><summary>Faut-il une connexion Internet ou un compte ?</summary><p>Le pointage, les relevés et les sauvegardes fonctionnent localement sur votre appareil. Aucun abonnement à Keydy Suite n’est requis.</p></details>
-          <details><summary>Puis-je déjà télécharger l’application ?</summary><p>La distribution publique de Keydy Time est en préparation. Le téléchargement et les tarifs seront indiqués ici lorsqu’ils seront disponibles.</p></details>
+          <details><summary>Faut-il une connexion Internet ou un compte ?</summary><p>Une connexion et un compte Keydy permettent d’acheter, de télécharger et d’activer l’application. Après activation, le pointage, les relevés et les sauvegardes fonctionnent hors connexion.</p></details>
+          <details><summary>Comment retrouver mon achat sur un autre Android ?</summary><p>Connectez-vous avec le compte utilisé pour l’achat, téléchargez l’application puis choisissez « Activer ou récupérer mon achat ». Pour retrouver vos relevés, importez votre sauvegarde Time.</p></details>
         </div>
       </div>
     </section>
     <section class="product-section" id="offres" aria-labelledby="time-offers">
-      <div class="container product-section-heading">
-        <h2 id="time-offers">Disponibilité de Keydy Time</h2>
-        <p>La vente et le téléchargement public sont en préparation.</p>
+      <div class="container product-section-heading" data-time-offer data-sales-open="true" data-amount-cents="399">
+        <h2 id="time-offers">Acheter Keydy Time</h2>
+        <p data-time-price>Le prix TTC sera affiché à l’ouverture des ventes.</p>
+        <p>Achat unique. Téléchargement direct pour Android 10 et versions ultérieures.</p>
+        <div class="product-actions">
+          <a class="btn product-primary" data-time-buy href="https://wallet.keydy.be/time/" hidden>Acheter Keydy Time</a>
+          <a class="btn btn-secondary" href="https://wallet.keydy.be/time/">Retrouver mon achat</a>
+        </div>
+        <p><a href="https://wallet.keydy.be/time/#conditions">Conditions de vente et confidentialité</a> ·
+          <a href="https://wallet.keydy.be/wallet/retractation.html">Se rétracter</a></p>
       </div>
     </section>
   </main>
@@ -116,6 +123,7 @@
   </div>
 </footer>
   <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/time-product-pricing.js?v=1" defer></script>
   <script src="assets/js/site-navigation.js" defer></script>
 </body>
 </html>
